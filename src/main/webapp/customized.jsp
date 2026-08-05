@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Experience Page</title>
+<title>Insert title here</title>
 </head>
 <body>
-<h1>Travel Experiences</h1>
-<p>Read experiences shared by our travelers.</p>
+<h1>Customized Holidays</h1>
+<p>Create your own personalized holiday package.</p>
 </body>
 </html>

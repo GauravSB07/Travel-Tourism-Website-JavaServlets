@@ -7,6 +7,7 @@
 <title>About Us Page</title>
 </head>
 <body>
-	<p>Welcome to About Us</p>
+<h1>About Us</h1>
+<p>Learn about us.</p>
 </body>
 </html>

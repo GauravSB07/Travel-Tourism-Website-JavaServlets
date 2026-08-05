@@ -9,18 +9,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/Contact_usServlet")
-public class Contact_usServlet extends HttpServlet {
+@WebServlet("/BookingServlet")
+public class BookingServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
        
 	@Override
-	protected void doGet(HttpServletRequest request,
+	protected void doGet(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
 		
 		RequestDispatcher rd = 
-				request.getRequestDispatcher("/contact_us.jsp");
+				request.getRequestDispatcher("/booking.jsp");
 		
 		rd.forward(request, response);
 	}
