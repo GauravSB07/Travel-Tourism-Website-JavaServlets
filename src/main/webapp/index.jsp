@@ -12,7 +12,7 @@
 <p>Project Setup Successful!</p>
 
 <a href ="experience.jsp" >Experience Page</a>
-
+<a href ="about_us.jsp" >About Us Page</a>
 </body>
 </html>
 
