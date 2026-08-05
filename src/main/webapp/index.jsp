@@ -11,8 +11,11 @@
 
 <p>Project Setup Successful!</p>
 
-<a href ="experience.jsp" >Experience Page</a>
-<a href ="about_us.jsp" >About Us Page</a>
+<p>
+<a href ="experience.jsp" >Experience Page</a><br>
+<a href ="about_us.jsp" >About Us Page</a><br>
+<a href ="contact_us.jsp">Contact Us Page</a><br>
+<p>
 </body>
 </html>
 
