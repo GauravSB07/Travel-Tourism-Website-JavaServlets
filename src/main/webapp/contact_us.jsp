@@ -7,6 +7,6 @@
 <title>Contact Us Page</title>
 </head>
 <body>
-	<p>Contact Us Here!!!!</p>
-</body>
+<h1>Contact Us</h1>
+<p>Get in touch with our travel support team.</p></body>
 </html>
