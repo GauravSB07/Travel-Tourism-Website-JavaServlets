@@ -1,0 +1,116 @@
+<%-- 
+    Document   : footer
+    Created on : Aug 8, 2026, 3:10:25 PM
+    Author     : Dell
+--%>
+<%@ page contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<!-- ================= COMMON FOOTER ================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+
+        <!-- SECTION 1 : ABOUT -->
+
+        <div class="footer-section footer-about">
+
+            <div class="footer-logo">
+                Travel<span>Tourism</span>
+            </div>
+
+            <p>
+                Discover India your way. Explore beautiful
+                destinations, experience diverse cultures and
+                create memories that last a lifetime.
+            </p>
+
+            <div class="social-links">
+
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">YouTube</a>
+
+            </div>
+
+        </div>
+
+
+        <!-- SECTION 2 : QUICK LINKS -->
+
+        <div class="footer-section">
+
+            <h3>Quick Links</h3>
+
+            <a href="${pageContext.request.contextPath}/home">
+                Home
+            </a>
+
+            <a href="${pageContext.request.contextPath}/destinations">
+                Destinations
+            </a>
+
+            <a href="${pageContext.request.contextPath}/experiences">
+                Experiences
+            </a>
+
+            <a href="${pageContext.request.contextPath}/customize">
+                Customized Holidays
+            </a>
+
+            <a href="${pageContext.request.contextPath}/about">
+                About Us
+            </a>
+
+        </div>
+
+
+        <!-- SECTION 3 : CONTACT -->
+
+        <div class="footer-section">
+
+            <h3>Contact Us</h3>
+
+            <p>
+                📍 Mumbai, Maharashtra, India
+            </p>
+
+            <p>
+                📞 +91 XXXXX XXXXX
+            </p>
+
+            <p>
+                ✉ info@traveltourism.com
+            </p>
+
+            <a href="${pageContext.request.contextPath}/contact">
+                Contact Us →
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- COPYRIGHT -->
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 TravelTourism. All Rights Reserved.
+        </p>
+
+        <div>
+
+            <a href="#">Privacy Policy</a>
+
+            <span>|</span>
+
+            <a href="#">Terms & Conditions</a>
+
+        </div>
+
+    </div>
+
+</footer>

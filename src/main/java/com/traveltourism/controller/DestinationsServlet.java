@@ -13,10 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@WebServlet("/DestinationsServlet")
+@WebServlet("/destinations")
 public class DestinationsServlet extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
