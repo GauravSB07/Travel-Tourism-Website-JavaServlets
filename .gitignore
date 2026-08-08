@@ -1,6 +1,12 @@
 # Maven
 target/
 
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
 # Eclipse
 .settings/
 .project
@@ -15,3 +21,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Java compiled files
+*.class

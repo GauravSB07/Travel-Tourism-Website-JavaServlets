@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/About_usServlet")
+@WebServlet("/about")
 public class About_usServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;

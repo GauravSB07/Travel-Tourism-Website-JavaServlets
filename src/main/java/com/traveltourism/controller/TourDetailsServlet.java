@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/TourDetailsServlet")
+@WebServlet("/tour-details")
 public class TourDetailsServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
