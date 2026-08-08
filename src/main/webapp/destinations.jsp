@@ -89,7 +89,7 @@
 </head>
 <body>
 
-<%@ include file="header.jsp" %>
+<%@ include file="common/header.jsp" %>
 
 <h1>Destinations</h1>
 
@@ -159,7 +159,7 @@
 
 </div>
 
-<%@ include file="footer.jsp" %>
+<%@ include file="common/footer.jsp" %>
 
 </body>
 </html>
