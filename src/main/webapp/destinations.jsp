@@ -4,164 +4,160 @@
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Destinations</title>
-        <link rel="stylesheet"
-              href="${pageContext.request.contextPath}/css/style.css">
+<head>
+    <title>Destinations | TravelTourism</title>
 
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background: #f5f5f5;
-                margin: 0;
-                padding: 20px;
-            }
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css">
 
-            h1 {
-                margin-bottom: 20px;
-            }
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/destinations.css">
+</head>
 
-            .page-container {
-                display: flex;
-                gap: 20px;
-                align-items: flex-start;
-            }
+<body>
 
-            .filters-panel {
-                width: 25%;
-                background: #ffffff;
-                padding: 15px;
-                border-radius: 8px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            }
+<%@ include file="common/header.jsp" %>
 
-            .filters-panel h3 {
-                margin-top: 15px;
-                margin-bottom: 8px;
-                font-size: 14px;
-            }
+<!-- =====================================================
+     TOP BAR (Small, colorful, homepage-matching)
+     ===================================================== -->
+<section class="destinations-topbar">
+    <p>EXPLORE INDIA</p>
+    <h2>Destinations & Travel Packages</h2>
+</section>
 
-            .filters-panel input,
-            .filters-panel select,
-            .filters-panel button {
-                width: 100%;
-                margin-bottom: 10px;
-                padding: 8px;
-                font-size: 13px;
-            }
+<!-- =====================================================
+     MAIN LAYOUT (Filters + Results)
+     ===================================================== -->
+<section class="destinations-layout">
 
-            .packages-panel {
-                width: 75%;
-            }
+    <div class="destinations-container">
 
-            .tour-card {
-                display: flex;
-                gap: 15px;
-                background: #ffffff;
-                padding: 15px;
-                margin-bottom: 15px;
-                border-radius: 8px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            }
+        <!-- ============================
+             FILTERS PANEL (Left side)
+             ============================ -->
+        <aside class="filters-panel-modern">
 
-            .tour-img {
-                width: 140px;
-                height: 90px;
-                object-fit: cover;
-                border-radius: 6px;
-            }
+            <form action="${pageContext.request.contextPath}/destinations"
+                  method="get">
 
-            .tour-info h3 {
-                margin: 0 0 8px 0;
-            }
+                <h3 class="filter-title">Filter Your Search</h3>
 
-            .tour-info p {
-                margin: 2px 0;
-                font-size: 13px;
-            }
+                <!-- PRICE -->
+                <div class="filter-group">
+                    <label>Price Range</label>
+                    <input type="number" name="price_min"
+                           placeholder="Min Price">
+                    <input type="number" name="price_max"
+                           placeholder="Max Price">
+                </div>
 
-            .tour-info button {
-                margin-top: 8px;
-                margin-right: 6px;
-                padding: 6px 10px;
-                font-size: 12px;
-                cursor: pointer;
-            }
-        </style>
-    </head>
-    <body>
-
-        <%@ include file="common/header.jsp" %>
-
-        <h1>Destinations</h1>
-
-        <div class="page-container">
-
-            <!-- LEFT: FILTERS -->
-            <div class="filters-panel">
-                <form action="${pageContext.request.contextPath}/destinations" method="get">
-
-                    <h3>Price Range</h3>
-                    <input type="number" name="price_min" placeholder="Min Price">
-                    <input type="number" name="price_max" placeholder="Max Price">
-
-                    <h3>Departure City</h3>
+                <!-- CITY -->
+                <div class="filter-group">
+                    <label>Departure City</label>
                     <select name="city">
                         <option value="all">All Cities</option>
                         <option value="Mumbai">Mumbai</option>
                         <option value="Delhi">Delhi</option>
                         <option value="Jaipur">Jaipur</option>
                     </select>
+                </div>
 
-                    <h3>Category</h3>
+                <!-- CATEGORY -->
+                <div class="filter-group">
+                    <label>Category</label>
                     <select name="category">
                         <option value="all">All Categories</option>
                         <option value="Family">Family</option>
                         <option value="Adventure">Adventure</option>
                         <option value="Culture">Culture</option>
                     </select>
+                </div>
 
-                    <h3>Duration</h3>
+                <!-- DURATION -->
+                <div class="filter-group">
+                    <label>Duration</label>
                     <select name="duration">
                         <option value="0">Any Duration</option>
                         <option value="5">5 Days</option>
                         <option value="6">6 Days</option>
                         <option value="7">7 Days</option>
                     </select>
+                </div>
 
-                    <button type="submit">Apply Filters</button>
-                </form>
-            </div>
+                <button type="submit" class="filter-btn">
+                    Apply Filters
+                </button>
 
-            <!-- RIGHT: PACKAGES LIST -->
-            <div class="packages-panel">
+            </form>
 
-                <c:forEach var="tour" items="${tours}">
-                    <div class="tour-card">
+        </aside>
 
-                        <img src="${pageContext.request.contextPath}/images/${tour.image}" alt="${tour.name}" class="tour-img" />
 
-                        <div class="tour-info">
-                            <h3>${tour.name}</h3>
+        <!-- ============================
+             RESULTS PANEL (Right side)
+             ============================ -->
+        <div class="results-panel-modern">
 
-                            <p>Category: ${tour.category}</p>
-                            <p>Departure: ${tour.departureCity}</p>
-                            <p>Duration: ${tour.duration} days</p>
-                            <p>Price: ₹${tour.price}</p>
+            <c:forEach var="tour" items="${tours}">
 
-                            <button>View Details</button>
-                            <button>Compare</button>
-                            <button>Enquire Now</button>
+                <article class="tour-card-modern">
+
+                    <!-- IMAGE -->
+                    <div class="tour-image-wrapper">
+                        <img src="${pageContext.request.contextPath}/images/${tour.image}"
+                             alt="${tour.name}">
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div class="tour-content">
+
+                        <h3>${tour.name}</h3>
+
+                        <p class="tour-meta">
+                            <span>Category:</span> ${tour.category}
+                        </p>
+
+                        <p class="tour-meta">
+                            <span>Departure:</span> ${tour.departureCity}
+                        </p>
+
+                        <p class="tour-meta">
+                            <span>Duration:</span> ${tour.duration} days
+                        </p>
+
+                        <p class="tour-price">
+                            ₹${tour.price}
+                        </p>
+
+                        <div class="tour-actions">
+                            <a class="primary-btn-small"
+                               href="${pageContext.request.contextPath}/tour-details?id=${tour.id}">
+                                View Details
+                            </a>
+
+                            <a class="outline-btn-small" href="#">
+                                Compare
+                            </a>
+
+                            <a class="outline-btn-small" href="#">
+                                Enquire
+                            </a>
                         </div>
 
                     </div>
-                </c:forEach>
 
-            </div>
+                </article>
+
+            </c:forEach>
 
         </div>
 
-        <%@ include file="common/footer.jsp" %>
+    </div>
 
-    </body>
+</section>
+
+<%@ include file="common/footer.jsp" %>
+
+</body>
 </html>
