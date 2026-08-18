@@ -1,4 +1,4 @@
-package com.traveltourism.controller.Destinations;
+package com.traveltourism.model;
 
 public class TourImages {
 
