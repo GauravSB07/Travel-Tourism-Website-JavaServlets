@@ -4,14 +4,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>About Us Page</title>
+        <title>Insert title here</title>
         <link rel="stylesheet"
               href="${pageContext.request.contextPath}/css/style.css">
     </head>
     <body>
         <%@ include file="common/header.jsp" %>
-        <h1>About Us</h1>
-        <p>Learn about us.</p>
+        <h1>Tour Details</h1>
+        <p>Tour details will appear here based on tourId.</p>
         <%@ include file="common/footer.jsp" %>
     </body>
 </html>
