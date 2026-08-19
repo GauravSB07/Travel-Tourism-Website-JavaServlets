@@ -3,60 +3,107 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
+
 <head>
+
     <title>${tour.name} | TravelTourism</title>
-    <link rel="stylesheet" href="css/tour_details.css">
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/tour_details.css">
+
 </head>
 
 <body>
 
 <!-- HEADER -->
 <div class="page-header">
+
     <span class="label">DESTINATION DETAILS</span>
+
     <h1>${tour.name}</h1>
+
 </div>
+
 
 <!-- MAIN IMAGE -->
 <div class="main-image">
-    <img src="${tour.image}" alt="${tour.name}">
+
+    <img src="${tour.image}"
+         alt="${tour.name}">
+
 </div>
+
 
 <!-- GALLERY -->
 <div class="gallery-section">
+
     <h2>Gallery</h2>
+
     <div class="gallery-grid">
+
         <c:forEach var="img" items="${images}">
-            <img src="${img.imageUrl}" alt="Tour Image">
+
+            <img src="${img.imageUrl}"
+                 alt="Tour Image">
+
         </c:forEach>
+
     </div>
+
 </div>
+
 
 <!-- DESCRIPTION -->
 <div class="card">
+
     <h2>Overview</h2>
-    <p>${details.description}</p>
+
+    <p>
+        ${details.description}
+    </p>
+
 </div>
+
 
 <!-- ITINERARY -->
 <div class="card">
+
     <h2>Itinerary</h2>
+
     <pre class="itinerary">${details.itinerary}</pre>
+
 </div>
+
 
 <!-- HIGHLIGHTS -->
 <div class="card">
+
     <h2>Highlights</h2>
+
     <ul>
-        <c:forEach var="h" items="${fn:split(details.highlights, ',')}">
-            <li>${h}</li>
+
+        <c:forEach var="h"
+                   items="${fn:split(details.highlights, ',')}">
+
+            <li>
+                ${h}
+            </li>
+
         </c:forEach>
+
     </ul>
+
 </div>
+
 
 <!-- BOOK BUTTON -->
 <div class="book-btn-container">
-    <a href="#" class="book-btn">Book This Tour</a>
+    <a href="${pageContext.request.contextPath}/booking.jsp?name=${tour.name}&price=${tour.price}&duration=${tour.duration}&departure=${tour.departureCity}"
+       class="book-btn">
+        Book This Tour
+    </a>
 </div>
 
 </body>
+
 </html>
