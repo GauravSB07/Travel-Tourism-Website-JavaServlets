@@ -26,20 +26,30 @@ public class DestinationsServlet extends HttpServlet {
         // Read filters from JSP like city, category, price, range, duration
         String city = request.getParameter("city");
         String category = request.getParameter("category");
+        String place = request.getParameter("place");
 
         String price_min_str = request.getParameter("price_min");
         String price_max_str = request.getParameter("price_max");
 
         String duration_str = request.getParameter("duration");
 
-        int price_min = (price_min_str != null && !price_min_str.isEmpty())
-                ? Integer.parseInt(price_min_str) : 0;
+        int price_min;
+        int price_max;
+        int duration;
 
-        int price_max = (price_max_str != null && !price_max_str.isEmpty())
-                ? Integer.parseInt(price_max_str) : Integer.MAX_VALUE;
+        try {
+            price_min = parseNonNegativeInt(price_min_str, 0);
+            price_max = parseNonNegativeInt(price_max_str, Integer.MAX_VALUE);
+            duration = parseNonNegativeInt(duration_str, 0);
+        } catch (NumberFormatException exception) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Filter values must be valid non-negative numbers.");
+            return;
+        }
 
-        int duration = (duration_str != null && !duration_str.isEmpty())
-                ? Integer.parseInt(duration_str) : 0;
+        if (price_min > price_max) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Minimum price cannot exceed maximum price.");
+            return;
+        }
 
         // Apply backend filtering to sensure filter works even if javascript is not enabled
         List<Tour> filtered_list = new ArrayList<>();
@@ -56,15 +66,33 @@ public class DestinationsServlet extends HttpServlet {
 
             boolean match_duration = (duration == 0 || t.getDuration() == duration);
 
-            if (match_city && match_category && match_price && match_duration) {
+            boolean match_place = (place == null || place.isBlank()
+                    || t.getName().toLowerCase().contains(place.toLowerCase())
+                    || t.getCategory().toLowerCase().contains(place.toLowerCase())
+                    || t.getDepartureCity().toLowerCase().contains(place.toLowerCase()));
+
+            if (match_city && match_category && match_price && match_duration && match_place) {
                 filtered_list.add(t);
             }
         }
 
         // Send filtered tours to JSP
         request.setAttribute("tours", filtered_list);
+        request.setAttribute("resultCount", filtered_list.size());
 
         // Forward to JSP
         request.getRequestDispatcher("/destinations.jsp").forward(request, response);
+    }
+
+    private int parseNonNegativeInt(String value, int defaultValue) {
+        if (value == null || value.isBlank()) {
+            return defaultValue;
+        }
+
+        int parsedValue = Integer.parseInt(value);
+        if (parsedValue < 0) {
+            throw new NumberFormatException("Negative numbers are not allowed.");
+        }
+        return parsedValue;
     }
 }

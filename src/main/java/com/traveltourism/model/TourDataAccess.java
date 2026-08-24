@@ -28,7 +28,8 @@ public class TourDataAccess {
                     rs.getInt("price"),
                     rs.getString("category"),
                     rs.getString("departure_city"),
-                    rs.getInt("duration")
+                    rs.getInt("duration"),
+                    rs.getString("short_description")
                 );
                 list.add(t);
             }
@@ -61,7 +62,8 @@ public class TourDataAccess {
                     rs.getInt("price"),
                     rs.getString("category"),
                     rs.getString("departure_city"),
-                    rs.getInt("duration")
+                    rs.getInt("duration"),
+                    rs.getString("short_description")
                 );
             }
 
@@ -88,9 +90,16 @@ public class TourDataAccess {
             if (rs.next()) {
                 details = new TourDetails(
                     rs.getInt("tour_id"),
-                    rs.getString("description"),
+                    rs.getString("long_description"),
+                    rs.getString("itinerary"),
                     rs.getString("highlights"),
-                    rs.getString("itinerary")
+                    rs.getString("inclusions"),
+                    rs.getString("exclusions"),
+                    rs.getString("best_time"),
+                    rs.getString("map_embed"),
+                    rs.getString("preparation"),
+                    rs.getString("payment_terms"),
+                    rs.getString("upgrades_info")
                 );
             }
 
@@ -128,5 +137,64 @@ public class TourDataAccess {
         }
 
         return images;
+    }
+
+    // ---------------------------------------------------------
+    // 5. GET DAY-WISE ITINERARY
+    // ---------------------------------------------------------
+    public List<TourItinerary> getItineraryByTourId(int id) {
+        List<TourItinerary> list = new ArrayList<>();
+
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "SELECT * FROM tour_itinerary WHERE tour_id = ? ORDER BY day_number ASC";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                TourItinerary ti = new TourItinerary(
+                    rs.getInt("day_number"),
+                    rs.getString("day_title"),
+                    rs.getString("day_description")
+                );
+                list.add(ti);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // ---------------------------------------------------------
+    // 6. GET HOTEL DETAILS
+    // ---------------------------------------------------------
+    public List<TourHotel> getHotelsByTourId(int id) {
+        List<TourHotel> list = new ArrayList<>();
+
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "SELECT * FROM tour_hotels WHERE tour_id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                TourHotel th = new TourHotel(
+                    rs.getString("city"),
+                    rs.getString("hotel_name"),
+                    rs.getString("check_in"),
+                    rs.getString("check_out")
+                );
+                list.add(th);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

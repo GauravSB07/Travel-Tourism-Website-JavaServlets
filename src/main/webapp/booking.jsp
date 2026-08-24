@@ -1,17 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Insert title here</title>
-        <link rel="stylesheet"
-              href="${pageContext.request.contextPath}/css/style.css">
-    </head>
-    <body>
-        <%@ include file="common/header.jsp" %>
-        <h1>Booking Page</h1>
-        <p>Fill your booking details here.</p>
-        <%@ include file="common/footer.jsp" %>
-    </body>
-</html>
+<html><head><title>Reserve Your Journey | TravelTourism</title><link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/css/travel-flow.css"></head>
+<body><%@ include file="common/header.jsp" %><main class="flow-page"><section class="flow-hero"><p>START YOUR ESCAPE</p><h1>Reserve your journey</h1><span>Share a few details and our travel specialists will take care of the rest.</span></section><section class="flow-shell"><aside class="booking-summary"><p class="eyebrow">YOUR SELECTED TOUR</p><h2>${tour != null ? tour.name : 'A custom Indian journey'}</h2><c:if test="${tour != null}"><p>${tour.duration} days · ${tour.category}</p><strong>From ₹${tour.price}</strong></c:if><p class="summary-note">Your reservation request is free. We will confirm availability before any payment.</p></aside><form class="premium-form" action="${pageContext.request.contextPath}/booking-confirmation" method="post"><input type="hidden" name="tour_name" value="${tour != null ? tour.name : 'Custom journey'}"><div class="form-intro"><p class="eyebrow">TRAVELLER DETAILS</p><h2>Let’s plan something memorable.</h2></div><div class="form-grid"><label>Full name<input name="traveler_name" required autocomplete="name" placeholder="Your name"></label><label>Email address<input type="email" name="email" required autocomplete="email" placeholder="you@example.com"></label><label>Phone number<input type="tel" name="phone" required autocomplete="tel" placeholder="+91"></label><label>Preferred departure<input type="date" name="travel_date" required></label><label>Travellers<select name="travelers" required><option value="2">2 travellers</option><option value="1">1 traveller</option><option value="3-4">3–4 travellers</option><option value="5+">5+ travellers</option></select></label><label>Room preference<select name="rooms"><option>One room</option><option>Two rooms</option><option>Need advice</option></select></label></div><label>Anything we should know?<textarea name="notes" rows="4" placeholder="Special occasions, preferences or questions"></textarea></label><button class="flow-primary" type="submit">Send reservation request <span>→</span></button></form></section></main><%@ include file="common/footer.jsp" %></body></html>

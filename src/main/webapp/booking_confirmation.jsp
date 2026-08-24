@@ -1,13 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Insert title here</title>
-    </head>
-    <body>
-        <h1>Booking Confirmation</h1>
-        <p>Your booking has been successfully confirmed!</p>
-    </body>
-</html>
+<html><head><title>Request Received | TravelTourism</title><link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/css/travel-flow.css"></head><body><%@ include file="common/header.jsp" %><main class="confirmation-page"><div class="confirmation-card"><div class="success-mark">✓</div><p class="eyebrow">REQUEST RECEIVED</p><h1>Thank you, ${travelerName}.</h1><p>We’ve received your request for <strong>${tourName}</strong>. A travel specialist will be in touch soon to confirm the best available plan.</p><div class="confirmation-details"><span><b>Departure</b>${travelDate}</span><span><b>Travellers</b>${travelers}</span></div><a class="flow-primary" href="${pageContext.request.contextPath}/destinations">Keep exploring <span>→</span></a></div></main><%@ include file="common/footer.jsp" %></body></html>
