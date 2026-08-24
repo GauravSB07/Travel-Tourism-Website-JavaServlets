@@ -2,6 +2,9 @@ package com.traveltourism.controller;
 
 import java.io.IOException;
 
+import com.traveltourism.model.Tour;
+import com.traveltourism.model.TourDataAccess;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,6 +22,19 @@ public class BookingServlet extends HttpServlet {
 			HttpServletResponse response) 
 					throws ServletException, IOException {
 		
+		String tourId = request.getParameter("tour_id");
+		if (tourId != null && !tourId.isBlank()) {
+			try {
+				Tour tour = new TourDataAccess().getTourById(Integer.parseInt(tourId));
+				if (tour != null) {
+					request.setAttribute("tour", tour);
+				}
+			} catch (NumberFormatException ignored) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "A valid tour id is required.");
+				return;
+			}
+		}
+
 		RequestDispatcher rd = 
 				request.getRequestDispatcher("/booking.jsp");
 		
