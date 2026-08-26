@@ -1,0 +1,1700 @@
+/* =========================================================
+   ADMIN TOUR MANAGEMENT
+   Premium Dashboard Styling
+   Includes: Tour Search / Filter
+========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+
+    --primary: #1f4f46;
+    --primary-dark: #173c35;
+    --primary-soft: #eef7f4;
+
+    --success: #166534;
+    --success-soft: #ecfdf3;
+
+    --danger: #b42318;
+    --danger-soft: #fff1f0;
+
+    --warning: #b45309;
+    --warning-soft: #fffbeb;
+
+    --dark: #172521;
+    --text: #26332f;
+    --muted: #6b756f;
+
+    --border: #e3e7e5;
+    --border-dark: #d3d9d6;
+
+    --background: #f5f6f8;
+    --white: #ffffff;
+
+    --radius: 12px;
+
+    --shadow:
+        0 8px 30px rgba(20, 30, 40, 0.06);
+
+    --shadow-hover:
+        0 12px 32px rgba(20, 30, 40, 0.10);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+    color: var(--text);
+
+    line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #172521 0%,
+            #20342f 55%,
+            #27423b 100%
+        );
+
+    color: white;
+
+    padding: 28px 40px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-inner {
+    max-width: 1550px;
+    margin: auto;
+}
+
+.header h1 {
+
+    margin: 0;
+
+    font-size: 27px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+}
+
+.header p {
+
+    margin: 7px 0 0;
+
+    color: #b9c8c2;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container {
+
+    width: 94%;
+
+    max-width: 1550px;
+
+    margin: 28px auto 50px;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+
+    background: var(--success-soft);
+
+    color: var(--success);
+
+    border:
+        1px solid #bbf7d0;
+
+    padding: 13px 17px;
+
+    border-radius: 10px;
+
+    margin-bottom: 22px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 2px 8px rgba(22, 101, 52, 0.04);
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD
+========================================================= */
+
+.dashboard {
+
+    display: grid;
+
+    grid-template-columns:
+        335px
+        minmax(0, 1fr);
+
+    gap: 24px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   LEFT SIDEBAR
+========================================================= */
+
+.sidebar {
+
+    position: sticky;
+
+    top: 20px;
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   SIDEBAR HEADER
+========================================================= */
+
+.sidebar-header {
+
+    padding: 20px 20px 17px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.sidebar-title-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.sidebar-title {
+
+    margin: 0;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: var(--dark);
+}
+
+.tour-count {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 27px;
+
+    height: 27px;
+
+    padding: 0 8px;
+
+    border-radius: 999px;
+
+    background: #eef2f0;
+
+    color: #56645f;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.sidebar-subtitle {
+
+    margin: 5px 0 15px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CREATE NEW TOUR BUTTON
+========================================================= */
+
+.add-tour-btn {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    width: 100%;
+
+    padding: 11px 14px;
+
+    border-radius: 9px;
+
+    background: var(--primary);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.add-tour-btn:hover {
+
+    background: var(--primary-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(31, 79, 70, 0.22);
+}
+
+.add-tour-btn.active {
+
+    background: var(--primary-dark);
+
+    box-shadow:
+        0 5px 14px rgba(31, 79, 70, 0.20);
+}
+
+.plus-icon {
+
+    font-size: 17px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   TOUR SEARCH
+========================================================= */
+
+/*
+   The JSP search section should use:
+
+   <div class="tour-search">
+       <span class="search-icon">⌕</span>
+
+       <input
+           type="search"
+           id="tourSearch"
+           class="tour-search-input"
+           placeholder="Search tour packages..."
+           autocomplete="off"
+       >
+
+       <button
+           type="button"
+           class="clear-search"
+           id="clearTourSearch"
+           aria-label="Clear search"
+       >
+           ×
+       </button>
+   </div>
+*/
+
+.tour-search {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    margin-top: 15px;
+
+    margin-bottom: 3px;
+}
+
+.tour-search-input {
+
+    width: 100%;
+
+    height: 40px;
+
+    padding:
+        9px
+        38px
+        9px
+        38px;
+
+    border:
+        1px solid var(--border-dark);
+
+    border-radius: 9px;
+
+    background: #fafbfb;
+
+    color: var(--text);
+
+    font-size: 12.5px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.tour-search-input::placeholder {
+
+    color: #9aa49f;
+}
+
+.tour-search-input:hover {
+
+    background: #ffffff;
+
+    border-color: #c7cfcb;
+}
+
+.tour-search-input:focus {
+
+    background: #ffffff;
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(31, 79, 70, 0.08);
+}
+
+
+/* Search icon */
+
+.search-icon {
+
+    position: absolute;
+
+    left: 13px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 2;
+
+    color: #87938e;
+
+    font-size: 17px;
+
+    line-height: 1;
+
+    pointer-events: none;
+}
+
+
+/* Clear button */
+
+.clear-search {
+
+    position: absolute;
+
+    right: 8px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 25px;
+
+    height: 25px;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #7b8580;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    line-height: 1;
+
+    padding: 0;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.clear-search:hover {
+
+    background: #eef1ef;
+
+    color: #26332f;
+}
+
+
+/*
+   When JavaScript adds .has-value to the search container,
+   the clear button becomes visible.
+*/
+
+.tour-search.has-value .clear-search {
+
+    display: inline-flex;
+}
+
+
+/* =========================================================
+   SEARCH RESULTS / NO RESULTS
+========================================================= */
+
+.search-empty {
+
+    display: none;
+
+    padding: 28px 15px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.search-empty-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 0 auto 8px;
+
+    border-radius: 50%;
+
+    background: #f1f4f2;
+
+    color: #7b8781;
+
+    font-size: 17px;
+}
+
+.search-empty strong {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #46534d;
+
+    font-size: 12px;
+}
+
+.search-empty span {
+
+    color: #89938e;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   TOUR LIST
+========================================================= */
+
+.tour-list {
+
+    max-height:
+        calc(100vh - 270px);
+
+    overflow-y: auto;
+
+    padding: 12px;
+}
+
+.tour-list::-webkit-scrollbar {
+
+    width: 6px;
+}
+
+.tour-list::-webkit-scrollbar-track {
+
+    background: transparent;
+}
+
+.tour-list::-webkit-scrollbar-thumb {
+
+    background: #d5dcd8;
+
+    border-radius: 20px;
+}
+
+.tour-list::-webkit-scrollbar-thumb:hover {
+
+    background: #bcc6c1;
+}
+
+
+/* Firefox */
+
+.tour-list {
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #d5dcd8
+        transparent;
+}
+
+
+/* =========================================================
+   TOUR ITEM
+========================================================= */
+
+.tour-item {
+
+    display: block;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    border:
+        1px solid transparent;
+
+    border-radius: 11px;
+
+    padding: 14px;
+
+    margin-bottom: 8px;
+
+    background: transparent;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.tour-item:last-child {
+
+    margin-bottom: 0;
+}
+
+.tour-item:hover {
+
+    background: #f8faf9;
+
+    border-color: var(--border);
+
+    transform: translateX(2px);
+}
+
+.tour-item.active {
+
+    background: var(--primary-soft);
+
+    border-color: #c5ded7;
+
+    box-shadow:
+        inset 3px 0 0 var(--primary);
+}
+
+
+/* =========================================================
+   TOUR NAME
+========================================================= */
+
+.tour-name {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: var(--dark);
+
+    margin-bottom: 7px;
+
+    line-height: 1.35;
+}
+
+.tour-item.active .tour-name {
+
+    color: var(--primary-dark);
+}
+
+
+/* =========================================================
+   TOUR META
+========================================================= */
+
+.tour-meta {
+
+    color: var(--muted);
+
+    font-size: 11.5px;
+
+    line-height: 1.65;
+}
+
+.tour-meta strong {
+
+    color: #596860;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    margin-top: 7px;
+
+    padding: 3px 8px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.35px;
+}
+
+.status-active {
+
+    background: #dcfce7;
+
+    color: #166534;
+}
+
+.status-inactive {
+
+    background: #f1f5f9;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   HIDDEN TOUR ITEMS
+========================================================= */
+
+.tour-item.search-hidden {
+
+    display: none;
+}
+
+
+/* =========================================================
+   RIGHT WORKSPACE
+========================================================= */
+
+.workspace {
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   WORKSPACE HEADER
+========================================================= */
+
+.workspace-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 18px 22px;
+
+    margin-bottom: 18px;
+
+    box-shadow: var(--shadow);
+}
+
+.workspace-title {
+
+    min-width: 0;
+}
+
+.workspace-title small {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+
+    margin-bottom: 4px;
+}
+
+.workspace-title h2 {
+
+    margin: 0;
+
+    color: var(--dark);
+
+    font-size: 21px;
+
+    line-height: 1.3;
+
+    word-break: break-word;
+}
+
+.workspace-title p {
+
+    margin: 4px 0 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.workspace-badge {
+
+    flex-shrink: 0;
+
+    padding: 7px 11px;
+
+    border-radius: 8px;
+
+    background: #eef2f0;
+
+    color: #64716b;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card {
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 24px;
+
+    box-shadow: var(--shadow);
+
+    margin-bottom: 18px;
+}
+
+.card:last-child {
+
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.card-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+
+    padding-bottom: 15px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.card-header h2 {
+
+    margin: 0;
+
+    color: var(--dark);
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+.card-header p {
+
+    margin: 4px 0 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+label {
+
+    display: block;
+
+    margin: 15px 0 7px;
+
+    font-weight: 700;
+
+    font-size: 12px;
+
+    color: #44534c;
+}
+
+input,
+select,
+textarea {
+
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border:
+        1px solid var(--border-dark);
+
+    border-radius: 8px;
+
+    background: #fff;
+
+    color: var(--text);
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+
+    color: #a3ada8;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+
+    border-color: #c8d0cc;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+
+    border-color: #6c9c91;
+
+    box-shadow:
+        0 0 0 3px rgba(31, 79, 70, 0.08);
+}
+
+textarea {
+
+    min-height: 125px;
+
+    resize: vertical;
+
+    line-height: 1.55;
+}
+
+.small-textarea {
+
+    min-height: 95px;
+}
+
+
+/* =========================================================
+   FORM ROWS
+========================================================= */
+
+.row {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+}
+
+.row-3 {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 18px;
+}
+
+.form-note {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 6px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.button {
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 15px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-top: 14px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease,
+        background 0.2s ease;
+}
+
+.button:hover {
+
+    transform: translateY(-1px);
+
+    opacity: 0.96;
+}
+
+.button:active {
+
+    transform: translateY(0);
+}
+
+
+/* Primary */
+
+.primary {
+
+    background: var(--primary);
+
+    color: white;
+
+    box-shadow:
+        0 4px 10px rgba(31, 79, 70, 0.13);
+}
+
+.primary:hover {
+
+    background: var(--primary-dark);
+}
+
+
+/* Success */
+
+.success {
+
+    background: var(--success);
+
+    color: white;
+
+    box-shadow:
+        0 4px 10px rgba(22, 101, 52, 0.10);
+}
+
+.success:hover {
+
+    background: #14532d;
+}
+
+
+/* Danger */
+
+.danger {
+
+    background: var(--danger);
+
+    color: white;
+
+    box-shadow:
+        0 4px 10px rgba(180, 35, 24, 0.10);
+}
+
+.danger:hover {
+
+    background: #941f16;
+}
+
+
+/* Secondary */
+
+.secondary {
+
+    background: #475569;
+
+    color: white;
+}
+
+.secondary:hover {
+
+    background: #334155;
+}
+
+
+/* Warning */
+
+.warning {
+
+    background: #d97706;
+
+    color: white;
+}
+
+.warning:hover {
+
+    background: #b45309;
+}
+
+
+/* =========================================================
+   DANGER ZONE
+========================================================= */
+
+.danger-zone {
+
+    border:
+        1px solid #fecaca;
+
+    background:
+        var(--danger-soft);
+
+    border-radius: 10px;
+
+    padding: 17px;
+
+    margin-top: 24px;
+}
+
+.danger-zone strong {
+
+    color: #991b1b;
+
+    font-size: 13px;
+}
+
+.danger-zone p {
+
+    margin: 6px 0;
+
+    color: #7f1d1d;
+}
+
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrapper {
+
+    overflow-x: auto;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    margin-top: 20px;
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin: 0;
+
+    min-width: 760px;
+}
+
+th,
+td {
+
+    border-bottom:
+        1px solid var(--border);
+
+    padding: 11px;
+
+    text-align: left;
+
+    vertical-align: top;
+}
+
+tr:last-child td {
+
+    border-bottom: none;
+}
+
+th {
+
+    background: #f8faf9;
+
+    color: #596860;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+}
+
+td {
+
+    font-size: 12px;
+}
+
+td form {
+
+    margin: 0 0 6px;
+}
+
+td form:last-child {
+
+    margin-bottom: 0;
+}
+
+td .button {
+
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   IMAGE SECTION
+========================================================= */
+
+.image-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(190px, 1fr)
+        );
+
+    gap: 16px;
+
+    margin-top: 20px;
+}
+
+.image-card {
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 11px;
+
+    overflow: hidden;
+
+    background: white;
+
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.image-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        var(--shadow-hover);
+}
+
+.image-card img {
+
+    width: 100%;
+
+    height: 145px;
+
+    object-fit: cover;
+
+    display: block;
+
+    background: #f1f5f3;
+}
+
+.image-info {
+
+    padding: 13px;
+}
+
+.image-info strong {
+
+    display: block;
+
+    color: var(--dark);
+
+    font-size: 12px;
+
+    word-break: break-word;
+}
+
+.cover {
+
+    display: inline-block;
+
+    background: #ecfdf3;
+
+    color: #166534;
+
+    padding: 4px 8px;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.3px;
+
+    margin-top: 6px;
+}
+
+.image-actions {
+
+    margin-top: 9px;
+}
+
+.image-actions form {
+
+    display: inline-block;
+
+    margin-right: 4px;
+}
+
+.image-actions .button {
+
+    margin-top: 5px;
+
+    padding: 7px 9px;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty {
+
+    padding: 35px 20px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.empty-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 0 auto 10px;
+
+    border-radius: 50%;
+
+    background: #f1f5f3;
+
+    color: #64716b;
+
+    font-size: 18px;
+}
+
+.muted {
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CREATE TOUR INTRO
+========================================================= */
+
+.create-intro {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5faf8,
+            #ffffff
+        );
+
+    border:
+        1px solid #d7e9e3;
+
+    border-radius: 11px;
+
+    padding: 16px;
+
+    margin-bottom: 22px;
+
+    color: #475851;
+
+    font-size: 12px;
+}
+
+.create-intro strong {
+
+    display: block;
+
+    color: var(--primary-dark);
+
+    font-size: 13px;
+
+    margin-bottom: 3px;
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+input[type="file"] {
+
+    padding: 9px 10px;
+
+    background: #fafbfb;
+
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+input[type="checkbox"] {
+
+    width: auto;
+
+    accent-color: var(--primary);
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   SEARCH HIGHLIGHT
+========================================================= */
+
+.tour-item .search-match {
+
+    font-weight: 800;
+
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .dashboard {
+
+        grid-template-columns:
+            280px
+            minmax(0, 1fr);
+    }
+
+    .row-3 {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .header {
+
+        padding: 24px;
+    }
+
+    .container {
+
+        width: 94%;
+    }
+
+    .dashboard {
+
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+
+        position: static;
+    }
+
+    .tour-list {
+
+        max-height: 350px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .container {
+
+        width: 95%;
+
+        margin-top: 18px;
+    }
+
+    .header {
+
+        padding: 22px 18px;
+    }
+
+    .header h1 {
+
+        font-size: 23px;
+    }
+
+    .header p {
+
+        font-size: 13px;
+    }
+
+    .card {
+
+        padding: 18px;
+    }
+
+    .workspace-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .workspace-title h2 {
+
+        font-size: 19px;
+    }
+
+    .row,
+    .row-3 {
+
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar-header {
+
+        padding: 18px;
+    }
+
+    .tour-list {
+
+        padding: 10px;
+    }
+
+    .tour-search-input {
+
+        height: 42px;
+    }
+
+    .table-wrapper {
+
+        margin-left: -2px;
+
+        margin-right: -2px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+
+        transition-duration: 0.01ms !important;
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+    }
+}
