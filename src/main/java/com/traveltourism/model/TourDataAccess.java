@@ -213,8 +213,9 @@ public class TourDataAccess {
         List<TourImages> images = new ArrayList<>();
 
 
+        // Bytes are served by TourImageServlet; only metadata is needed here.
         String sql =
-                "SELECT * " +
+                "SELECT id, tour_id, is_cover " +
                 "FROM tour_images " +
                 "WHERE tour_id = ? " +
                 "ORDER BY is_cover DESC, id ASC";
@@ -238,9 +239,9 @@ public class TourDataAccess {
 
                             rs.getInt("tour_id"),
 
-                            rs.getString("image_path"),
+                            null,
 
-                            rs.getBytes("image_data"),
+                            null,
 
                             rs.getBoolean("is_cover")
                     );

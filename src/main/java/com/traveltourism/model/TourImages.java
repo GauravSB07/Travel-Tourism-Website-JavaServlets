@@ -1,5 +1,10 @@
 package com.traveltourism.model;
 
+/**
+ * Image metadata for a tour.
+ * Binary image bytes live in tour_images.image_data (BLOB)
+ * and are served by TourImageServlet.
+ */
 public class TourImages {
 
     private int id;
