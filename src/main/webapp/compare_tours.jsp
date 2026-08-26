@@ -1,4 +1,181 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html><head><title>Compare Journeys | TravelTourism</title><link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/css/travel-flow.css"></head><body><%@ include file="common/header.jsp" %><main class="comparison-page"><section class="flow-hero"><p>FIND YOUR PERFECT FIT</p><h1>Compare journeys</h1><span>See your shortlisted tours side by side and choose with confidence.</span></section><c:choose><c:when test="${empty tours}"><div class="empty-state"><h2>Your comparison is waiting.</h2><p>Choose up to three tours from Destinations to compare their highlights.</p><a class="flow-primary" href="${pageContext.request.contextPath}/destinations">Explore tours <span>→</span></a></div></c:when><c:otherwise><section class="compare-grid"><c:forEach var="tour" items="${tours}"><article class="compare-card"><img src="${pageContext.request.contextPath}/images/${tour.image}" alt="${tour.name}"><div><p class="eyebrow">${tour.category}</p><h2>${tour.name}</h2><dl><div><dt>Duration</dt><dd>${tour.duration} days</dd></div><div><dt>Departure</dt><dd>${tour.departureCity}</dd></div><div><dt>Starting from</dt><dd>₹${tour.price}</dd></div></dl><p>${tour.shortDescription}</p><a class="flow-primary" href="${pageContext.request.contextPath}/booking?tour_id=${tour.id}">Reserve this tour <span>→</span></a></div></article></c:forEach></section></c:otherwise></c:choose></main><%@ include file="common/footer.jsp" %></body></html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Compare Journeys | TravelTourism</title>
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css">
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/travel-flow.css">
+
+</head>
+
+<body>
+
+<%@ include file="common/header.jsp" %>
+
+
+<main class="comparison-page">
+
+
+    <section class="flow-hero">
+
+        <p>FIND YOUR PERFECT FIT</p>
+
+        <h1>Compare journeys</h1>
+
+        <span>
+            See your shortlisted tours side by side and choose with confidence.
+        </span>
+
+    </section>
+
+
+    <c:choose>
+
+        <c:when test="${empty tours}">
+
+            <div class="empty-state">
+
+                <h2>Your comparison is waiting.</h2>
+
+                <p>
+                    Choose up to three tours from Destinations
+                    to compare their highlights.
+                </p>
+
+                <a class="flow-primary"
+                   href="${pageContext.request.contextPath}/destinations">
+
+                    Explore tours
+
+                    <span>→</span>
+
+                </a>
+
+            </div>
+
+        </c:when>
+
+
+        <c:otherwise>
+
+            <section class="compare-grid">
+
+                <c:forEach var="tour" items="${tours}">
+
+                    <article class="compare-card">
+
+                        <c:choose>
+
+                            <c:when test="${tour.imageId > 0}">
+
+                                <img
+                                    src="${pageContext.request.contextPath}/TourImageServlet?id=${tour.imageId}"
+                                    alt="${tour.name}">
+
+                            </c:when>
+
+                            <c:otherwise>
+
+                                <div class="tour-image-placeholder">
+                                    No image available
+                                </div>
+
+                            </c:otherwise>
+
+                        </c:choose>
+
+
+                        <div>
+
+                            <p class="eyebrow">
+                                ${tour.category}
+                            </p>
+
+                            <h2>
+                                ${tour.name}
+                            </h2>
+
+
+                            <dl>
+
+                                <div>
+
+                                    <dt>Duration</dt>
+
+                                    <dd>
+                                        ${tour.duration} days
+                                    </dd>
+
+                                </div>
+
+
+                                <div>
+
+                                    <dt>Departure</dt>
+
+                                    <dd>
+                                        ${tour.departureCity}
+                                    </dd>
+
+                                </div>
+
+
+                                <div>
+
+                                    <dt>Starting from</dt>
+
+                                    <dd>
+                                        ₹${tour.price}
+                                    </dd>
+
+                                </div>
+
+                            </dl>
+
+
+                            <p>
+                                ${tour.shortDescription}
+                            </p>
+
+
+                            <a class="flow-primary"
+                               href="${pageContext.request.contextPath}/booking?tour_id=${tour.id}">
+
+                                Reserve this tour
+
+                                <span>→</span>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </c:forEach>
+
+            </section>
+
+        </c:otherwise>
+
+    </c:choose>
+
+
+</main>
+
+
+<%@ include file="common/footer.jsp" %>
+
+
+</body>
+
+</html>
