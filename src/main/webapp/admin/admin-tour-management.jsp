@@ -1680,16 +1680,9 @@
                     </div>
 
 
-                    <!--
-                        IMPORTANT:
-                        The servlet currently does NOT implement
-                        createTour. The servlet needs a createTour
-                        branch for this form to work.
-                    -->
-
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tour-action"
+                        action="<%= request.getContextPath() %>/admin/tours"
                     >
 
                         <input
@@ -1852,7 +1845,7 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tour-action"
+                        action="<%= request.getContextPath() %>/admin/tours"
                     >
 
                         <input
@@ -2021,7 +2014,7 @@
 
                         <form
                             method="post"
-                            action="<%= request.getContextPath() %>/admin/tour-action"
+                            action="<%= request.getContextPath() %>/admin/tours"
                             onsubmit="return confirm('Delete this entire tour and all related data?');"
                         >
 
@@ -2085,7 +2078,7 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tour-action"
+                        action="<%= request.getContextPath() %>/admin/tours"
                     >
 
                         <input
@@ -2363,7 +2356,7 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tour-action"
+                        action="<%= request.getContextPath() %>/admin/tours"
                     >
 
                         <input
@@ -2480,7 +2473,7 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tour-action"
+                                                action="<%= request.getContextPath() %>/admin/tours"
                                                 style="margin:0;"
                                             >
 
@@ -2570,7 +2563,7 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tour-action"
+                                                action="<%= request.getContextPath() %>/admin/tours"
                                                 onsubmit="return confirm('Delete this itinerary day?');"
                                             >
 
@@ -2661,7 +2654,7 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tour-action"
+                        action="<%= request.getContextPath() %>/admin/tours"
                     >
 
                         <input
@@ -2831,7 +2824,7 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tour-action"
+                                                action="<%= request.getContextPath() %>/admin/tours"
                                                 onsubmit="return confirm('Delete this hotel?');"
                                             >
 
@@ -2897,7 +2890,7 @@
 
 
                 <!-- =================================================
-                     IMAGES
+                     COVER & GALLERY IMAGES (BLOB)
                 ================================================== -->
 
                 <div class="card">
@@ -2907,12 +2900,15 @@
                         <div>
 
                             <h2>
-                                Tour Images
+                                Cover &amp; Gallery Images
                             </h2>
 
                             <p>
-                                Upload images and choose the
-                                primary cover image for this tour.
+                                Upload images for this tour. They are
+                                stored as BLOB in the database.
+                                Cover images appear on the tour hero;
+                                all uploaded images appear in the
+                                Gallery section on the tour details page.
                             </p>
 
                         </div>
@@ -2922,7 +2918,7 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tour-action"
+                        action="<%= request.getContextPath() %>/admin/tours"
                         enctype="multipart/form-data"
                     >
 
@@ -2940,7 +2936,7 @@
 
 
                         <label>
-                            Select Image
+                            Add Gallery Image
                         </label>
 
                         <input
@@ -2960,7 +2956,7 @@
                                 style="width:auto;margin-right:6px;"
                             >
 
-                            Make this the cover image
+                            Also use as cover image
 
                         </label>
 
@@ -2969,7 +2965,7 @@
                             type="submit"
                             class="button primary"
                         >
-                            Upload Image
+                            Upload to Gallery
                         </button>
 
                     </form>
@@ -3037,7 +3033,7 @@
 
                                                 <form
                                                     method="post"
-                                                    action="<%= request.getContextPath() %>/admin/tour-action"
+                                                    action="<%= request.getContextPath() %>/admin/tours"
                                                 >
 
                                                     <input
@@ -3073,7 +3069,7 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tour-action"
+                                                action="<%= request.getContextPath() %>/admin/tours"
                                                 onsubmit="return confirm('Delete this image?');"
                                             >
 

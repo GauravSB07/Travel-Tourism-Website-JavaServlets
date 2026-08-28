@@ -30,14 +30,28 @@
 
 
 <!-- =====================================================
-     TOP BAR
+     PAGE INTRO
 ===================================================== -->
 
-<section class="destinations-topbar">
+<section class="destinations-intro">
 
-    <p>EXPLORE INDIA</p>
+    <div class="destinations-intro-inner">
 
-    <h2>Destinations &amp; Travel Packages</h2>
+        <p class="destinations-eyebrow">
+            EXPLORE INDIA
+        </p>
+
+        <h1>
+            Destinations &amp; Travel Packages
+        </h1>
+
+        <p class="destinations-lead">
+            Browse curated journeys across India —
+            filter by city, category and duration to find
+            the trip that feels made for you.
+        </p>
+
+    </div>
 
 </section>
 
@@ -67,7 +81,7 @@
 
 
                 <p class="filter-help">
-                    Find the trip that feels made for you.
+                    Narrow the list to match your travel style.
                 </p>
 
 
@@ -82,12 +96,14 @@
                     <input type="number"
                            id="price_min"
                            name="price_min"
-                           placeholder="Min Price">
+                           placeholder="Min Price"
+                           value="${param.price_min}">
 
                     <input type="number"
                            id="price_max"
                            name="price_max"
-                           placeholder="Max Price">
+                           placeholder="Max Price"
+                           value="${param.price_max}">
 
                 </div>
 
@@ -238,9 +254,9 @@
                         CURATED JOURNEYS
                     </p>
 
-                    <h3>
+                    <h2>
                         ${resultCount} journeys to explore
-                    </h3>
+                    </h2>
 
                 </div>
 
@@ -274,31 +290,6 @@
 
                     <div class="tour-image-wrapper">
 
-
-                        <label class="compare-check"
-                               title="Add to comparison">
-
-                            <input class="tour-check"
-                                   type="checkbox"
-                                   value="${tour.id}">
-
-                            <span>
-                                Compare
-                            </span>
-
-                        </label>
-
-
-                        <!--
-                            IMAGE NOW COMES FROM DATABASE
-
-                            tour.imageId = ID from tour_images table
-
-                            TourImageServlet reads image_data
-                            from the database and sends it
-                            directly to the browser.
-                        -->
-
                         <c:choose>
 
                             <c:when test="${tour.imageId > 0}">
@@ -313,15 +304,12 @@
                             <c:otherwise>
 
                                 <div class="tour-image-placeholder">
-
                                     No image available
-
                                 </div>
 
                             </c:otherwise>
 
                         </c:choose>
-
 
                     </div>
 
@@ -333,60 +321,43 @@
                     <div class="tour-content">
 
 
-                        <h3>
-                            ${tour.name}
-                        </h3>
+                        <div class="tour-content-top">
+
+                            <h3>
+                                ${tour.name}
+                            </h3>
+
+                            <p class="tour-price">
+                                ₹${tour.price}
+                            </p>
+
+                        </div>
 
 
-                        <p class="tour-meta">
-
-                            <span>
-                                Category:
-                            </span>
-
-                            ${tour.category}
-
-                        </p>
-
-
-                        <p class="tour-meta">
+                        <div class="tour-meta-row">
 
                             <span>
-                                Departure:
+                                ${tour.category}
                             </span>
-
-                            ${tour.departureCity}
-
-                        </p>
-
-
-                        <p class="tour-meta">
 
                             <span>
-                                Duration:
+                                ${tour.departureCity}
                             </span>
 
-                            ${tour.duration} days
+                            <span>
+                                ${tour.duration} days
+                            </span>
 
-                        </p>
+                        </div>
 
 
                         <c:if test="${not empty tour.shortDescription}">
 
                             <p class="tour-description">
-
                                 ${tour.shortDescription}
-
                             </p>
 
                         </c:if>
-
-
-                        <p class="tour-price">
-
-                            ₹${tour.price}
-
-                        </p>
 
 
                         <!-- ACTIONS -->
@@ -442,7 +413,9 @@
 
                 <div class="no-results">
 
-                    <span>✦</span>
+                    <p class="eyebrow">
+                        NO MATCHES
+                    </p>
 
                     <h3>
                         No journeys match those filters.
