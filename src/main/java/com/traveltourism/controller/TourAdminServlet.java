@@ -30,13 +30,19 @@ public class TourAdminServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        if ("edit".equals(action)) {
+        try {
+            if ("edit".equals(action)) {
 
-            showEditTour(request, response);
+                showEditTour(request, response);
 
-        } else {
+            } else {
 
-            showTours(request, response);
+                showTours(request, response);
+            }
+        } catch (ServletException | IOException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
     }
 
