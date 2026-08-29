@@ -24,4 +24,12 @@ public class Contact_usServlet extends HttpServlet {
 		
 		rd.forward(request, response);
 	}
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setAttribute("submitted", true);
+        request.setAttribute("guestName", request.getParameter("name"));
+        request.getRequestDispatcher("/contact_us.jsp").forward(request, response);
+    }
 }

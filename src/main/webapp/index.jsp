@@ -1,8 +1,3 @@
-<%--
-    Document   : index
-    Created on : Aug 8, 2026, 1:07:44 PM
-    Author     : Dell
---%>
 
 <%@ page language="java"
          contentType="text/html; charset=UTF-8"

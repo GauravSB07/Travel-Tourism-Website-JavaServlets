@@ -1,10 +1,3 @@
-<%-- 
-    Document   : header
-    Created on : Aug 8, 2026, 3:08:37 PM
-    Author     : Dell
---%>
-<%@ page contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
 <!-- ================= COMMON HEADER ================= -->
 
 <header class="site-header">
@@ -13,7 +6,7 @@
 
         <!-- LOGO -->
 
-        <a href="${pageContext.request.contextPath}/home"
+        <a href="${pageContext.request.contextPath}/index.jsp"
            class="site-logo">
 
             Travel<span>Tourism</span>
@@ -25,7 +18,7 @@
 
         <nav class="main-navigation">
 
-            <a href="${pageContext.request.contextPath}/home">
+            <a href="${pageContext.request.contextPath}/index.jsp">
                 Home
             </a>
 
@@ -52,25 +45,24 @@
         </nav>
 
 
+        <!-- HEADER ACTIONS -->
+
         <div class="header-actions">
 
             <!-- HEADER SEARCH -->
 
             <form class="header-search"
-                action="${pageContext.request.contextPath}/search"
-                method="get">
+                  action="${pageContext.request.contextPath}/search"
+                  method="get">
 
                 <input type="text"
-                    name="query"
-                    placeholder="Search destinations..."
-                    aria-label="Search destinations">
+                       name="query"
+                       placeholder="Search destinations..."
+                       aria-label="Search destinations">
 
-                <button type="submit"
-                        aria-label="Search">
-
-                    🔍
-
-                </button>
+            <button type="submit" aria-label="Search">
+                &#128269;
+            </button>
 
             </form>
 
@@ -85,6 +77,7 @@
             </a>
 
         </div>
+
     </div>
 
 </header>
