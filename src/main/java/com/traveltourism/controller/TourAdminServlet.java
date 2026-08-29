@@ -30,13 +30,14 @@ public class TourAdminServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        if ("edit".equals(action)) {
-
-            showEditTour(request, response);
-
-        } else {
-
-            showTours(request, response);
+        try {
+            if ("edit".equals(action)) {
+                showEditTour(request, response);
+            } else {
+                showTours(request, response);
+            }
+        } catch (Exception exception) {
+            throw new ServletException("Unable to load tour administration data.", exception);
         }
     }
 
