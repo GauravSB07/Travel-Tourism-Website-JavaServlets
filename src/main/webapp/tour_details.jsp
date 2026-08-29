@@ -1,10 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
-
 <html>
 
 <head>
@@ -20,7 +18,6 @@
           href="${pageContext.request.contextPath}/css/tour_details.css">
 
 </head>
-
 
 <body>
 
@@ -53,7 +50,6 @@
 
         </div>
 
-
         <p>CURATED INDIA JOURNEYS</p>
 
         <h2>Every detail, beautifully considered.</h2>
@@ -61,7 +57,6 @@
     </div>
 
 </section>
-
 
 
 <main class="page-container">
@@ -108,20 +103,18 @@
                 ${tour.duration} Days
             </span>
 
-
             <span>
                 <strong>Category:</strong>
                 ${tour.category}
             </span>
-
 
             <span>
                 <strong>Departure:</strong>
                 ${tour.departureCity}
             </span>
 
-
             <span>
+
                 <strong>Best Time:</strong>
 
                 <c:choose>
@@ -260,7 +253,6 @@
 
     <h2>Overview</h2>
 
-
     <c:choose>
 
         <c:when test="${details != null}">
@@ -293,7 +285,6 @@
 
     <h2>Tour Highlights</h2>
 
-
     <ul class="highlight-list">
 
         <c:choose>
@@ -311,7 +302,6 @@
                 </c:forEach>
 
             </c:when>
-
 
             <c:otherwise>
 
@@ -337,23 +327,17 @@
 
     <h2>Gallery</h2>
 
-
     <div class="gallery-grid">
-
 
         <c:choose>
 
-
             <c:when test="${not empty images}">
-
 
                 <c:forEach
                     var="img"
                     items="${images}">
 
-
                     <div class="gallery-item">
-
 
                         <c:choose>
 
@@ -365,7 +349,6 @@
 
                             </c:when>
 
-
                             <c:otherwise>
 
                                 <div class="gallery-image-placeholder">
@@ -376,18 +359,13 @@
 
                         </c:choose>
 
-
                     </div>
-
 
                 </c:forEach>
 
-
             </c:when>
 
-
             <c:otherwise>
-
 
                 <div class="no-gallery-images">
 
@@ -397,12 +375,9 @@
 
                 </div>
 
-
             </c:otherwise>
 
-
         </c:choose>
-
 
     </div>
 
@@ -417,26 +392,19 @@
 <div class="card"
      id="itinerary-section">
 
-
     <h2>Day-wise Itinerary</h2>
-
 
     <div class="timeline">
 
-
         <c:choose>
 
-
             <c:when test="${not empty itinerary}">
-
 
                 <c:forEach
                     var="day"
                     items="${itinerary}">
 
-
                     <div class="timeline-item">
-
 
                         <div class="timeline-day">
 
@@ -444,13 +412,11 @@
 
                         </div>
 
-
                         <div class="timeline-content">
 
                             <h3>
                                 ${day.dayTitle}
                             </h3>
-
 
                             <p>
                                 ${day.dayDescription}
@@ -458,29 +424,21 @@
 
                         </div>
 
-
                     </div>
-
 
                 </c:forEach>
 
-
             </c:when>
 
-
             <c:otherwise>
-
 
                 <p>
                     Itinerary information is not available yet.
                 </p>
 
-
             </c:otherwise>
 
-
         </c:choose>
-
 
     </div>
 
@@ -496,9 +454,7 @@
 
     <h2>Accommodation Details</h2>
 
-
     <table class="hotel-table">
-
 
         <tr>
 
@@ -515,14 +471,11 @@
 
         <c:choose>
 
-
             <c:when test="${not empty hotels}">
-
 
                 <c:forEach
                     var="h"
                     items="${hotels}">
-
 
                     <tr>
 
@@ -544,15 +497,11 @@
 
                     </tr>
 
-
                 </c:forEach>
-
 
             </c:when>
 
-
             <c:otherwise>
-
 
                 <tr>
 
@@ -565,12 +514,9 @@
 
                 </tr>
 
-
             </c:otherwise>
 
-
         </c:choose>
-
 
     </table>
 
@@ -584,10 +530,10 @@
 
 <div class="info-tabs">
 
-
     <div class="tab-buttons">
 
         <button
+            type="button"
             class="tab-btn active"
             onclick="openTab(event, 'inclusions')">
 
@@ -597,6 +543,7 @@
 
 
         <button
+            type="button"
             class="tab-btn"
             onclick="openTab(event, 'exclusions')">
 
@@ -606,6 +553,7 @@
 
 
         <button
+            type="button"
             class="tab-btn"
             onclick="openTab(event, 'preparation')">
 
@@ -622,15 +570,11 @@
     <div id="inclusions"
          class="tab-content active">
 
-
         <ul>
-
 
             <c:choose>
 
-
                 <c:when test="${details != null && not empty details.inclusions}">
-
 
                     <c:forEach
                         var="i"
@@ -642,9 +586,7 @@
 
                     </c:forEach>
 
-
                 </c:when>
-
 
                 <c:otherwise>
 
@@ -654,12 +596,9 @@
 
                 </c:otherwise>
 
-
             </c:choose>
 
-
         </ul>
-
 
     </div>
 
@@ -670,15 +609,11 @@
     <div id="exclusions"
          class="tab-content">
 
-
         <ul>
-
 
             <c:choose>
 
-
                 <c:when test="${details != null && not empty details.exclusions}">
-
 
                     <c:forEach
                         var="e"
@@ -690,9 +625,7 @@
 
                     </c:forEach>
 
-
                 </c:when>
-
 
                 <c:otherwise>
 
@@ -702,12 +635,9 @@
 
                 </c:otherwise>
 
-
             </c:choose>
 
-
         </ul>
-
 
     </div>
 
@@ -718,9 +648,7 @@
     <div id="preparation"
          class="tab-content">
 
-
         <c:choose>
-
 
             <c:when test="${details != null && not empty details.preparation}">
 
@@ -730,7 +658,6 @@
 
             </c:when>
 
-
             <c:otherwise>
 
                 <p>
@@ -739,12 +666,9 @@
 
             </c:otherwise>
 
-
         </c:choose>
 
-
     </div>
-
 
 </div>
 
@@ -757,7 +681,6 @@
 <div class="card">
 
     <h2>Payment Terms</h2>
-
 
     <c:choose>
 
@@ -791,7 +714,6 @@
 
     <h2>Upgrades Available</h2>
 
-
     <c:choose>
 
         <c:when test="${details != null && not empty details.upgradesInfo}">
@@ -824,9 +746,7 @@
 
     <h2>Location Map</h2>
 
-
     <c:choose>
-
 
         <c:when test="${details != null && not empty details.mapEmbed}">
 
@@ -838,7 +758,6 @@
 
         </c:when>
 
-
         <c:otherwise>
 
             <p>
@@ -847,9 +766,7 @@
 
         </c:otherwise>
 
-
     </c:choose>
-
 
 </div>
 
@@ -865,17 +782,14 @@
         READY WHEN YOU ARE
     </p>
 
-
     <h2>
         Make this journey yours.
     </h2>
-
 
     <p>
         Reserve your preferred dates and let our specialists
         tailor every detail.
     </p>
-
 
     <a
         href="${pageContext.request.contextPath}/booking?tour_id=${tour.id}"
@@ -887,6 +801,8 @@
 
 </div>
 
+
+</main>
 
 
 <!-- =====================================================
@@ -932,11 +848,7 @@ function openTab(evt, tabName) {
 </script>
 
 
-</main>
-
-
 <%@ include file="common/footer.jsp" %>
-
 
 </body>
 

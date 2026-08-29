@@ -1,5 +1,240 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java"
+         contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
-<html><head><title>Reserve Your Journey | TravelTourism</title><link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/css/travel-flow.css"></head>
-<body><%@ include file="common/header.jsp" %><main class="flow-page"><section class="flow-hero"><p>START YOUR ESCAPE</p><h1>Reserve your journey</h1><span>Share a few details and our travel specialists will take care of the rest.</span></section><section class="flow-shell"><aside class="booking-summary"><p class="eyebrow">YOUR SELECTED TOUR</p><h2>${tour != null ? tour.name : 'A custom Indian journey'}</h2><c:if test="${tour != null}"><p>${tour.duration} days · ${tour.category}</p><strong>From ₹${tour.price}</strong></c:if><p class="summary-note">Your reservation request is free. We will confirm availability before any payment.</p></aside><form class="premium-form" action="${pageContext.request.contextPath}/booking-confirmation" method="post"><input type="hidden" name="tour_name" value="${tour != null ? tour.name : 'Custom journey'}"><div class="form-intro"><p class="eyebrow">TRAVELLER DETAILS</p><h2>Let’s plan something memorable.</h2></div><div class="form-grid"><label>Full name<input name="traveler_name" required autocomplete="name" placeholder="Your name"></label><label>Email address<input type="email" name="email" required autocomplete="email" placeholder="you@example.com"></label><label>Phone number<input type="tel" name="phone" required autocomplete="tel" placeholder="+91"></label><label>Preferred departure<input type="date" name="travel_date" required></label><label>Travellers<select name="travelers" required><option value="2">2 travellers</option><option value="1">1 traveller</option><option value="3-4">3–4 travellers</option><option value="5+">5+ travellers</option></select></label><label>Room preference<select name="rooms"><option>One room</option><option>Two rooms</option><option>Need advice</option></select></label></div><label>Anything we should know?<textarea name="notes" rows="4" placeholder="Special occasions, preferences or questions"></textarea></label><button class="flow-primary" type="submit">Send reservation request <span>→</span></button></form></section></main><%@ include file="common/footer.jsp" %></body></html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Book Your Tour | TravelTourism</title>
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css">
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+        }
+
+        .booking-container {
+            width: 700px;
+            max-width: 90%;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .booking-container h1 {
+            margin-bottom: 25px;
+        }
+
+        .tour-details {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .tour-details h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .tour-details p {
+            margin: 8px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .book-button {
+            padding: 12px 25px;
+            border: none;
+            background: #f28c28;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .book-button:hover {
+            background: #e07815;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <%@ include file="common/header.jsp" %>
+
+
+    <div class="booking-container">
+
+        <h1>Book Your Tour</h1>
+
+
+        <!-- SELECTED TOUR DETAILS -->
+
+        <div class="tour-details">
+
+            <h2>${param.name}</h2>
+
+            <p>
+                <strong>Departure:</strong>
+                ${param.departure}
+            </p>
+
+            <p>
+                <strong>Duration:</strong>
+                ${param.duration} days
+            </p>
+
+            <p>
+                <strong>Price:</strong>
+                ₹${param.price} per person
+            </p>
+
+        </div>
+
+
+        <!-- BOOKING FORM -->
+
+        <form action="${pageContext.request.contextPath}/booking_confirmation.jsp"
+              method="post">
+
+
+            <!-- TOUR INFORMATION -->
+
+            <input type="hidden"
+                   name="tourName"
+                   value="${param.name}">
+
+            <input type="hidden"
+                   name="price"
+                   value="${param.price}">
+
+            <input type="hidden"
+                   name="duration"
+                   value="${param.duration}">
+
+            <input type="hidden"
+                   name="departure"
+                   value="${param.departure}">
+
+
+            <!-- CUSTOMER INFORMATION -->
+
+            <div class="form-group">
+
+                <label for="customerName">
+                    Full Name
+                </label>
+
+                <input type="text"
+                       id="customerName"
+                       name="customerName"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input type="email"
+                       id="email"
+                       name="email"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input type="tel"
+                       id="phone"
+                       name="phone"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="travelers">
+                    Number of Travelers
+                </label>
+
+                <input type="number"
+                       id="travelers"
+                       name="travelers"
+                       min="1"
+                       value="1"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="travelDate">
+                    Travel Date
+                </label>
+
+                <input type="date"
+                       id="travelDate"
+                       name="travelDate"
+                       required>
+
+            </div>
+
+
+            <button type="submit"
+                    class="book-button">
+
+                Confirm Booking
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <%@ include file="common/footer.jsp" %>
+
+</body>
+
+</html>
