@@ -1680,133 +1680,133 @@
                     </div>
 
 
-                    <form
-                        method="post"
-                        action="<%= request.getContextPath() %>/admin/tours"
-                    >
-
-                        <input
-                            type="hidden"
-                            name="action"
-                            value="createTour"
-                        >
-
-
-                        <label>
-                            Tour Name
-                        </label>
-
-                        <input
-                            type="text"
-                            name="name"
-                            required
-                            maxlength="150"
-                            placeholder="Example: Goa Beach Holiday"
-                        >
-
-
-                        <div class="row">
-
-                            <div>
-
-                                <label>
-                                    Category
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="category"
-                                    required
-                                    maxlength="50"
-                                    placeholder="Nature"
-                                >
-
+                                        <form id="createTourForm" method="post" action="<%= request.getContextPath() %>/admin/tours">
+                        <input type="hidden" name="action" value="createTour">
+                        
+                        <div style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 20px;">
+                            <div style="flex: 1;">
+                                <label style="margin-bottom: 5px; display: block;">Tour Name</label>
+                                <input type="text" id="tourName" name="name" required maxlength="150" placeholder="Example: Goa Beach Holiday" style="margin-bottom: 0;">
                             </div>
-
-
-                            <div>
-
-                                <label>
-                                    Departure City
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="departure_city"
-                                    required
-                                    maxlength="50"
-                                    placeholder="Mumbai"
-                                >
-
-                            </div>
-
+                            <button type="button" class="button primary" onclick="generateDetails()" id="btnGenerate" style="white-space: nowrap;">
+                                ✨ Generate Details
+                            </button>
                         </div>
 
-
                         <div class="row">
-
-                            <div>
-
-                                <label>
-                                    Duration (Days)
-                                </label>
-
-                                <input
-                                    type="number"
-                                    name="duration"
-                                    min="1"
-                                    required
-                                    placeholder="5"
-                                >
-
-                            </div>
-
-
-                            <div>
-
-                                <label>
-                                    Price
-                                </label>
-
-                                <input
-                                    type="number"
-                                    name="price"
-                                    min="0"
-                                    step="0.01"
-                                    required
-                                    placeholder="24999"
-                                >
-
-                            </div>
-
+                            <div><label>Category</label><input type="text" id="category" name="category" required maxlength="50" placeholder="Nature"></div>
+                            <div><label>Departure City</label><input type="text" id="departureCity" name="departure_city" required maxlength="50" placeholder="Mumbai"></div>
                         </div>
 
+                        <div class="row">
+                            <div><label>Duration (Days)</label><input type="number" id="duration" name="duration" min="1" required placeholder="5"></div>
+                            <div><label>Price</label><input type="number" id="price" name="price" min="0" step="0.01" required placeholder="24999"></div>
+                        </div>
+                        
+                        <label>Short Description (1-2 sentences)</label>
+                        <input type="text" id="shortDescription" name="short_description" required placeholder="A beautiful trip..." maxlength="255">
 
-                        <label>
-                            Status
-                        </label>
+                        <label>Long Description (Min 250 chars)</label>
+                        <textarea id="longDescription" name="long_description" required minlength="250" class="small-textarea"></textarea>
 
+                        <div class="row">
+                            <div><label>Duration Text</label><input type="text" id="durationText" name="duration_text" required placeholder="5 Days / 4 Nights"></div>
+                            <div><label>Best Time</label><input type="text" id="bestTime" name="best_time" required placeholder="October to March"></div>
+                        </div>
+
+                        <div class="row">
+                            <div><label>States Covered</label><input type="text" id="statesCovered" name="states_covered" required></div>
+                            <div><label>Cities Covered</label><input type="text" id="citiesCovered" name="cities_covered" required></div>
+                        </div>
+
+                        <label>Route</label>
+                        <textarea id="route" name="route" required class="small-textarea"></textarea>
+
+                        <label>Highlights</label>
+                        <textarea id="highlights" name="highlights" required class="small-textarea"></textarea>
+
+                        <label>Inclusions</label>
+                        <textarea id="inclusions" name="inclusions" required class="small-textarea"></textarea>
+
+                        <label>Exclusions</label>
+                        <textarea id="exclusions" name="exclusions" required class="small-textarea"></textarea>
+
+                        <label>Preparation</label>
+                        <textarea id="preparation" name="preparation" required class="small-textarea"></textarea>
+
+                        <label>Payment Terms</label>
+                        <textarea id="paymentTerms" name="payment_terms" required class="small-textarea"></textarea>
+
+                        <label>Upgrades Information</label>
+                        <textarea id="upgradesInfo" name="upgrades_info" required class="small-textarea"></textarea>
+
+                        <label>Status</label>
                         <select name="status">
-
-                            <option value="active">
-                                Active
-                            </option>
-
-                            <option value="inactive">
-                                Inactive
-                            </option>
-
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
                         </select>
 
-
-                        <button
-                            type="submit"
-                            class="button primary"
-                        >
-                            Create Tour Package
-                        </button>
-
+                        <button type="submit" class="button primary">Create Tour Package & Auto-Embed</button>
                     </form>
+
+                    <script>
+                    function generateDetails() {
+                        const title = document.getElementById('tourName').value;
+                        if (!title) {
+                            alert('Please enter a tour name first!');
+                            return;
+                        }
+                        const btn = document.getElementById('btnGenerate');
+                        btn.disabled = true;
+                        btn.innerText = '✨ Generating...';
+                        
+                        fetch('<%= request.getContextPath() %>/admin/generate-details', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ title: title })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            btn.disabled = false;
+                            btn.innerText = '✨ Generate Details';
+                            
+                            if(data.error) {
+                                alert('Error: ' + data.error);
+                                return;
+                            }
+                            
+                            // Parse Gemini format
+                            let jsonStr = data.candidates[0].content.parts[0].text;
+                            jsonStr = jsonStr.replace(/```json/g, '').replace(/```/g, ''); // strip markdown if any
+                            const details = JSON.parse(jsonStr);
+                            
+                            if(details.category) document.getElementById('category').value = details.category;
+                            if(details.departureCity) document.getElementById('departureCity').value = details.departureCity;
+                            if(details.duration) document.getElementById('duration').value = details.duration;
+                            if(details.price) document.getElementById('price').value = details.price;
+                            if(details.shortDescription) document.getElementById('shortDescription').value = details.shortDescription;
+                            if(details.longDescription) document.getElementById('longDescription').value = details.longDescription;
+                            if(details.durationText) document.getElementById('durationText').value = details.durationText;
+                            if(details.bestTime) document.getElementById('bestTime').value = details.bestTime;
+                            if(details.statesCovered) document.getElementById('statesCovered').value = details.statesCovered;
+                            if(details.citiesCovered) document.getElementById('citiesCovered').value = details.citiesCovered;
+                            if(details.route) document.getElementById('route').value = details.route;
+                            if(details.highlights) document.getElementById('highlights').value = details.highlights;
+                            if(details.inclusions) document.getElementById('inclusions').value = details.inclusions;
+                            if(details.exclusions) document.getElementById('exclusions').value = details.exclusions;
+                            if(details.preparation) document.getElementById('preparation').value = details.preparation;
+                            if(details.paymentTerms) document.getElementById('paymentTerms').value = details.paymentTerms;
+                            if(details.upgradesInfo) document.getElementById('upgradesInfo').value = details.upgradesInfo;
+                        })
+                        .catch(err => {
+                            btn.disabled = false;
+                            btn.innerText = '✨ Generate Details';
+                            alert('An error occurred. See console.');
+                            console.error(err);
+                        });
+                    }
+                    </script>
+
 
                 </div>
 
