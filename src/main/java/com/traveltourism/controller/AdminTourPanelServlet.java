@@ -20,9 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
 
@@ -48,6 +45,9 @@ public class AdminTourPanelServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
+        if (request.getSession().getAttribute("tourCsrf") == null) {
+            request.getSession().setAttribute("tourCsrf", java.util.UUID.randomUUID().toString());
+        }
         Integer selectedTourId =
                 parseInteger(request.getParameter("tourId"));
 
@@ -165,6 +165,12 @@ public class AdminTourPanelServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
+
+        if (request.getSession(false) == null || request.getParameter("csrf") == null
+                || !request.getParameter("csrf").equals(request.getSession().getAttribute("tourCsrf"))) {
+            response.sendError(403, "Please reload the admin panel before saving.");
+            return;
+        }
 
         String action = request.getParameter("action");
 
@@ -626,8 +632,8 @@ public class AdminTourPanelServlet extends HttpServlet {
         String sql =
                 "INSERT INTO tours " +
                 "(name, category, departure_city, " +
-                "duration, price, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "duration, price, status, short_description) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement =
                      connection.prepareStatement(
@@ -665,6 +671,7 @@ public class AdminTourPanelServlet extends HttpServlet {
                     status
             );
 
+            statement.setString(7, clean(request.getParameter("short_description")));
             int affectedRows =
                     statement.executeUpdate();
 
@@ -821,7 +828,7 @@ public class AdminTourPanelServlet extends HttpServlet {
                 "departure_city = ?, " +
                 "duration = ?, " +
                 "price = ?, " +
-                "status = ? " +
+                "status = ?, short_description = ? " +
                 "WHERE id = ?";
 
         try (PreparedStatement statement =
@@ -833,7 +840,8 @@ public class AdminTourPanelServlet extends HttpServlet {
             statement.setInt(4, duration);
             statement.setBigDecimal(5, price);
             statement.setString(6, status);
-            statement.setInt(7, tourId);
+            statement.setString(7, clean(request.getParameter("short_description")));
+            statement.setInt(8, tourId);
 
             int updated =
                     statement.executeUpdate();
@@ -1962,7 +1970,7 @@ public class AdminTourPanelServlet extends HttpServlet {
 
         String sql =
                 "SELECT id, name, category, departure_city, " +
-                "duration, price, status, created_at, updated_at " +
+                "duration, price, status, short_description, created_at, updated_at " +
                 "FROM tours " +
                 "ORDER BY id DESC";
 
@@ -1994,7 +2002,7 @@ public class AdminTourPanelServlet extends HttpServlet {
 
         String sql =
                 "SELECT id, name, category, departure_city, " +
-                "duration, price, status, created_at, updated_at " +
+                "duration, price, status, short_description, created_at, updated_at " +
                 "FROM tours " +
                 "WHERE id = ?";
 
@@ -2078,6 +2086,7 @@ public class AdminTourPanelServlet extends HttpServlet {
                 resultSet.getTimestamp("updated_at")
         );
 
+        tour.put("short_description", resultSet.getString("short_description"));
         return tour;
     }
 

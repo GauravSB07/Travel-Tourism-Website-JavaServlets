@@ -31,6 +31,7 @@ public class TourDataAccess {
                 "LEFT JOIN tour_images ti " +
                 "ON t.id = ti.tour_id " +
                 "AND ti.is_cover = TRUE " +
+                "WHERE t.status = 'active' " +
                 "ORDER BY t.id ASC";
 
 
@@ -96,7 +97,7 @@ public class TourDataAccess {
                 "LEFT JOIN tour_images ti " +
                 "ON t.id = ti.tour_id " +
                 "AND ti.is_cover = TRUE " +
-                "WHERE t.id = ?";
+                "WHERE t.id = ? AND t.status = 'active'";
 
 
         try (
@@ -174,7 +175,7 @@ public class TourDataAccess {
 
                             rs.getString("long_description"),
 
-                            rs.getString("itinerary"),
+                            null, // Itinerary days are read from tour_itinerary, not tour_details.
 
                             rs.getString("highlights"),
 

@@ -1,0 +1,126 @@
+/* Shared admin presentation. Public-page styles are intentionally independent. */
+:root{--admin-ink:#17332f;--admin-green:#176c57;--admin-muted:#647570;--admin-line:#dce5df;--admin-paper:#f5f6f1}
+*{box-sizing:border-box}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px max(24px,calc((100vw - 1440px)/2));background:#153b32;color:white;border-bottom:1px solid #ffffff20}
+.admin-brand{color:white!important;text-decoration:none;font-size:15px;font-weight:800;letter-spacing:2px;white-space:nowrap}
+.admin-brand span{display:block;color:#b0c8bb;font-size:9px;letter-spacing:3px;margin-top:6px}
+.admin-topbar nav{display:flex;gap:8px;flex-wrap:wrap}
+.admin-topbar nav a{color:#d9e5df;text-decoration:none;padding:10px 15px;border-radius:8px;font-size:14px}
+.admin-topbar nav a:hover,.admin-topbar nav a[aria-current]{background:#ffffff17;color:white}
+.admin-intro{max-width:1440px;margin:auto;padding:42px 28px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#537567}
+.admin-intro h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(28px,3vw,42px);letter-spacing:-1px;margin:12px 0;color:var(--admin-ink)}
+.admin-intro p{color:var(--admin-muted);line-height:1.6;margin:0}
+.admin-metrics{display:flex;gap:36px}
+.admin-metrics strong{display:block;font-family:Georgia,serif;font-size:30px;font-weight:400}
+.admin-metrics span{display:block;font-size:12px;color:var(--admin-muted);margin-top:6px}
+body.holiday-admin,body.tour-admin{background:var(--admin-paper);color:var(--admin-ink);font-family:Segoe UI,Arial,sans-serif;margin:0}
+.holiday-layout{max-width:1440px;margin:auto;padding:0 28px 70px;display:grid;grid-template-columns:310px minmax(0,1fr);gap:28px;align-items:start}
+.holiday-admin .card{background:#fff;border:1px solid var(--admin-line);border-radius:16px;padding:26px;margin-bottom:22px;box-shadow:0 5px 20px #193c2d04}
+.holiday-catalog{position:sticky;top:20px;max-height:calc(100vh - 40px);overflow:auto}
+.holiday-admin .holiday-catalog{padding:20px}
+.catalog-heading,.editor-title,.editor-save{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.catalog-heading h2{font-size:17px}
+.holiday-admin label{display:block;font-size:13px;font-weight:600;margin:16px 0 8px;line-height:1.5}
+.holiday-admin input,.holiday-admin textarea,.holiday-admin select{display:block;width:100%;padding:12px 13px;border:1px solid #d3ddd7;border-radius:8px;background:#fff;color:#243f36;font:inherit;font-size:14px;margin-top:7px}
+.holiday-admin textarea{resize:vertical;line-height:1.7;min-height:100px}
+.holiday-admin input[readonly]{background:#f3f5f2;color:#65796d}
+.holiday-admin :focus-visible,.tour-admin :focus-visible{outline:3px solid #89bca5;outline-offset:3px}
+.holiday-admin small{display:block;font-size:11px;color:var(--admin-muted);font-weight:400;margin-top:5px}
+.holiday-admin .button,.tour-admin .button{display:inline-flex;justify-content:center;align-items:center;gap:7px;padding:11px 18px;border:1px solid #cbd9d0;border-radius:8px;background:white;color:var(--admin-ink);text-decoration:none;cursor:pointer;font:600 13px Segoe UI,Arial,sans-serif;white-space:nowrap}
+.holiday-admin .button.primary,.tour-admin .button.primary,.tour-admin .button.success{background:var(--admin-green);color:white;border-color:var(--admin-green)}
+.holiday-admin .button:hover{filter:brightness(.95)}
+.holiday-item{display:block;color:#5f7268;text-decoration:none;border:1px solid transparent;border-bottom-color:#eaf0eb;border-radius:10px;padding:16px 12px;margin:3px 0;font-size:12px;line-height:1.6}
+.holiday-item:hover{background:#f5f8f3}
+.holiday-item.selected{background:#edf5ef;border-color:#b9d0bf}
+.holiday-item span{display:block}
+.holiday-item-title{font-size:14px;font-weight:650;color:var(--admin-ink);margin-bottom:5px}
+.pill{display:inline-block;font-size:9px;font-weight:600;padding:2px 7px;border-radius:20px;background:#e3ece5;color:#42604f;float:right}
+.holiday-item[hidden]{display:none}
+.holiday-admin .muted{color:var(--admin-muted);font-size:12px;line-height:1.6}
+.editor-title{margin:4px 0 26px}
+.editor-title h2{font-family:Georgia,serif;font-size:27px;font-weight:400;margin:9px 0 0;overflow-wrap:anywhere}
+.section-heading{display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid #e8eee8;padding-bottom:20px;margin-bottom:18px}
+.section-heading>span{font-size:11px;color:#547b61;background:#edf3eb;border-radius:50%;width:32px;height:32px;display:grid;place-items:center;flex-shrink:0}
+.section-heading h3{font-size:18px;margin:3px 0 8px;font-weight:650}
+.section-heading p{margin:0;color:var(--admin-muted);font-size:13px;line-height:1.6}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px}
+.form-grid .full{grid-column:1/-1}
+.itinerary-day{border-left:2px solid #d9e5da;padding-left:18px;margin:20px 0}
+.day-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.day-toolbar label{margin:0}
+.day-toolbar button{background:#f2f5ef;border:1px solid #d8e1d6;padding:5px 10px;border-radius:5px;cursor:pointer;color:#3f604d}
+.day-toolbar button:disabled{opacity:.35;cursor:default}
+.editor-save{background:#fff;border:1px solid var(--admin-line);padding:18px 24px;border-radius:12px;position:sticky;bottom:12px;box-shadow:0 8px 30px #25463414}
+.editor-save p{font-size:12px;color:var(--admin-muted)}
+.admin-notice,.admin-error{padding:16px 20px;border-radius:10px;margin-bottom:20px;font-size:14px;line-height:1.6}
+.admin-notice{background:#e4f2e8;color:#275c3b;border:1px solid #b9d8c4}
+.admin-error{background:#fff0ed;color:#9a3329;border:1px solid #edc3bd}
+.tour-admin .header{background:transparent;border:0;box-shadow:none;color:var(--admin-ink)}
+.tour-admin .header-inner{max-width:1440px;padding:30px 28px;margin:auto}
+.tour-admin .header h1{font-family:Georgia,serif;font-weight:400;letter-spacing:-1px;color:var(--admin-ink)}
+.tour-admin .header p{color:var(--admin-muted)}
+.tour-admin .container{max-width:1440px}
+.tour-admin .card,.tour-admin .sidebar{border:1px solid var(--admin-line);box-shadow:0 5px 20px #193c2d04;border-radius:16px}
+.tour-admin .card-header{background:#f8faf6;border-bottom-color:var(--admin-line)}
+.tour-admin .tour-item.active{background:#edf5ef;border-color:#bbd3c0;color:var(--admin-ink)}
+.tour-admin .add-tour-btn{background:var(--admin-green);border-color:var(--admin-green)}
+.tour-admin input:focus,.tour-admin textarea:focus,.tour-admin select:focus{border-color:#82ae94;box-shadow:0 0 0 3px #edf5ef}
+@media(max-width:1000px){.holiday-layout{grid-template-columns:250px minmax(0,1fr);gap:18px}.admin-metrics{gap:20px}}
+@media(max-width:760px){.admin-topbar{align-items:flex-start;flex-direction:column;padding:20px}.admin-topbar nav{gap:2px}.admin-topbar nav a{padding:9px}.admin-intro{flex-direction:column;align-items:flex-start;padding:30px 20px}.holiday-layout{display:block;padding:0 16px 40px}.holiday-catalog{position:static;max-height:340px}.holiday-admin .card{padding:20px}.form-grid{grid-template-columns:1fr}.editor-title{flex-wrap:wrap}.editor-save{padding:12px;bottom:6px}.editor-save p{max-width:160px}.admin-metrics{gap:38px}}
+
+.holiday-photo-editor{display:grid;grid-template-columns:minmax(0,280px) minmax(0,1fr);gap:24px;align-items:start}
+.holiday-photo-editor>img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:12px;background:#eef2e8}
+.holiday-photo-editor form{margin-bottom:12px}
+.holiday-photo-editor .button{margin-top:14px}
+.holiday-photo-editor input[type=file]{padding:10px;font-size:12px}
+@media(max-width:1000px){.holiday-photo-editor{grid-template-columns:1fr}.holiday-photo-editor>img{max-width:440px}}
+
+/* Admin navigation belongs to the main TravelTourism website. */
+.admin-site-header{background:#fff;border-bottom:1px solid #e8e9e5;box-shadow:0 2px 12px #173f5f05}
+.admin-site-header-inner{max-width:1440px;margin:auto;min-height:82px;padding:16px 28px;display:flex;align-items:center;gap:20px}
+.admin-site-logo{font-family:Segoe UI,Arial,sans-serif;font-size:24px;font-weight:750;letter-spacing:-.8px;text-decoration:none;color:#173f5f;white-space:nowrap}
+.admin-site-logo span{color:#e68b37}
+.admin-area-label{font-size:9px;letter-spacing:1.5px;color:#7e8a8f;border-left:1px solid #e2e6e7;padding-left:18px}
+.admin-site-header nav{display:flex;align-items:center;gap:8px;margin-left:auto}
+.admin-site-header nav a{text-decoration:none;font-size:13px;color:#4a555b;padding:11px 14px;border-radius:7px}
+.admin-site-header nav a:hover{background:#f7f7f3}
+.admin-site-header nav a[aria-current=page]{background:#fff3e7;color:#a95c19;font-weight:600}
+.admin-website-link{background:#e68b37;color:white;text-decoration:none;padding:11px 16px;border-radius:6px;font-size:12px;font-weight:600;white-space:nowrap}
+.tour-admin .destination-admin-intro{padding-top:38px;padding-bottom:34px}
+.tour-admin .container{padding:0 28px 60px;margin:0 auto}
+.tour-admin .dashboard{grid-template-columns:300px minmax(0,1fr);gap:28px;align-items:start}
+.tour-admin .sidebar{position:sticky;top:20px;max-height:calc(100vh - 40px);overflow:auto}
+.tour-admin .sidebar-header{padding:22px 20px 12px}
+.tour-admin .tour-list{padding:0 12px 12px;max-height:none}
+.tour-admin .tour-item{padding:14px 12px;margin:3px 0;border-radius:10px}
+.tour-admin .tour-name{font-size:13px;margin-bottom:5px}
+.tour-admin .tour-meta{font-size:11px;line-height:1.6}
+.tour-admin .tour-meta strong{font-weight:500}
+.tour-admin .workspace-header{background:transparent;box-shadow:none;border:0;padding:0;margin-bottom:24px}
+.tour-admin .workspace-title h2{font-family:Georgia,serif;font-weight:400;font-size:29px;color:#234b40}
+.tour-admin .workspace-title small{font-size:10px;letter-spacing:1.6px;color:#698072}
+.tour-admin .workspace-badge{background:#eaf0e6;color:#59725d;font-size:10px}
+.destination-editor-tabs{display:flex;gap:6px;background:#e9eee6;padding:6px;border-radius:12px;margin-bottom:20px;overflow:auto}
+.destination-editor-tabs button{flex:1;border:0;background:transparent;color:#64735f;border-radius:8px;padding:12px 15px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}
+.destination-editor-tabs button[aria-selected=true]{background:#fff;color:#24533f;box-shadow:0 2px 8px #173b2410}
+.tour-admin .card[hidden]{display:none}
+.tour-admin .card{padding:28px;margin-bottom:24px}
+.tour-admin .card-header{display:flex;align-items:flex-start;justify-content:flex-start;gap:14px;padding:0 0 20px;margin:0 0 24px;background:transparent;border-bottom:1px solid #e6ece3}
+.tour-admin .card-header[data-step]:before{content:attr(data-step);display:grid;place-items:center;flex:0 0 32px;height:32px;border-radius:50%;color:#597b5a;background:#eff4eb;font-size:11px;margin-top:1px}
+.tour-admin .card-header h2{font-size:19px;font-weight:600;color:#243f34;margin:1px 0 7px}
+.tour-admin .card-header p{font-size:12px;line-height:1.6;color:#758173}
+.tour-admin label{font-size:12px;font-weight:600;color:#425345}
+.tour-admin input,.tour-admin select,.tour-admin textarea{border-color:#d8e1d4;border-radius:8px;padding:12px 13px;background:#fff;font-size:13px}
+.tour-admin textarea{line-height:1.7}
+.tour-admin .visibility-help{font-size:11px;line-height:1.65;color:#71816c;margin:8px 0 18px;max-width:560px}
+.tour-admin .danger-zone{background:transparent;border:0;border-top:1px solid #ece5df;border-radius:0;padding:18px 0 0;margin-top:28px}
+.destination-delete summary{color:#aa6453;font-size:12px;cursor:pointer;font-weight:600}
+.destination-delete h3{display:none}
+.destination-delete[open] summary{margin-bottom:16px}
+.tour-admin .image-card{border-radius:12px;border-color:#e1e7dc}
+.tour-admin .image-card img{aspect-ratio:3/2;object-fit:cover}
+@media(max-width:1000px){.admin-site-header-inner{gap:12px}.admin-area-label{display:none}.tour-admin .dashboard{grid-template-columns:250px minmax(0,1fr);gap:20px}.tour-admin .card{padding:22px}.tour-admin .workspace-header{flex-wrap:wrap}}
+@media(max-width:760px){.admin-site-header-inner{flex-wrap:wrap;padding:16px 20px;gap:14px}.admin-site-header nav{order:3;width:100%;margin:0;gap:4px}.admin-site-header nav a{flex:1;text-align:center;padding:10px 7px;font-size:12px}.admin-website-link{margin-left:auto}.admin-site-logo{font-size:22px}.tour-admin .container{padding:0 16px 40px}.tour-admin .dashboard{display:block}.tour-admin .sidebar{position:static;max-height:340px;margin-bottom:26px}.tour-admin .workspace-header{gap:14px}.tour-admin .workspace-title h2{font-size:26px}.tour-admin .card{padding:20px}.destination-editor-tabs button{padding:11px 12px;flex:0 0 auto}.tour-admin .row,.tour-admin .row-3{grid-template-columns:1fr}.tour-admin .table-wrapper{overflow:auto}}
+
+.tour-admin .tour-search input{padding-left:38px;padding-right:34px}

@@ -49,7 +49,8 @@
             <section class="holiday-detail-section" aria-labelledby="excluded-title"><h2 id="excluded-title">What's not included</h2><p class="holiday-preserve-lines"><c:out value="${holiday.exclusions}"/></p></section>
         </div>
         <aside class="holiday-booking-panel" aria-label="Price and booking">
-            <div class="holiday-art holiday-details-art" aria-hidden="true"><span class="holiday-art-symbol">✦</span><span><c:out value="${holiday.occasion}"/></span></div>
+            <c:url var="holidayCoverUrl" value="/holiday-image"><c:param name="id" value="${holiday.id}"/></c:url>
+            <div class="holiday-main-cover"><img src="${holidayCoverUrl}" alt="<c:out value='${holiday.name}'/> cover" width="1200" height="800" decoding="async"><span><c:out value="${holiday.occasion}"/> getaway</span></div>
             <div class="holiday-booking-inner">
                 <p class="eyebrow">YOUR CELEBRATION STARTS HERE</p>
                 <p class="holiday-detail-price">₹<fmt:formatNumber value="${holiday.price}"/></p>

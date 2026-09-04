@@ -37,3 +37,37 @@
 @media (max-width: 900px) { .holiday-details-layout { grid-template-columns: 1fr; } .holiday-booking-panel { position: static; } }
 @media (max-width: 600px) { .holiday-details-layout { padding: 28px 5%; } .holiday-detail-section { padding: 22px; } }
 
+
+/* Image-led occasion collection: softer palette and editorial cards. */
+.customized-page .destinations-intro:not(.holiday-details-intro){background:#f1ede5;border-bottom:1px solid #e4ded1;color:#234b40}
+.customized-page .destinations-intro:not(.holiday-details-intro) h1{color:#234b40;font-family:Georgia,serif;font-weight:400;letter-spacing:-1.5px}
+.customized-page .destinations-intro:not(.holiday-details-intro) .destinations-eyebrow{color:#8b6844}
+.customized-page .destinations-intro:not(.holiday-details-intro) .destinations-lead{color:#61736b}
+.customized-page .holiday-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+.occasion-card{display:flex;flex-direction:column;background:#fff;border:1px solid #e2e5dc;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px #244b3908;transition:box-shadow .2s}
+.occasion-card:hover{box-shadow:0 15px 35px #244b3916}
+.occasion-cover{position:relative;display:block;aspect-ratio:3/2;overflow:hidden;background:#dce4d8;color:white;text-decoration:none}
+.occasion-cover:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,#122e29a8);pointer-events:none}
+.occasion-cover img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.occasion-card:hover .occasion-cover img{transform:scale(1.035)}
+.occasion-label{position:absolute;left:18px;top:18px;padding:8px 13px;border-radius:30px;background:#fffaf0f2;color:#365745;font-size:11px;font-weight:700;letter-spacing:.5px}
+.occasion-cover-caption{position:absolute;bottom:20px;left:22px;right:22px;z-index:1;display:flex;justify-content:space-between;font-size:12px;letter-spacing:.3px;color:white}
+.occasion-cover-caption>span{font-size:21px}
+.occasion-card-body{padding:24px;display:flex;flex:1;flex-direction:column}
+.occasion-meta{display:flex;justify-content:space-between;gap:12px;color:#708073;font-size:11px;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px}
+.occasion-card h3{font-family:Georgia,serif;font-size:25px;line-height:1.25;font-weight:400;margin:0 0 14px}
+.occasion-card h3 a{color:#234b40;text-decoration:none}
+.occasion-description{color:#69756c;font-size:13px;line-height:1.8;margin:0 0 18px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.occasion-flexible{font-size:11px;color:#7e6746;margin:auto 0 20px;padding-top:6px}
+.occasion-flexible span{margin-right:5px}
+.occasion-card-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #eceee6;padding-top:19px}
+.occasion-price{color:#244f40;font-size:24px;font-weight:600;margin:0;white-space:nowrap}
+.occasion-price small{display:block;color:#7b847c;font-size:10px;font-weight:400;letter-spacing:.4px;margin-bottom:5px}
+.occasion-details-link{display:inline-flex;align-items:center;gap:12px;background:#254e40;color:#fff;padding:12px 15px;border-radius:8px;font-size:12px;text-decoration:none;white-space:nowrap}
+.occasion-details-link:hover{background:#153e30}
+.holiday-main-cover{position:relative;aspect-ratio:3/2;background:#dce4d8}
+.holiday-main-cover img{display:block;width:100%;height:100%;object-fit:cover}
+.holiday-main-cover span{position:absolute;bottom:15px;left:15px;background:#fffaf0ed;color:#365745;padding:8px 12px;border-radius:25px;font-size:11px}
+@media(max-width:1100px){.customized-page .holiday-card-grid{grid-template-columns:1fr}.occasion-cover{aspect-ratio:16/9}}
+@media(max-width:650px){.occasion-card-body{padding:20px}.occasion-card h3{font-size:24px}.occasion-cover{aspect-ratio:3/2}.occasion-details-link{gap:7px;padding:12px}.occasion-meta{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.occasion-card,.occasion-cover img{transition:none}.occasion-card:hover .occasion-cover img{transform:none}}

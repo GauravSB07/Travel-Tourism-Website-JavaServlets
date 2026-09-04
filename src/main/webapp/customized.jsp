@@ -65,21 +65,29 @@
                     <c:otherwise>
                         <div class="results-toolbar"><div><p class="eyebrow">CELEBRATE YOUR WAY</p><h2>${resultCount} occasion getaways to explore</h2></div></div>
                         <p class="holiday-note">Choose a package, explore the itinerary, then tell us about your travellers and preferences. Your travel dates and any special arrangements are subject to confirmation.</p>
+                        <div class="holiday-card-grid">
                         <c:forEach var="holiday" items="${holidays}">
-                            <article class="tour-card-modern">
-                                <div class="holiday-art" aria-hidden="true"><span class="holiday-art-symbol">✦</span><span><c:out value="${holiday.occasion}"/></span><small>Choose your travel date</small></div>
-                                <div class="tour-content">
-                                    <div class="tour-content-top"><h3><c:out value="${holiday.name}"/></h3><p class="tour-price">₹<fmt:formatNumber value="${holiday.price}" groupingUsed="true"/><small>per person</small></p></div>
-                                    <div class="tour-meta-row"><span>From <c:out value="${holiday.departureCity}"/></span><span>${holiday.duration} days</span><span>Choose your travel date</span></div>
-                                    <p class="tour-description"><c:out value="${holiday.shortDescription}"/></p>
-                                    <div class="tour-actions">
-                                        <c:url var="detailsUrl" value="/holiday-details"><c:param name="id" value="${holiday.id}"/></c:url>
-                                        <a class="primary-btn-small" href="${detailsUrl}">View Details</a>
-                                        <a class="outline-btn-small" href="${pageContext.request.contextPath}/contact">Ask for a different itinerary</a>
+                            <c:url var="detailsUrl" value="/holiday-details"><c:param name="id" value="${holiday.id}"/></c:url>
+                            <c:url var="coverUrl" value="/holiday-image"><c:param name="id" value="${holiday.id}"/></c:url>
+                            <article class="occasion-card">
+                                <a class="occasion-cover" href="${detailsUrl}" aria-label="Explore <c:out value='${holiday.name}'/>">
+                                    <img src="${coverUrl}" alt="<c:out value='${holiday.name}'/> cover" width="1200" height="800" loading="lazy" decoding="async">
+                                    <span class="occasion-label"><c:out value="${holiday.occasion}"/></span>
+                                    <span class="occasion-cover-caption">A getaway made personal <span aria-hidden="true">↗</span></span>
+                                </a>
+                                <div class="occasion-card-body">
+                                    <p class="occasion-meta"><span>From <c:out value="${holiday.departureCity}"/></span><span>${holiday.duration} days</span></p>
+                                    <h3><a href="${detailsUrl}"><c:out value="${holiday.name}"/></a></h3>
+                                    <p class="occasion-description"><c:out value="${holiday.shortDescription}"/></p>
+                                    <p class="occasion-flexible"><span aria-hidden="true">✦</span> Your occasion. Your preferred travel date.</p>
+                                    <div class="occasion-card-footer">
+                                        <p class="occasion-price"><small>Per person</small>₹<fmt:formatNumber value="${holiday.price}" groupingUsed="true"/></p>
+                                        <a class="occasion-details-link" href="${detailsUrl}">View details <span aria-hidden="true">→</span></a>
                                     </div>
                                 </div>
                             </article>
                         </c:forEach>
+                        </div>
                         <c:if test="${empty holidays}"><div class="no-results"><p class="eyebrow">MORE ROOM TO EXPLORE</p><h3>No holidays match your search.</h3><p>Try another occasion, duration or budget, or contact us for a personal itinerary.</p><a href="${pageContext.request.contextPath}/customize">Clear filters</a> · <a href="${pageContext.request.contextPath}/contact">Plan with us</a></div></c:if>
                     </c:otherwise>
                 </c:choose>

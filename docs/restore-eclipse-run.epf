@@ -1,0 +1,7 @@
+# Restore project-based Run and external browser launching.
+# Import with File > Import > General > Preferences.
+file_export_version=3.0
+/instance/org.eclipse.debug.ui/org.eclipse.debug.ui.UseContextualLaunch=true
+/instance/org.eclipse.debug.ui/org.eclipse.debug.ui.LaunchLastIfNotLaunchable=false
+/instance/org.eclipse.debug.ui/org.eclipse.debug.ui.LaunchParentProject=true
+/instance/org.eclipse.ui.browser/browser-choice=1
