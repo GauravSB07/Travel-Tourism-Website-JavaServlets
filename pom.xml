@@ -42,6 +42,20 @@
             <version>9.3.0</version>
         </dependency>
 
+        <!-- ONNX Runtime -->
+        <dependency>
+            <groupId>com.microsoft.onnxruntime</groupId>
+            <artifactId>onnxruntime</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+
+        <!-- DJL Tokenizers (for HuggingFace tokenizers in Java) -->
+        <dependency>
+            <groupId>ai.djl.huggingface</groupId>
+            <artifactId>tokenizers</artifactId>
+            <version>0.28.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
