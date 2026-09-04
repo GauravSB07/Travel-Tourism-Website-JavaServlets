@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:mysql://mysql-3f643881-travel-tourism-website.h.aivencloud.com:14846/travel_tourism?ssl-mode=REQUIRED";
+    private static final String URL = "jdbc:mysql://javadb.rehat.xyz:3306/travel_tourism?ssl-mode=REQUIRED";
     private static final String USER = "avnadmin";
     private static final String PASS = "AVNS_skBVP1sM63j-YORGUKn";
 
