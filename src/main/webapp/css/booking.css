@@ -1,0 +1,24 @@
+.booking-container { box-sizing: border-box; width: min(800px, 90%); margin: 48px auto; padding: 32px; background: #fff; border: 1px solid #e5e9f0; border-radius: 12px; box-shadow: 0 5px 20px #173f5f0d; color: #374151; }
+.booking-container h1, .booking-container h2 { color: #173f5f; }
+.booking-container h1 { font-size: clamp(26px, 4vw, 36px); margin: 12px 0 24px; }
+.booking-eyebrow { color: #a95c20; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin-top: 24px; }
+.booking-back { color: #173f5f; font-size: 14px; }
+.booking-summary { padding: 24px; margin: 24px 0; background: #f8fafb; border-radius: 8px; border-left: 3px solid #e88a3d; }
+.booking-summary h2 { margin-top: 0; }
+.booking-summary p { line-height: 1.7; overflow-wrap: anywhere; }
+.booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+.booking-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; min-width: 0; }
+.booking-field label { font-size: 14px; font-weight: 600; }
+.booking-field label span { font-weight: 400; }
+.booking-field input, .booking-field textarea { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid #d9e2ec; border-radius: 6px; font: inherit; background: #fff; }
+.booking-field input[readonly] { background: #f1f5f9; }
+.booking-field textarea { resize: vertical; }
+.booking-help { color: #64748b; font-size: 13px; line-height: 1.7; }
+.booking-total { padding: 16px 0; color: #173f5f; }
+.booking-submit { display: inline-block; background: #173f5f; color: #fff; border: 0; padding: 14px 24px; border-radius: 6px; font: inherit; font-weight: 600; cursor: pointer; }
+.booking-submit:hover { background: #245c83; color: #fff; }
+.booking-error { padding: 16px; background: #fff2ec; color: #943c18; border-radius: 6px; }
+.booking-reference { overflow-wrap: anywhere; }
+.booking-preferences { white-space: pre-wrap; }
+.booking-container :focus-visible { outline: 3px solid #e88a3d; outline-offset: 3px; }
+@media (max-width: 600px) { .booking-container { padding: 20px; margin: 24px auto; } .booking-grid { grid-template-columns: 1fr; } }

@@ -1,240 +1,59 @@
-<%@ page language="java"
-         contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<c:if test="${empty selection}"><c:redirect url="/booking"/></c:if>
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-    <meta charset="UTF-8">
-
-    <title>Book Your Tour | TravelTourism</title>
-
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/style.css">
-
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-        }
-
-        .booking-container {
-            width: 700px;
-            max-width: 90%;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .booking-container h1 {
-            margin-bottom: 25px;
-        }
-
-        .tour-details {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .tour-details h2 {
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-
-        .tour-details p {
-            margin: 8px 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .book-button {
-            padding: 12px 25px;
-            border: none;
-            background: #f28c28;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 15px;
-        }
-
-        .book-button:hover {
-            background: #e07815;
-        }
-
-    </style>
-
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Your Holiday | TravelTourism</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/booking.css">
 </head>
-
 <body>
-
-    <%@ include file="common/header.jsp" %>
-
-
-    <div class="booking-container">
-
-        <h1>Book Your Tour</h1>
-
-
-        <!-- SELECTED TOUR DETAILS -->
-
-        <div class="tour-details">
-
-            <h2>${param.name}</h2>
-
-            <p>
-                <strong>Departure:</strong>
-                ${param.departure}
-            </p>
-
-            <p>
-                <strong>Duration:</strong>
-                ${param.duration} days
-            </p>
-
-            <p>
-                <strong>Price:</strong>
-                ₹${param.price} per person
-            </p>
-
+<%@ include file="common/header.jsp" %>
+<main class="booking-container">
+    <a class="booking-back" href="${pageContext.request.contextPath}/${selection.type == 'holiday' ? 'customize' : 'destinations'}">← Explore more packages</a>
+    <p class="booking-eyebrow">YOUR NEXT JOURNEY</p>
+    <h1>Book your ${selection.type == 'holiday' ? 'customized holiday' : 'tour'}</h1>
+    <section class="booking-summary" aria-label="Selected package">
+        <h2><c:out value="${selection.name}"/></h2>
+        <p>From <strong><c:out value="${selection.departure}"/></strong> · ${selection.duration} days</p>
+        <p>₹<fmt:formatNumber value="${selection.price}"/> per person</p>
+        <c:if test="${selection.type == 'holiday'}"><p><c:out value="${selection.occasion}"/></p></c:if>
+    </section>
+    <c:if test="${not empty error}"><p class="booking-error" role="alert"><c:out value="${error}"/></p></c:if>
+    <form action="${pageContext.request.contextPath}/booking-confirmation" method="post">
+        <input type="hidden" name="bookingToken" value="<c:out value='${sessionScope.bookingToken}'/>">
+        <input type="hidden" name="${selection.type == 'holiday' ? 'holiday_id' : 'tour_id'}" value="<c:out value='${selection.id}'/>">
+        <div class="booking-grid">
+            <div class="booking-field"><label for="customerName">Full name</label><input id="customerName" name="customerName" autocomplete="name" maxlength="120" value="<c:out value='${param.customerName}'/>" required></div>
+            <div class="booking-field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" value="<c:out value='${param.email}'/>" required></div>
+            <div class="booking-field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" minlength="7" maxlength="30" value="<c:out value='${param.phone}'/>" required></div>
+            <div class="booking-field"><label for="travelers">Number of travellers</label><input id="travelers" name="travelers" type="number" min="1" max="30" value="<c:out value='${empty param.travelers ? 1 : param.travelers}'/>" required></div>
+            <div class="booking-field"><label for="travelDate">Departure date</label><input id="travelDate" name="travelDate" type="date" min="${today}" value="<c:out value='${param.travelDate}'/>" required></div>
         </div>
-
-
-        <!-- BOOKING FORM -->
-
-        <form action="${pageContext.request.contextPath}/booking_confirmation.jsp"
-              method="post">
-
-
-            <!-- TOUR INFORMATION -->
-
-            <input type="hidden"
-                   name="tourName"
-                   value="${param.name}">
-
-            <input type="hidden"
-                   name="price"
-                   value="${param.price}">
-
-            <input type="hidden"
-                   name="duration"
-                   value="${param.duration}">
-
-            <input type="hidden"
-                   name="departure"
-                   value="${param.departure}">
-
-
-            <!-- CUSTOMER INFORMATION -->
-
-            <div class="form-group">
-
-                <label for="customerName">
-                    Full Name
-                </label>
-
-                <input type="text"
-                       id="customerName"
-                       name="customerName"
-                       required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="email">
-                    Email
-                </label>
-
-                <input type="email"
-                       id="email"
-                       name="email"
-                       required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="phone">
-                    Phone Number
-                </label>
-
-                <input type="tel"
-                       id="phone"
-                       name="phone"
-                       required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="travelers">
-                    Number of Travelers
-                </label>
-
-                <input type="number"
-                       id="travelers"
-                       name="travelers"
-                       min="1"
-                       value="1"
-                       required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="travelDate">
-                    Travel Date
-                </label>
-
-                <input type="date"
-                       id="travelDate"
-                       name="travelDate"
-                       required>
-
-            </div>
-
-
-            <button type="submit"
-                    class="book-button">
-
-                Confirm Booking
-
-            </button>
-
-        </form>
-
-    </div>
-
-
-    <%@ include file="common/footer.jsp" %>
-
+        <c:if test="${selection.type == 'holiday'}"><p class="booking-help">Choose your preferred travel date and tell us how you would like to celebrate. Availability will be confirmed with you.</p></c:if>
+        <div class="booking-field"><label for="preferences">Make it yours <span>(optional)</span></label><textarea id="preferences" name="preferences" rows="4" maxlength="2000" placeholder="Tell us about dietary needs, room preferences, accessibility requirements or itinerary changes."><c:out value="${param.preferences}"/></textarea></div>
+        <p class="booking-total">Estimated package total: <strong id="bookingTotal" data-price="${selection.price}">₹<fmt:formatNumber value="${selection.price}"/> for one traveller</strong></p>
+        <p class="booking-help">Submit a booking request for this package. Availability and any requested changes will be confirmed separately. No payment is collected here.</p>
+        <button class="booking-submit" type="submit">Submit booking request</button>
+    </form>
+</main>
+<%@ include file="common/footer.jsp" %>
+<script>
+(function () {
+    const travelers = document.getElementById('travelers');
+    const total = document.getElementById('bookingTotal');
+    function update() {
+        const count = Number(travelers.value);
+        total.textContent = Number.isInteger(count) && count >= 1 && count <= 30
+            ? new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'INR', maximumFractionDigits: 0}).format(count * Number(total.dataset.price))
+            : 'Choose 1–30 travellers';
+    }
+    travelers.addEventListener('input', update);
+    update();
+})();
+</script>
 </body>
-
 </html>

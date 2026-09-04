@@ -1,1454 +1,210 @@
-/* =========================================================
-   TOUR DETAILS PAGE
-   Premium Travel & Tourism UI
-   Matches Main Website Design System
-========================================================= */
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #f8fafb;
-    color: #172b4d;
-}
-
-a {
-    text-decoration: none;
-}
-
-img {
-    display: block;
-    max-width: 100%;
-}
-
-p,
-li {
-    font-size: 14px;
-    line-height: 1.75;
-}
-
-h1,
-h2,
-h3,
-h4 {
-    color: #173f5f;
-}
-
-
-/* =========================================================
-   TOUR DETAILS TOP BAR
-========================================================= */
-
-.tourdetails-topbar {
-    padding: 34px 7%;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(15, 43, 67, 0.92),
-            rgba(15, 43, 67, 0.68)
-        ),
-        linear-gradient(
-            135deg,
-            #1c5d78,
-            #8fc1b5
-        );
-
-    color: #ffffff;
-    border-bottom: 3px solid #e88a3d;
-}
-
-.tourdetails-topbar-inner {
-    width: 86%;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.tourdetails-breadcrumb {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    margin-bottom: 12px;
-
-    color: #d9e2ec;
-    font-size: 12px;
-}
-
-.tourdetails-breadcrumb a {
-    color: #ffd6ad;
-    transition: 0.3s;
-}
-
-.tourdetails-breadcrumb a:hover {
-    color: #ffffff;
-}
-
-.tourdetails-breadcrumb span {
-    opacity: 0.55;
-}
-
-.tourdetails-topbar p {
-    margin-bottom: 7px;
-
-    color: #ffd6ad;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-}
-
-.tourdetails-topbar h2 {
-    color: #ffffff;
-    font-size: 32px;
-    line-height: 1.2;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   PAGE CONTAINER
-========================================================= */
-
-.page-container {
-    width: 86%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 45px 0 80px;
-}
-
-
-/* =========================================================
-   HERO BANNER
-========================================================= */
-
-.hero-banner {
-    position: relative;
-
-    width: 100%;
-    height: 480px;
-
-    overflow: hidden;
-
-    border-radius: 14px;
-
-    margin-bottom: 30px;
-
-    background: #173f5f;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.12);
-}
-
-.hero-banner::after {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(8, 28, 43, 0.90) 0%,
-            rgba(8, 28, 43, 0.45) 42%,
-            rgba(8, 28, 43, 0.08) 75%
-        );
-
-    pointer-events: none;
-}
-
-.hero-banner img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transition: transform 0.8s ease;
-}
-
-.hero-banner:hover img {
-    transform: scale(1.025);
-}
-
-
-/* =========================================================
-   HERO OVERLAY
-========================================================= */
-
-.hero-overlay {
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    z-index: 2;
-
-    width: 100%;
-
-    padding: 55px 50px 45px;
-
-    color: #ffffff;
-}
-
-.hero-overlay h1 {
-    max-width: 800px;
-
-    margin-bottom: 12px;
-
-    color: #ffffff;
-
-    font-size: clamp(36px, 5vw, 58px);
-    line-height: 1.05;
-    font-weight: 700;
-}
-
-.hero-overlay p {
-    max-width: 650px;
-
-    margin-bottom: 22px;
-
-    color: #edf4f8;
-
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-
-/* =========================================================
-   HERO META
-========================================================= */
-
-.meta-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-
-    margin-bottom: 24px;
-}
-
-.meta-bar span {
-    display: inline-flex;
-    align-items: center;
-
-    min-height: 34px;
-
-    padding: 7px 13px;
-
-    background: rgba(255, 255, 255, 0.14);
-
-    border: 1px solid rgba(255, 255, 255, 0.20);
-
-    border-radius: 6px;
-
-    backdrop-filter: blur(8px);
-
-    color: #ffffff;
-
-    font-size: 12px;
-    font-weight: 500;
-}
-
-
-/* =========================================================
-   HERO CTA
-========================================================= */
-
-.view-itinerary-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    min-height: 46px;
-
-    padding: 0 22px;
-
-    background: #e88a3d;
-    color: #ffffff;
-
-    border-radius: 6px;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    transition: 0.3s;
-}
-
-.view-itinerary-btn:hover {
-    background: #d9772f;
-    color: #ffffff;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(232, 138, 61, 0.25);
-}
-
-
-/* =========================================================
-   QUICK INFORMATION STRIP
-========================================================= */
-
-.tour-quick-info {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 1px;
-
-    overflow: hidden;
-
-    margin-bottom: 55px;
-
-    background: #dfe7ed;
-
-    border: 1px solid #dfe7ed;
-    border-radius: 10px;
-
-    box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.05);
-}
-
-.quick-info-item {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-
-    min-height: 82px;
-
-    padding: 18px 20px;
-
-    background: #ffffff;
-}
-
-.quick-info-icon {
-    width: 42px;
-    height: 42px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #fff1e6;
-
-    color: #e88a3d;
-
-    font-size: 17px;
-}
-
-.quick-info-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.quick-info-label {
-    color: #7b8794;
-
-    font-size: 11px;
-    font-weight: 600;
-
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-}
-
-.quick-info-value {
-    color: #173f5f;
-
-    font-size: 14px;
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   SECTION HEADING
-========================================================= */
-
-.tour-section-heading {
-    margin-bottom: 25px;
-}
-
-.tour-section-heading p {
-    margin-bottom: 7px;
-
-    color: #e88a3d;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    letter-spacing: 2.3px;
-    text-transform: uppercase;
-}
-
-.tour-section-heading h2 {
-    color: #173f5f;
-
-    font-size: 30px;
-    line-height: 1.2;
-
-    margin-bottom: 8px;
-}
-
-.tour-section-heading span {
-    color: #6b7280;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   CONTENT GRID
-========================================================= */
-
-.tour-content-grid {
-    display: grid;
-
-    grid-template-columns:
-        1.45fr
-        0.75fr;
-
-    gap: 25px;
-
-    align-items: start;
-
-    margin-bottom: 30px;
-}
-
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.card {
-    background: #ffffff;
-
-    padding: 30px;
-
-    margin: 0 0 25px;
-
-    border: 1px solid #edf1f4;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 6px 22px rgba(0, 0, 0, 0.055);
-
-    transition: 0.3s;
-}
-
-.card:hover {
-    box-shadow:
-        0 10px 28px rgba(0, 0, 0, 0.075);
-}
-
-.card h2 {
-    margin-bottom: 13px;
-
-    color: #173f5f;
-
-    font-size: 25px;
-    line-height: 1.25;
-}
-
-.card h3 {
-    margin-bottom: 8px;
-
-    color: #173f5f;
-
-    font-size: 18px;
-}
-
-.card p {
-    color: #6b7280;
-
-    margin-bottom: 15px;
-}
-
-
-/* =========================================================
-   HIGHLIGHTS
-========================================================= */
-
-.highlight-list {
-    list-style: none;
-
-    padding: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 0;
-}
-
-.highlight-list li {
-    position: relative;
-
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-
-    padding: 12px 0;
-
-    color: #4b5563;
-
-    border-bottom: 1px solid #edf1f4;
-}
-
-.highlight-list li:last-child {
-    border-bottom: none;
-}
-
-.highlight-list li::before {
-    content: "✓";
-
-    width: 22px;
-    height: 22px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 2px;
-
-    border-radius: 50%;
-
-    background: #fff1e6;
-    color: #e88a3d;
-
-    font-size: 11px;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   GALLERY
-========================================================= */
-
-.gallery-section {
-    margin: 60px 0;
-}
-
-.gallery-section h2 {
-    margin-bottom: 22px;
-
-    color: #173f5f;
-
-    font-size: 30px;
-}
-
-.gallery-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 16px;
-}
-
-.gallery-item {
-    position: relative;
-
-    height: 220px;
-
-    overflow: hidden;
-
-    border-radius: 10px;
-
-    background: #edf1f4;
-}
-
-.gallery-grid img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transition:
-        transform 0.5s ease,
-        filter 0.5s ease;
-}
-
-.gallery-item::after {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(15, 43, 67, 0.35),
-            transparent 45%
-        );
-
-    opacity: 0;
-
-    transition: 0.4s;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.06);
-}
-
-.gallery-item:hover::after {
-    opacity: 1;
-}
-
-
-/* =========================================================
-   FEATURED GALLERY IMAGE
-========================================================= */
-
-.gallery-grid .gallery-item:first-child {
-    grid-column: span 2;
-    height: 300px;
-}
-
-
-/* =========================================================
-   ITINERARY
-========================================================= */
-
-.itinerary-section {
-    margin: 55px 0;
-}
-
-.timeline {
-    position: relative;
-
-    margin-top: 30px;
-
-    padding-left: 30px;
-}
-
-.timeline::before {
-    content: "";
-
-    position: absolute;
-
-    left: 7px;
-    top: 5px;
-    bottom: 5px;
-
-    width: 2px;
-
-    background: #e88a3d;
-}
-
-.timeline-item {
-    position: relative;
-
-    padding: 0 0 30px 25px;
-}
-
-.timeline-item:last-child {
-    padding-bottom: 0;
-}
-
-.timeline-item::before {
-    content: "";
-
-    position: absolute;
-
-    left: -30px;
-    top: 2px;
-
-    width: 14px;
-    height: 14px;
-
-    background: #ffffff;
-
-    border: 3px solid #e88a3d;
-
-    border-radius: 50%;
-
-    z-index: 2;
-}
-
-.timeline-day {
-    display: inline-block;
-
-    margin-bottom: 7px;
-
-    color: #e88a3d;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
-}
-
-.timeline-item h3 {
-    margin-bottom: 7px;
-
-    color: #173f5f;
-
-    font-size: 18px;
-}
-
-.timeline-item p {
-    color: #6b7280;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   HOTEL TABLE
-========================================================= */
-
-.hotel-table-wrapper {
-    width: 100%;
-
-    overflow-x: auto;
-
-    border: 1px solid #e5eaf0;
-
-    border-radius: 8px;
-}
-
-.hotel-table {
-    width: 100%;
-
-    min-width: 650px;
-
-    border-collapse: collapse;
-
-    margin: 0;
-}
-
-.hotel-table th {
-    background: #173f5f;
-
-    color: #ffffff;
-
-    padding: 14px 16px;
-
-    text-align: left;
-
-    font-size: 12px;
-    font-weight: 600;
-
-    letter-spacing: 0.4px;
-}
-
-.hotel-table td {
-    padding: 14px 16px;
-
-    color: #4b5563;
-
-    background: #ffffff;
-
-    border-bottom: 1px solid #edf1f4;
-
-    font-size: 13px;
-}
-
-.hotel-table tr:last-child td {
-    border-bottom: none;
-}
-
-.hotel-table tbody tr {
-    transition: 0.2s;
-}
-
-.hotel-table tbody tr:hover td {
-    background: #f8fafb;
-}
-
-
-/* =========================================================
-   INFO TABS
-========================================================= */
-
-.info-tabs {
-    background: #ffffff;
-
-    padding: 30px;
-
-    border: 1px solid #edf1f4;
-    border-radius: 12px;
-
-    box-shadow:
-        0 6px 22px rgba(0, 0, 0, 0.055);
-
-    margin: 45px 0;
-}
-
-.tab-buttons {
-    display: flex;
-
-    gap: 5px;
-
-    padding: 5px;
-
-    margin-bottom: 25px;
-
-    overflow-x: auto;
-
-    background: #f4f6f8;
-
-    border-radius: 8px;
-}
-
-.tab-btn {
-    flex: 1;
-
-    min-width: 130px;
-
-    padding: 11px 18px;
-
-    border: none;
-
-    background: transparent;
-
-    border-radius: 6px;
-
-    color: #6b7280;
-
-    cursor: pointer;
-
-    font-family: inherit;
-
-    font-size: 13px;
-    font-weight: 600;
-
-    white-space: nowrap;
-
-    transition: 0.3s;
-}
-
-.tab-btn:hover {
-    color: #173f5f;
-}
-
-.tab-btn.active {
-    background: #ffffff;
-
-    color: #e88a3d;
-
-    box-shadow:
-        0 3px 10px rgba(0, 0, 0, 0.07);
-}
-
-.tab-content {
-    display: none;
-
-    animation: tabFade 0.25s ease;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-@keyframes tabFade {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* =========================================================
-   MAP SECTION
-========================================================= */
-
-.map-section {
-    margin: 55px 0;
-}
-
-.map-container {
-    overflow: hidden;
-
-    padding: 6px;
-
-    background: #ffffff;
-
-    border: 1px solid #e5eaf0;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.07);
-}
-
-.map-container iframe,
-iframe {
-    display: block;
-
-    width: 100%;
-    height: 380px;
-
-    border: none;
-
-    border-radius: 8px;
-}
-
-
-/* =========================================================
-   BOOKING CTA
-========================================================= */
-
-.book-btn-container {
-    position: relative;
-
-    overflow: hidden;
-
-    margin: 75px 0 20px;
-
-    padding: 55px 40px;
-
-    text-align: center;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(15, 43, 67, 0.96),
-            rgba(23, 63, 95, 0.88)
-        ),
-        linear-gradient(
-            135deg,
-            #1c5d78,
-            #8fc1b5
-        );
-
-    box-shadow:
-        0 15px 40px rgba(15, 43, 67, 0.16);
-}
-
-.book-btn-container::before {
-    content: "";
-
-    position: absolute;
-
-    width: 220px;
-    height: 220px;
-
-    right: -80px;
-    top: -100px;
-
-    border-radius: 50%;
-
-    border: 1px solid rgba(255, 255, 255, 0.10);
-}
-
-.book-btn-container::after {
-    content: "";
-
-    position: absolute;
-
-    width: 150px;
-    height: 150px;
-
-    left: -70px;
-    bottom: -80px;
-
-    border-radius: 50%;
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.book-btn-container h2 {
-    position: relative;
-    z-index: 2;
-
-    margin-bottom: 10px;
-
-    color: #ffffff;
-
-    font-size: 30px;
-}
-
-.book-btn-container p {
-    position: relative;
-    z-index: 2;
-
-    max-width: 600px;
-
-    margin: 0 auto 25px;
-
-    color: #d9e2ec;
-
-    font-size: 14px;
-}
-
-.book-btn {
-    position: relative;
-    z-index: 2;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    min-height: 50px;
-
-    padding: 0 30px;
-
-    background: #e88a3d;
-
-    color: #ffffff;
-
-    border-radius: 6px;
-
-    font-size: 15px;
-    font-weight: 600;
-
-    transition: 0.3s;
-}
-
-.book-btn:hover {
-    background: #d9772f;
-
-    color: #ffffff;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 10px 25px rgba(232, 138, 61, 0.30);
-}
-
-
-/* =========================================================
-   SIDEBAR / SUMMARY CARD
-========================================================= */
-
-.tour-summary-card {
-    position: sticky;
-    top: 100px;
-
-    background: #ffffff;
-
-    padding: 25px;
-
-    border: 1px solid #edf1f4;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 7px 25px rgba(0, 0, 0, 0.06);
-}
-
-.tour-summary-card h3 {
-    margin-bottom: 20px;
-
-    font-size: 20px;
-}
-
-.summary-row {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 13px 0;
-
-    border-bottom: 1px solid #edf1f4;
-}
-
-.summary-row:last-of-type {
-    border-bottom: none;
-}
-
-.summary-label {
-    color: #7b8794;
-
-    font-size: 12px;
-}
-
-.summary-value {
-    color: #173f5f;
-
-    font-size: 13px;
-    font-weight: 600;
-
-    text-align: right;
-}
-
-.summary-price {
-    margin: 20px 0;
-
-    padding: 18px;
-
-    background: #fff8f2;
-
-    border-radius: 8px;
-}
-
-.summary-price span {
-    display: block;
-
-    color: #7b8794;
-
-    font-size: 11px;
-
-    margin-bottom: 3px;
-}
-
-.summary-price strong {
-    color: #e88a3d;
-
-    font-size: 27px;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer {
-    background: #102a43;
-
-    padding: 45px 7%;
-
-    color: #ffffff;
-
-    margin-top: 0;
-}
-
-.footer p {
-    color: #9fb3c8;
-
-    font-size: 13px;
-
-    line-height: 1.7;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 1100px) {
-
-    .tour-content-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .tour-summary-card {
-        position: static;
-    }
-
-    .tour-quick-info {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-    .gallery-grid {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-    .gallery-grid .gallery-item:first-child {
-        grid-column: span 2;
-    }
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .tourdetails-topbar {
-        padding: 28px 6%;
-    }
-
-    .tourdetails-topbar-inner {
-        width: 92%;
-    }
-
-    .tourdetails-topbar h2 {
-        font-size: 28px;
-    }
-
-    .page-container {
-        width: 92%;
-        padding-top: 30px;
-    }
-
-    .hero-banner {
-        height: 410px;
-    }
-
-    .hero-overlay {
-        padding: 40px 30px 30px;
-    }
-
-    .hero-overlay h1 {
-        font-size: 40px;
-    }
-
-    .hero-overlay p {
-        font-size: 14px;
-    }
-
-    .card {
-        padding: 25px;
-    }
-
-    .gallery-section {
-        margin: 45px 0;
-    }
-
-    .info-tabs {
-        padding: 25px;
-    }
-
-    .book-btn-container {
-        padding: 45px 25px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .tourdetails-topbar {
-        padding: 24px 5%;
-    }
-
-    .tourdetails-topbar-inner {
-        width: 94%;
-    }
-
-    .tourdetails-topbar h2 {
-        font-size: 24px;
-    }
-
-    .page-container {
-        width: 92%;
-        padding: 25px 0 60px;
-    }
-
-
-    /* ---------- HERO ---------- */
-
-    .hero-banner {
-        height: 420px;
-
-        border-radius: 10px;
-
-        margin-bottom: 20px;
-    }
-
-    .hero-overlay {
-        padding: 30px 22px 25px;
-    }
-
-    .hero-overlay h1 {
-        font-size: 34px;
-        line-height: 1.08;
-    }
-
-    .hero-overlay p {
-        font-size: 13px;
-
-        margin-bottom: 17px;
-    }
-
-    .meta-bar {
-        gap: 6px;
-
-        margin-bottom: 18px;
-    }
-
-    .meta-bar span {
-        min-height: 30px;
-
-        padding: 5px 9px;
-
-        font-size: 10px;
-    }
-
-    .view-itinerary-btn {
-        width: 100%;
-    }
-
-
-    /* ---------- QUICK INFO ---------- */
-
-    .tour-quick-info {
-        grid-template-columns: 1fr;
-
-        margin-bottom: 40px;
-    }
-
-    .quick-info-item {
-        min-height: 70px;
-    }
-
-
-    /* ---------- SECTION HEADING ---------- */
-
-    .tour-section-heading h2 {
-        font-size: 26px;
-    }
-
-
-    /* ---------- CARDS ---------- */
-
-    .card {
-        padding: 22px;
-
-        border-radius: 10px;
-    }
-
-    .card h2 {
-        font-size: 22px;
-    }
-
-
-    /* ---------- GALLERY ---------- */
-
-    .gallery-grid {
-        grid-template-columns: 1fr;
-
-        gap: 12px;
-    }
-
-    .gallery-grid .gallery-item:first-child {
-        grid-column: auto;
-
-        height: 220px;
-    }
-
-    .gallery-item {
-        height: 190px;
-    }
-
-
-    /* ---------- TIMELINE ---------- */
-
-    .timeline {
-        padding-left: 25px;
-    }
-
-    .timeline-item {
-        padding-left: 20px;
-    }
-
-    .timeline-item::before {
-        left: -25px;
-    }
-
-
-    /* ---------- TABS ---------- */
-
-    .info-tabs {
-        padding: 18px;
-
-        margin: 40px 0;
-    }
-
-    .tab-buttons {
-        margin-bottom: 20px;
-    }
-
-    .tab-btn {
-        min-width: 110px;
-
-        padding: 10px 12px;
-
-        font-size: 12px;
-    }
-
-
-    /* ---------- MAP ---------- */
-
-    .map-container {
-        padding: 4px;
-    }
-
-    .map-container iframe,
-    iframe {
-        height: 280px;
-    }
-
-
-    /* ---------- CTA ---------- */
-
-    .book-btn-container {
-        margin-top: 55px;
-
-        padding: 40px 20px;
-
-        border-radius: 10px;
-    }
-
-    .book-btn-container h2 {
-        font-size: 25px;
-    }
-
-    .book-btn-container p {
-        font-size: 13px;
-    }
-
-    .book-btn {
-        width: 100%;
-    }
-
-
-    /* ---------- FOOTER ---------- */
-
-    .footer {
-        padding: 35px 6%;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL DEVICES
-========================================================= */
-
-@media (max-width: 400px) {
-
-    .hero-banner {
-        height: 390px;
-    }
-
-    .hero-overlay h1 {
-        font-size: 30px;
-    }
-
-    .meta-bar span {
-        font-size: 9px;
-    }
-
-    .quick-info-item {
-        padding: 15px;
-    }
-    .quick-info-icon {
-        width: 38px;
-        height: 38px;
-    }
+/* Scoped to the destination detail page; shared site styles remain unchanged. */
+.journey-page { --ink: #173b46; --muted: #647477; --gold: #aa703e; --paper: #f8f7f3; background: var(--paper); color: var(--ink); }
+.journey-shell { width: min(1240px, 88%); margin: auto; }
+.journey-breadcrumb { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 30px 0; font-size: 12px; color: #748084; }
+.journey-breadcrumb a { color: var(--ink); }
+.journey-breadcrumb > span:last-child { overflow-wrap: anywhere; }
+.journey-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; padding: 12px 0 36px; }
+.journey-kicker { font: 600 10px/1.6 "Segoe UI", sans-serif; letter-spacing: 2px; color: var(--gold); margin-bottom: 14px; text-transform: uppercase; }
+.journey-heading .journey-kicker { display: flex; align-items: center; gap: 10px; }
+.journey-kicker > span:empty { width: 24px; height: 1px; background: currentColor; }
+.journey-heading h1 { font: 400 clamp(38px, 4.7vw, 66px)/1.08 Georgia, "Times New Roman", serif; letter-spacing: -1.7px; max-width: 850px; text-wrap: balance; margin-bottom: 18px; }
+.journey-lead { font-size: 15px; line-height: 1.8; color: var(--muted); max-width: 700px; }
+.journey-text-link { color: var(--ink); display: flex; align-items: center; gap: 15px; font-size: 12px; padding-bottom: 8px; border-bottom: 1px solid #b9c5c5; white-space: nowrap; }
+.journey-text-link span { font-size: 22px; }
+.journey-hero { height: clamp(320px, 38vw, 500px); position: relative; overflow: hidden; border-radius: 5px; background: #254b54; }
+.journey-hero > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.journey-hero::after { content: ""; position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, #08252aaf); pointer-events: none; }
+.journey-hero-caption { position: absolute; bottom: 32px; left: 36px; z-index: 1; color: #fff; }
+.journey-hero-caption > span { font-size: 9px; letter-spacing: 3px; color: #e4d8c4; }
+.journey-hero-caption p { font: 400 27px Georgia, serif; margin-top: 10px; }
+.journey-hero-caption p span { margin: 0 10px; color: #c6b091; }
+.journey-gallery-link { position: absolute; right: 30px; bottom: 32px; z-index: 1; display: flex; align-items: center; gap: 12px; background: #fffffff2; color: var(--ink); padding: 13px 18px; border-radius: 3px; font-size: 12px; }
+.journey-gallery-link span:last-child { border-left: 1px solid #ced6d2; padding-left: 12px; }
+.journey-image-empty { height: 100%; display: grid; place-content: center; text-align: center; gap: 12px; color: #d7e6df; background: linear-gradient(135deg,#183e49,#55756e); }
+.journey-image-empty > span { font-size: 60px; }
+.journey-facts { display: grid; grid-template-columns: repeat(4,1fr); padding: 28px 0 32px; border-bottom: 1px solid #dce0d9; }
+.journey-facts > div { padding: 0 28px; border-right: 1px solid #dce0d9; }
+.journey-facts > div:first-child { padding-left: 0; }.journey-facts > div:last-child { border: 0; }
+.journey-fact-label { display: block; font-size: 9px; letter-spacing: 1.6px; color: var(--muted); margin-bottom: 10px; }
+.journey-facts strong { font-size: 15px; font-weight: 500; line-height: 1.5; }
+.journey-section-nav { display: flex; gap: 30px; overflow-x: auto; padding: 19px 0; border-bottom: 1px solid #dce0d9; }
+.journey-section-nav a { flex-shrink: 0; color: var(--muted); font-size: 12px; padding: 4px 0; }
+.journey-section-nav a:hover { color: var(--gold); }
+.journey-layout { display: grid; grid-template-columns: minmax(0,1fr) 330px; gap: 64px; align-items: start; padding-top: 48px; }
+.journey-story { min-width: 0; }
+.journey-section { scroll-margin-top: 105px; padding-bottom: 46px; margin-bottom: 42px; border-bottom: 1px solid #dce0d9; }
+.journey-section h2,.journey-bottom h2 { font: 400 clamp(27px,2.5vw,36px)/1.2 Georgia,serif; letter-spacing: -.5px; margin: 0 0 25px; }
+.journey-copy { white-space: pre-line; font-size: 14px; line-height: 1.95; color: #52676b; overflow-wrap: anywhere; }
+.journey-muted { font-size: 13px; line-height: 1.8; color: var(--muted); }
+.journey-highlights { background: #eef0e8; padding: 26px 28px; margin-top: 30px; border-left: 2px solid #aa885c; border-radius: 0 4px 4px 0; }
+.journey-highlights h3 { font: 400 22px Georgia,serif; margin-bottom: 20px; }
+.journey-highlights ul { list-style: none; display: grid; gap: 14px; }
+.journey-highlights li { display: flex; gap: 15px; font-size: 13px; line-height: 1.7; color: #4d625f; }
+.journey-highlights li span { color: #9d7546; flex-shrink: 0; }
+.journey-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.journey-duration { font-size: 11px; white-space: nowrap; border: 1px solid #d9ddd6; padding: 8px 12px; border-radius: 30px; }
+.journey-day { border-bottom: 1px solid #dce0d9; }
+.journey-day summary { display: grid; grid-template-columns: 68px 1fr 20px; align-items: center; gap: 15px; padding: 23px 0; list-style: none; cursor: pointer; font-size: 14px; font-weight: 500; }
+.journey-day summary::-webkit-details-marker,.journey-practical summary::-webkit-details-marker { display: none; }
+.journey-day-label { color: var(--gold); font-size: 10px; letter-spacing: 1px; }
+.journey-expand { font-size: 23px; font-weight: 300; transition: transform .2s; }
+.journey-day[open] .journey-expand { transform: rotate(45deg); }
+.journey-day > p { padding: 0 30px 26px 83px; }
+.journey-stays { display: grid; gap: 16px; }
+.journey-hotel { display: grid; grid-template-columns: 52px 1fr; gap: 20px; border: 1px solid #dce0d9; background: #fff; padding: 24px; border-radius: 4px; }
+.journey-hotel-icon { width: 48px; height: 48px; display: grid; place-items: center; background: #f3f1e9; color: var(--gold); font-size: 28px; }
+.journey-hotel .journey-kicker { margin-bottom: 7px; }
+.journey-hotel h3 { font: 400 22px/1.3 Georgia,serif; }
+.journey-hotel-dates { display: flex; flex-wrap: wrap; gap: 20px 40px; margin-top: 18px; font-size: 12px; }
+.journey-hotel-dates span { display: block; font-size: 10px; color: var(--muted); margin-bottom: 5px; }
+.journey-inclusions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.journey-inclusions-grid > div { padding: 24px; border-radius: 4px; }
+.journey-included { background: #ebf0e9; }.journey-excluded { background: #f0ece6; }
+.journey-inclusions-grid h3 { font-size: 13px; font-weight: 600; margin-bottom: 18px; display: flex; gap: 10px; }
+.journey-inclusions-grid ul { padding-left: 16px; }
+.journey-inclusions-grid li { font-size: 12px; line-height: 1.85; color: #53655f; margin-bottom: 10px; }
+.journey-practical { margin-top: 26px; }
+.journey-practical details { border-bottom: 1px solid #dce0d9; }
+.journey-practical summary { list-style: none; display: flex; justify-content: space-between; cursor: pointer; padding: 20px 0; font-size: 13px; font-weight: 500; }
+.journey-practical .journey-copy { padding-bottom: 22px; }
+.journey-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.journey-photo { position: relative; display: block; overflow: hidden; height: 220px; border-radius: 4px; background: #e4e7df; }
+.journey-photo:first-child { grid-column: 1 / -1; height: 320px; }
+.journey-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+.journey-photo:hover img { transform: scale(1.035); }
+.journey-photo > span { position: absolute; bottom: 12px; right: 12px; background: #fff; color: var(--ink); border-radius: 50%; width: 32px; height: 32px; display: grid; place-items: center; }
+.journey-map { width: 100%; height: 340px; display: block; border: 1px solid #dce0d9; border-radius: 5px; }
+.journey-booking { position: sticky; top: 105px; padding: 30px; background: #fff; border: 1px solid #e1e3da; border-top: 3px solid #a98656; border-radius: 5px; box-shadow: 0 16px 45px #1b34320a; }
+.journey-booking .journey-kicker { font-size: 9px; letter-spacing: 1.6px; }
+.journey-price { font: 400 43px/1.2 Georgia,serif; letter-spacing: -1px; }
+.journey-price-caption { color: var(--muted); font-size: 12px; margin-top: 6px; }
+.journey-booking-rule { height: 1px; background: #e2e5df; margin: 24px 0; }
+.journey-booking dl > div { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 18px; font-size: 12px; }
+.journey-booking dt { color: var(--muted); }.journey-booking dd { text-align: right; font-weight: 500; }
+.journey-primary,.journey-secondary { display: flex; align-items: center; justify-content: center; gap: 20px; min-height: 48px; padding: 13px 18px; border-radius: 3px; font-size: 12px; font-weight: 600; transition: background .2s; }
+.journey-primary { background: #1a414b; color: #fff; margin: 28px 0 12px; }
+.journey-primary:hover { background: #305b60; }.journey-primary span { margin-left: auto; font-size: 20px; }
+.journey-secondary { border: 1px solid #bcc9c5; color: var(--ink); }
+.journey-secondary:hover { background: #edf1eb; }
+.journey-booking-foot { display: block; color: var(--muted); font-size: 10px; line-height: 1.8; text-align: center; margin-top: 20px; }
+.journey-bottom { display: flex; justify-content: space-between; align-items: center; gap: 30px; padding: 20px 0 65px; }
+.journey-bottom h2 { margin-bottom: 0; }
+.journey-lightbox { margin: auto; border: 0; padding: 45px 18px 12px; width: min(1000px,94vw); max-height: 94vh; background: #142e34; color: #fff; border-radius: 6px; }
+.journey-lightbox::backdrop { background: #091d25e8; }
+.journey-lightbox > img { display: block; max-width: 100%; height: 70vh; object-fit: contain; margin: auto; }
+.journey-lightbox button { background: transparent; border: 1px solid #8caaa3; color: #fff; border-radius: 4px; min-width: 40px; min-height: 36px; cursor: pointer; font-size: 23px; }
+.journey-lightbox-close { position: absolute; right: 12px; top: 6px; }
+.journey-lightbox-controls { display: flex; justify-content: center; align-items: center; gap: 24px; padding-top: 12px; font-size: 12px; }
+.journey-page :focus-visible { outline: 3px solid #a8753f; outline-offset: 4px; }
+@media(max-width:1100px) { .journey-layout { gap: 32px; grid-template-columns: minmax(0,1fr) 290px; }.journey-booking { padding: 24px; }.journey-heading { display: block; }.journey-text-link { margin-top: 20px; width: fit-content; } }
+@media(max-width:850px) { .journey-layout { grid-template-columns: 1fr; }.journey-booking { position: static; grid-row: 1; }.journey-booking dl { display: flex; gap: 30px; flex-wrap: wrap; }.journey-booking dl > div { flex: 1; min-width: 150px; }.journey-facts { grid-template-columns: 1fr 1fr; gap: 24px 0; }.journey-facts > div:nth-child(3) { padding-left: 0; }.journey-facts > div:nth-child(2) { border: 0; }.journey-section-nav { gap: 23px; } }
+@media(max-width:550px) { .journey-shell { width: 90%; }.journey-heading h1 { letter-spacing: -1px; }.journey-hero { height: 340px; }.journey-hero-caption { left: 20px; bottom: 85px; }.journey-hero-caption p { font-size: 23px; }.journey-gallery-link { bottom: 20px; right: 20px; }.journey-facts > div { padding: 0 16px; }.journey-facts strong { font-size: 13px; }.journey-fact-label { font-size: 8px; }.journey-section h2 { font-size: 29px; }.journey-inclusions-grid { grid-template-columns: 1fr; }.journey-day summary { grid-template-columns: 52px 1fr 18px; gap: 10px; }.journey-day > p { padding-left: 0; }.journey-hotel { padding: 20px; grid-template-columns: 1fr; }.journey-hotel-icon { display: none; }.journey-photo,.journey-photo:first-child { height: 210px; }.journey-gallery { gap: 8px; }.journey-bottom { align-items: flex-start; flex-direction: column; }.journey-lightbox > img { height: 55vh; } }
+@media(prefers-reduced-motion:reduce) { .journey-page * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Editorial refinement: confined to this tour-details page. */
+.journey-opening { display: grid; grid-template-columns: .9fr 1.1fr; background: #153943; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 55px #14363b12; }
+.journey-opening .journey-heading { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 26px; padding: 52px 42px 70px; color: #fff; position: relative; }
+.journey-opening .journey-heading::before { content: ""; width: 125px; height: 125px; border: 1px solid #ffffff0c; border-radius: 50%; position: absolute; left: -70px; bottom: 55px; pointer-events: none; }
+.journey-opening .journey-kicker { color: #d5b58a; font-size: 9px; letter-spacing: 2.2px; }
+.journey-opening .journey-heading h1 { color: #fffdf7; font-size: clamp(38px,4.2vw,62px); line-height: 1.12; letter-spacing: -1.5px; }
+.journey-opening .journey-lead { color: #c1d1d0; font-size: 14px; line-height: 1.9; }
+.journey-opening .journey-text-link { color: #f0debe; border-color: #ffffff33; padding-bottom: 12px; margin: 0; font-size: 11px; }
+.journey-opening .journey-text-link span { transition: transform .2s; }
+.journey-opening .journey-text-link:hover span { transform: translate(3px,-3px); }
+.journey-opening .journey-hero { height: 100%; min-height: 490px; border-radius: 0; }
+.journey-opening .journey-hero > img { position: absolute; inset: 0; }
+.journey-opening .journey-hero::after { inset: 0; background: linear-gradient(90deg,#15394320,transparent 40%),linear-gradient(0deg,#092e3bbd,transparent 55%); }
+.journey-opening .journey-hero-caption { bottom: 76px; left: 30px; }
+.journey-opening .journey-hero-caption p { font-size: 25px; }
+.journey-opening .journey-gallery-link { bottom: 76px; right: 24px; padding: 11px 14px; backdrop-filter: blur(12px); background: #fffffff0; }
+.journey-facts { position: relative; margin: -32px 25px 0; background: #fffefb; padding: 25px 20px; border: 1px solid #e9e7de; border-radius: 7px; box-shadow: 0 10px 32px #18362c09; z-index: 2; }
+.journey-facts > div:first-child { padding-left: 15px; }
+.journey-facts strong { font: 400 19px/1.35 Georgia,serif; color: #244b51; }
+.journey-fact-label { color: #8a826f; font-size: 8px; letter-spacing: 1.7px; }
+.journey-section-nav { position: sticky; top: 78px; z-index: 10; padding: 14px 4px; margin-top: 26px; gap: 8px; background: #f8f7f3f5; backdrop-filter: blur(14px); border-bottom: 1px solid #e0e4dc; }
+.journey-section-nav a { padding: 10px 17px; border-radius: 30px; color: #526867; font-size: 11px; transition: background .2s,color .2s; }
+.journey-section-nav a:hover,.journey-section-nav a:focus-visible { color: #24444b; background: #eaece3; }
+.journey-section-nav a:first-child { background: #e7ebe1; color: #21464a; }
+.journey-layout { gap: 32px; padding-top: 32px; grid-template-columns: minmax(0,1fr) 325px; }
+.journey-section { background: #fffefb; border: 1px solid #e4e7de; border-radius: 7px; padding: 34px; margin-bottom: 24px; scroll-margin-top: 155px; box-shadow: 0 3px 10px #27493902; }
+.journey-section > .journey-kicker,.journey-section-heading .journey-kicker { display: inline-block; color: #aa8151; border-bottom: 1px solid #e6d9c6; padding-bottom: 8px; font-size: 9px; letter-spacing: 1.8px; }
+.journey-section h2 { font-size: clamp(27px,2.4vw,34px); line-height: 1.25; margin-bottom: 22px; color: #24434b; }
+.journey-section .journey-muted { padding: 16px 20px; border-left: 2px solid #dac8ab; background: #f7f6f1; border-radius: 0 3px 3px 0; font-size: 12px; }
+.journey-copy { font-size: 14px; color: #62716b; }
+.journey-highlights { background: linear-gradient(135deg,#edf0e7,#f7f6ee); border-radius: 5px; padding: 25px; }
+.journey-day { margin-bottom: 10px; border: 1px solid #e5e9df; border-radius: 5px; background: #fff; overflow: hidden; }
+.journey-day summary { padding: 18px; font-size: 13px; }
+.journey-day-label { background: #f2eee5; color: #97703f; border-radius: 3px; padding: 9px 7px; text-align: center; font-size: 9px; }
+.journey-day[open] { border-color: #c7d6c8; background: #f7f9f3; }
+.journey-day[open] .journey-day-label { background: #254d51; color: #f9f4e8; }
+.journey-day > p { padding: 0 24px 24px 100px; font-size: 13px; }
+.journey-hotel { box-shadow: 0 5px 15px #213d3205; border-color: #e1e5d9; }
+.journey-hotel-icon { background: #edf0e4; border: 1px solid #e1e6d7; border-radius: 50%; color: #597464; }
+.journey-hotel-dates { border-top: 1px solid #edf0e8; padding-top: 15px; }
+.journey-inclusions-grid { gap: 14px; }
+.journey-inclusions-grid > div { padding: 20px; border: 1px solid #e0e6d8; }
+.journey-included { background: #f0f4e9; }.journey-excluded { background: #f7f2eb; }
+.journey-practical summary { font-size: 12px; padding: 20px 5px; }
+.journey-practical summary span { color: #aa8151; font-size: 18px; }
+.journey-practical details[open] summary span { transform: rotate(45deg); }
+.journey-gallery { gap: 10px; }
+.journey-photo { border-radius: 5px; height: 190px; }
+.journey-photo:first-child { height: 290px; }
+.journey-map { height: 310px; }
+.journey-booking { top: 158px; background: #193e47; border: 1px solid #234b53; border-top: 3px solid #c3a072; color: #fff8eb; padding: 30px 28px; box-shadow: 0 18px 40px #163c4520; border-radius: 7px; }
+.journey-booking .journey-kicker { color: #d7b888; letter-spacing: 1.8px; }
+.journey-price { font-size: 47px; color: #fffaf0; }
+.journey-price-caption { color: #aebfbd; }
+.journey-booking-rule { background: #ffffff1f; position: relative; }
+.journey-booking-rule::before { content: ""; position: absolute; top: -2px; left: 0; width: 25px; height: 4px; background: #c3a072; }
+.journey-booking dt { color: #aebfbd; }.journey-booking dd { color: #f7f6ed; }
+.journey-booking .journey-primary { background: #d2b187; color: #18343a; min-height: 51px; margin-top: 30px; }
+.journey-booking .journey-primary:hover { background: #e2c7a6; }
+.journey-booking .journey-secondary { color: #e0e9e2; border-color: #ffffff40; }
+.journey-booking .journey-secondary:hover { background: #ffffff0d; }
+.journey-booking-foot { color: #bccac5; font-size: 10px; }
+.journey-bottom { margin: 22px 0 65px; background: #eceee5; padding: 35px 40px; border-radius: 7px; border: 1px solid #e0e4d8; }
+.journey-bottom h2 { font-size: 29px; }
+.journey-bottom .journey-kicker { font-size: 9px; }
+.journey-bottom .journey-secondary { background: #fffdf7; }
+@media(max-width:1100px) {
+ .journey-opening .journey-heading { padding: 36px 30px 70px; }
+ .journey-opening .journey-heading h1 { font-size: 44px; }
+ .journey-opening .journey-hero-caption { bottom: 116px; }
+ .journey-opening .journey-gallery-link { right: auto; left: 30px; bottom: 62px; }
+ .journey-layout { grid-template-columns: minmax(0,1fr) 290px; gap: 24px; }
+ .journey-section { padding: 28px; }.journey-booking { padding: 27px 23px; }
+}
+@media(max-width:850px) {
+ .journey-opening { grid-template-columns: 1fr; }
+ .journey-opening .journey-heading { padding: 36px; }
+ .journey-opening .journey-heading h1 { font-size: 46px; max-width: 650px; }
+ .journey-opening .journey-hero { min-height: 360px; }
+ .journey-opening .journey-hero-caption { bottom: 68px; }
+ .journey-opening .journey-gallery-link { left: auto; right: 24px; bottom: 65px; }
+ .journey-facts { margin: -30px 18px 0; }
+ .journey-facts > div:nth-child(3) { padding-left: 15px; }
+ .journey-layout { grid-template-columns: 1fr; }
+ .journey-booking { position: static; grid-row: 1; }
+}
+@media(max-width:550px) {
+ .journey-opening .journey-heading { padding: 30px 26px; gap: 18px; }
+ .journey-opening .journey-heading h1 { font-size: 39px; }
+ .journey-opening .journey-lead { font-size: 13px; }
+ .journey-opening .journey-hero { min-height: 310px; }
+ .journey-opening .journey-hero-caption { bottom: 109px; left: 24px; }
+ .journey-opening .journey-gallery-link { bottom: 55px; left: 24px; right: auto; }
+ .journey-facts { padding: 22px 10px; margin-left: 10px; margin-right: 10px; }
+ .journey-facts strong { font-size: 17px; }.journey-fact-label { letter-spacing: 1px; }
+ .journey-section-nav { margin-top: 18px; padding: 10px 0; }.journey-section-nav a { padding: 9px 13px; }
+ .journey-section { padding: 25px 21px; }
+ .journey-section h2 { font-size: 28px; }
+ .journey-section-heading { align-items: flex-start; gap: 10px; }
+ .journey-day summary { padding: 14px 10px; grid-template-columns: 48px 1fr 16px; }
+ .journey-day > p { padding: 0 16px 20px; }
+ .journey-duration { font-size: 9px; padding: 7px 9px; }
+ .journey-photo,.journey-photo:first-child { height: 200px; }
+ .journey-bottom { padding: 30px 25px; margin-bottom: 40px; }
+ .journey-bottom h2 { font-size: 27px; }
 }

@@ -1,145 +1,35 @@
-<%@ page language="java"
-         contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<c:if test="${empty receipt}"><c:redirect url="/booking-confirmation"/></c:if>
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-    <title>Booking Confirmation | TravelTourism</title>
-
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/style.css">
-
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-        }
-
-        .confirmation-container {
-            width: 700px;
-            margin: 50px auto;
-            background: white;
-            padding: 35px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .success {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .success h1 {
-            color: #1b7f3a;
-        }
-
-        .booking-details {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .booking-details p {
-            margin: 10px 0;
-        }
-
-        .home-button {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 20px;
-            background: #f28c28;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-    </style>
-
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Booking Request Received | TravelTourism</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/booking.css">
 </head>
-
 <body>
-
-    <%@ include file="common/header.jsp" %>
-
-    <div class="confirmation-container">
-
-        <div class="success">
-
-            <h1>Booking Confirmed!</h1>
-
-            <p>
-                Thank you for booking with TravelTourism.
-            </p>
-
-        </div>
-
-
-        <div class="booking-details">
-
-            <h2>Booking Details</h2>
-
-            <p>
-                <strong>Name:</strong>
-                ${param.customerName}
-            </p>
-
-            <p>
-                <strong>Email:</strong>
-                ${param.email}
-            </p>
-
-            <p>
-                <strong>Phone:</strong>
-                ${param.phone}
-            </p>
-
-            <p>
-                <strong>Tour:</strong>
-                ${param.tourName}
-            </p>
-
-            <p>
-                <strong>Departure:</strong>
-                ${param.departure}
-            </p>
-
-            <p>
-                <strong>Duration:</strong>
-                ${param.duration} days
-            </p>
-
-            <p>
-                <strong>Number of Travelers:</strong>
-                ${param.travelers}
-            </p>
-
-            <p>
-                <strong>Travel Date:</strong>
-                ${param.travelDate}
-            </p>
-
-            <p>
-                <strong>Price per person:</strong>
-                ₹${param.price}
-            </p>
-
-        </div>
-
-
-        <a href="${pageContext.request.contextPath}/index.jsp"
-           class="home-button">
-            Back to Home
-        </a>
-
-    </div>
-
-    <%@ include file="common/footer.jsp" %>
-
+<%@ include file="common/header.jsp" %>
+<main class="booking-container">
+    <p class="booking-eyebrow">THANK YOU FOR TRAVELLING WITH US</p>
+    <h1>Booking request received</h1>
+    <p>Your request has been saved. Availability and requested changes are pending confirmation.</p>
+    <p class="booking-reference">Reference: <strong><c:out value="${receipt.reference}"/></strong></p>
+    <section class="booking-summary">
+        <h2><c:out value="${receipt.name}"/></h2>
+        <p><strong>Traveller:</strong> <c:out value="${receipt.customerName}"/></p>
+        <p><strong>Email:</strong> <c:out value="${receipt.email}"/></p>
+        <p><strong>Phone:</strong> <c:out value="${receipt.phone}"/></p>
+        <p><strong>Departure:</strong> <c:out value="${receipt.departure}"/> · <c:out value="${receipt.date}"/></p>
+        <p><strong>Duration:</strong> ${receipt.duration} days · <strong>Travellers:</strong> ${receipt.travelers}</p>
+        <p><strong>Price per person:</strong> ₹<fmt:formatNumber value="${receipt.price}"/></p>
+        <p><strong>Estimated total:</strong> ₹<fmt:formatNumber value="${receipt.total}"/></p>
+        <c:if test="${not empty receipt.preferences}"><p class="booking-preferences"><strong>Your preferences:</strong> <c:out value="${receipt.preferences}"/></p></c:if>
+    </section>
+    <a class="booking-submit" href="${pageContext.request.contextPath}/customize">Explore customized holidays</a>
+</main>
+<%@ include file="common/footer.jsp" %>
 </body>
-
 </html>

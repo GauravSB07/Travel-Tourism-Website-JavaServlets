@@ -1,0 +1,39 @@
+.customized-page .results-panel-modern { min-width: 0; }
+.holiday-note { margin: 0; color: #64748b; font-size: 13px; line-height: 1.7; }
+.holiday-reset { display: block; margin-top: 16px; text-align: center; color: #173f5f; }
+.holiday-art { min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; color: #fff3df; background: radial-gradient(circle at 50% 35%, #c78246 0, transparent 55%), linear-gradient(145deg, #173f5f, #284950 60%, #885438); font-size: 25px; text-align: center; }
+.holiday-art-symbol { font-size: 90px; line-height: 1; color: #ffd6ad; }
+.holiday-art small { font-size: 13px; letter-spacing: 1px; }
+.customized-page .tour-price small { display: block; font-size: 11px; color: #64748b; font-weight: 400; margin-top: 4px; }
+.customized-page .tour-description { display: block; overflow: visible; }
+.holiday-itinerary { border-top: 1px solid #e5e9f0; margin: 0 0 20px; padding-top: 14px; color: #526273; font-size: 13px; line-height: 1.7; }
+.holiday-itinerary summary { color: #173f5f; cursor: pointer; font-weight: 600; }
+.holiday-itinerary ol { padding-left: 20px; }
+.holiday-itinerary li { padding-bottom: 8px; }
+.holiday-itinerary a { color: #173f5f; text-decoration: underline; }
+.customized-page :focus-visible { outline: 3px solid #d9772f; outline-offset: 4px; }
+@media (max-width: 1100px) { .customized-page .tour-card-modern { grid-template-columns: 1fr; } .holiday-art { min-height: 160px; } }
+@media (prefers-reduced-motion: reduce) { .customized-page .tour-card-modern { transition: none; transform: none; } }
+
+.holiday-breadcrumb { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; font-size: 13px; }
+.holiday-breadcrumb a { color: #ffd6ad; }
+.holiday-details-layout { max-width: 1300px; margin: 0 auto; padding: 48px 7% 70px; display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 30px; align-items: start; }
+.holiday-details-content { display: grid; gap: 24px; min-width: 0; }
+.holiday-detail-section, .holiday-booking-panel { background: #fff; border: 1px solid #e5e9f0; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,.04); overflow: hidden; }
+.holiday-detail-section { padding: 28px; }
+.holiday-detail-section h2 { color: #173f5f; font-size: 23px; margin: 0 0 20px; }
+.holiday-detail-section p, .holiday-booking-inner > p { color: #526273; font-size: 14px; line-height: 1.8; margin-bottom: 16px; }
+.holiday-day-list { list-style: none; margin: 0; padding: 0; }
+.holiday-day-list li { border-left: 2px solid #f0d4ba; padding: 0 0 20px 20px; }
+.holiday-day-list li:last-child { padding-bottom: 0; }
+.holiday-day-number { color: #a65a20; font-size: 13px; font-weight: 700; }
+.holiday-day-list p { margin: 8px 0 0; }
+.holiday-booking-panel { position: sticky; top: 100px; }
+.holiday-details-art { min-height: 180px; }
+.holiday-booking-inner { padding: 24px; }
+.holiday-booking-inner .holiday-detail-price { color: #173f5f; font-size: 32px; font-weight: 700; margin: 0; }
+.holiday-booking-inner a { display: block; text-align: center; margin: 14px 0; }
+.holiday-preserve-lines { white-space: pre-line; }
+@media (max-width: 900px) { .holiday-details-layout { grid-template-columns: 1fr; } .holiday-booking-panel { position: static; } }
+@media (max-width: 600px) { .holiday-details-layout { padding: 28px 5%; } .holiday-detail-section { padding: 22px; } }
+
