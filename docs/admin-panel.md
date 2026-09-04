@@ -24,3 +24,6 @@ Both admin pages include CSRF protection and escaped form values. The existing p
 
 ## Main holiday image
 After saving a holiday, use Main package image to upload or replace its cover (JPEG/PNG, up to 5 MB and 24 megapixels). The same photo appears on its public card and details page. Remove photo restores the illustrated placeholder. Photo saves are separate from package edits.
+
+## Additional holiday gallery photos
+Run database/holiday_gallery.sql once in your existing database, then use Holiday gallery in the admin editor. Add up to 12 JPEG/PNG photos with optional captions. Remove controls affect only the selected package photo. Existing cover photos remain in holiday_images. The public details page supports a full-screen viewer with keyboard navigation and mobile thumbnails. Until the SQL is run, pages continue working with the main cover.

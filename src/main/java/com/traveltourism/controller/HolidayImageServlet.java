@@ -20,11 +20,14 @@ public class HolidayImageServlet extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String id=req.getParameter("id");
         if (id == null || !id.matches("[A-Za-z0-9_-]{1,80}")) { res.sendError(400); return; }
+        Long photoId = null;
+        if(req.getParameter("photo")!=null){try{photoId=Long.valueOf(req.getParameter("photo"));if(photoId<1)throw new NumberFormatException();}catch(NumberFormatException e){res.sendError(400);return;}}
         res.setHeader("X-Content-Type-Options","nosniff");
         res.setHeader("Cache-Control","no-cache");
         try (Connection con=DBConnection.getConnection();
-             PreparedStatement ps=con.prepareStatement("SELECT image_data,mime_type FROM holiday_images WHERE holiday_id=?")) {
+             PreparedStatement ps=con.prepareStatement(photoId == null ? "SELECT image_data,mime_type FROM holiday_images WHERE holiday_id=?" : "SELECT image_data,mime_type FROM holiday_gallery WHERE holiday_id=? AND id=?")) {
             ps.setString(1,id);
+            if(photoId != null) ps.setLong(2,photoId);
             try(ResultSet rs=ps.executeQuery()) {
                 if(rs.next()) {
                     String type=rs.getString("mime_type");
@@ -62,7 +65,9 @@ public class HolidayImageServlet extends HttpServlet {
             String notice;
             try {
                 String action=req.getParameter("action");
-                if("remove".equals(action)) {
+                if("uploadGallery".equals(action) || "removeGallery".equals(action)) {
+                    notice=galleryAction(req,id,action);
+                } else if("remove".equals(action)) {
                     try(Connection con=DBConnection.getConnection();
                         PreparedStatement ps=con.prepareStatement("DELETE FROM holiday_images WHERE holiday_id=?")) {
                         ps.setString(1,id); ps.executeUpdate();
@@ -96,7 +101,7 @@ public class HolidayImageServlet extends HttpServlet {
             } catch(SQLException e) {
                 log("Holiday photo save failed",e);
                 notice=e.getErrorCode()==1146
-                    ? "Image storage is not set up yet. Run database/holiday_images.sql in your existing database, then upload again."
+                    ? "Image storage is not set up yet. Run database/holiday_images.sql for the cover, or database/holiday_gallery.sql for gallery photos, in your existing database."
                     : "The photo could not be saved. Please try again.";
             }
             session.setAttribute("holidayNotice",notice);
@@ -106,6 +111,49 @@ public class HolidayImageServlet extends HttpServlet {
         }
     }
 
+
+    private String galleryAction(HttpServletRequest req,String id,String action) throws SQLException,IOException,ServletException {
+        String caption=Optional.ofNullable(req.getParameter("caption")).orElse("").trim();
+        if(caption.length()>200)throw new IllegalArgumentException("Photo captions can contain up to 200 characters.");
+        if("removeGallery".equals(action)) {
+            long photo;
+            try{photo=Long.parseLong(req.getParameter("photoId"));if(photo<1)throw new NumberFormatException();}
+            catch(NumberFormatException e){throw new IllegalArgumentException("Select a valid gallery photo.");}
+            try(Connection con=DBConnection.getConnection();PreparedStatement ps=con.prepareStatement(
+                    "DELETE FROM holiday_gallery WHERE id=? AND holiday_id=?")) {
+                ps.setLong(1,photo);ps.setString(2,id);
+                if(ps.executeUpdate()==0)throw new IllegalArgumentException("This gallery photo was already removed.");
+            }
+            return "Gallery photo removed.";
+        }
+        Part part=req.getPart("photo");
+        if(part==null || part.getSize()==0 || part.getSize()>5*1024*1024)
+            throw new IllegalArgumentException("Choose a JPEG or PNG photo up to 5 MB.");
+        byte[] bytes;try(InputStream in=part.getInputStream()){bytes=in.readAllBytes();}
+        String type=validateImage(bytes);
+        try(Connection con=DBConnection.getConnection()) {
+            con.setAutoCommit(false);
+            try {
+                // Lock the parent to enforce the gallery limit during concurrent uploads.
+                try(PreparedStatement lock=con.prepareStatement("SELECT id FROM holiday_packages WHERE id=? FOR UPDATE")){
+                    lock.setString(1,id);try(ResultSet rs=lock.executeQuery()){
+                        if(!rs.next())throw new IllegalArgumentException("Save the holiday before adding gallery photos.");
+                    }
+                }
+                try(PreparedStatement count=con.prepareStatement("SELECT COUNT(*) FROM holiday_gallery WHERE holiday_id=?")){
+                    count.setString(1,id);try(ResultSet rs=count.executeQuery()){
+                        rs.next();if(rs.getInt(1)>=12)throw new IllegalArgumentException("This gallery already has 12 photos. Remove one before uploading another.");
+                    }
+                }
+                try(PreparedStatement insert=con.prepareStatement(
+                        "INSERT INTO holiday_gallery (holiday_id,image_data,mime_type,caption) VALUES (?,?,?,?)")){
+                    insert.setString(1,id);insert.setBytes(2,bytes);insert.setString(3,type);insert.setString(4,caption);insert.executeUpdate();
+                }
+                con.commit();
+            }catch(SQLException|RuntimeException e){con.rollback();throw e;}
+        }
+        return "Gallery photo added.";
+    }
     static String validateImage(byte[] bytes) {
         try(ImageInputStream input=ImageIO.createImageInputStream(new ByteArrayInputStream(bytes))) {
             Iterator<ImageReader> readers=ImageIO.getImageReaders(input);

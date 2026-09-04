@@ -63,6 +63,8 @@ public class AdminHolidayPanelServlet extends HttpServlet {
                 }
                 req.setAttribute("days", days);
             }
+            Map<?,?> currentEditor = (Map<?,?>) req.getAttribute("editor");
+            req.setAttribute("gallery", currentEditor == null ? List.of() : com.traveltourism.model.HolidayGallery.load(String.valueOf(currentEditor.get("id"))));
             req.setAttribute("notice", session.getAttribute("holidayNotice"));
             session.removeAttribute("holidayNotice");
             req.getRequestDispatcher("/WEB-INF/admin/holidays.jsp").forward(req, res);

@@ -27,6 +27,7 @@ public class HolidayDetailsServlet extends HttpServlet {
                 return;
             }
             request.setAttribute("holiday", holiday);
+            request.setAttribute("gallery", com.traveltourism.model.HolidayGallery.load(id));
             request.getRequestDispatcher("/holiday_details.jsp").forward(request, response);
         } catch (SQLException ex) {
             log("Could not load holiday details", ex);

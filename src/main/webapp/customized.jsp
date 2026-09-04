@@ -11,18 +11,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/destinations.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/customized.css">
-</head>
-<body class="customized-page">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/holiday-premium.css"></head>
+<body class="customized-page occasion-collection-page">
 <%@ include file="common/header.jsp" %>
 <main>
-    <section class="destinations-intro">
-        <div class="destinations-intro-inner">
-            <p class="destinations-eyebrow">YOUR OCCASION. YOUR KIND OF HOLIDAY.</p>
-            <h1>Customized Holidays</h1>
-            <p class="destinations-lead">Find your next celebration. Explore birthdays, honeymoons, anniversaries and family celebrations, choose your favourite package and make room for the moments you love.</p>
-        </div>
-    </section>
-    <section class="destinations-layout" aria-label="Holiday packages">
+    <section class="occasion-hero"><div class="occasion-hero-copy"><p class="holiday-kicker">BIRTHDAYS. HONEYMOONS. MOMENTS THAT ARE YOURS.</p><h1>Make room for<br><em>something special.</em></h1><p class="occasion-hero-lead">Customized holidays for the people and occasions that matter. Find an experience you love, then bring your own plans to it.</p><a href="#occasion-collection" class="occasion-hero-link">Find your kind of getaway <span aria-hidden="true">↓</span></a><div class="occasion-hero-notes"><span>Occasion-led journeys</span><span>Your preferred dates</span><span>Room for personal touches</span></div></div>
+<div class="occasion-hero-visual"><c:choose><c:when test="${not empty holidays}"><c:url var="introCover" value="/holiday-image"><c:param name="id" value="${holidays[0].id}"/></c:url><img src="${introCover}" alt="<c:out value='${holidays[0].name}'/>" width="900" height="1000" fetchpriority="high"><div class="occasion-hero-caption"><small>A LITTLE INSPIRATION</small><strong><c:out value="${holidays[0].name}"/></strong><span><c:out value="${holidays[0].occasion}"/> collection</span></div></c:when><c:otherwise><img src="${pageContext.request.contextPath}/images/holiday-cover-placeholder.svg" alt="" width="900" height="1000"><div class="occasion-hero-caption"><small>YOUR NEXT CHAPTER</small><strong>A holiday with a personal touch.</strong></div></c:otherwise></c:choose><span class="occasion-hero-stamp" aria-hidden="true">✦</span></div></section>
+<nav class="occasion-quick-links" aria-label="Browse by occasion"><span>What's the occasion?</span><a href="${pageContext.request.contextPath}/customize#occasion-collection" class="${empty param.occasion ? 'selected' : ''}">All getaways</a><c:forEach var="occasionName" items="${occasions}"><c:url var="occasionLink" value="/customize"><c:param name="occasion" value="${occasionName}"/><c:param name="city" value="${param.city}"/><c:param name="duration" value="${selectedDuration}"/><c:param name="budget" value="${selectedBudget}"/></c:url><a href="${occasionLink}#occasion-collection" class="${param.occasion == occasionName ? 'selected' : ''}"><c:out value="${occasionName}"/></a></c:forEach></nav>
+    <section id="occasion-collection" class="destinations-layout" aria-label="Holiday packages">
         <div class="destinations-container">
             <aside class="filters-panel-modern">
                 <form action="${pageContext.request.contextPath}/customize" method="get">

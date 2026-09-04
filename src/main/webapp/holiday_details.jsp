@@ -1,69 +1,33 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:if test="${empty holiday}"><c:redirect url="/customize"/></c:if>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><c:out value="${holiday.name}"/> | TravelTourism</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/destinations.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/customized.css">
-</head>
-<body class="customized-page">
-<%@ include file="common/header.jsp" %>
-<main>
-    <section class="destinations-intro holiday-details-intro">
-        <nav class="holiday-breadcrumb" aria-label="Breadcrumb">
-            <a href="${pageContext.request.contextPath}/index.jsp">Home</a><span aria-hidden="true">›</span>
-            <a href="${pageContext.request.contextPath}/customize">Customized Holidays</a><span aria-hidden="true">›</span>
-            <span aria-current="page"><c:out value="${holiday.name}"/></span>
-        </nav>
-        <p class="destinations-eyebrow"><c:out value="${holiday.occasion}"/> GETAWAY</p>
-        <h1><c:out value="${holiday.name}"/></h1>
-        <p class="destinations-lead"><c:out value="${holiday.shortDescription}"/></p>
-    </section>
-    <div class="holiday-details-layout">
-        <div class="holiday-details-content">
-            <section class="holiday-detail-section" aria-labelledby="overview-title">
-                <p class="eyebrow">A JOURNEY MADE PERSONAL</p>
-                <h2 id="overview-title">Your celebration, thoughtfully planned</h2>
-                <div class="tour-meta-row"><span><c:out value="${holiday.occasion}"/></span><span>${holiday.duration} days</span><span>From <c:out value="${holiday.departureCity}"/></span><span>Flexible travel dates</span></div>
-                <p>Start with this itinerary and make it your own. Choose your travel date when booking, and share room preferences, dietary needs or celebration requests with us.</p>
-                <p>Additional arrangements and itinerary changes are subject to availability and may change the final price.</p>
-            </section>
-            <section class="holiday-detail-section" aria-labelledby="itinerary-title">
-                <p class="eyebrow">DAY BY DAY</p><h2 id="itinerary-title">Your holiday itinerary</h2>
-                <c:choose>
-                    <c:when test="${not empty holiday.itinerary}">
-                        <ol class="holiday-day-list"><c:forEach var="day" items="${holiday.itinerary}" varStatus="status">
-                            <li><span class="holiday-day-number">Day ${status.count}</span><p><c:out value="${day}"/></p></li>
-                        </c:forEach></ol>
-                    </c:when>
-                    <c:otherwise><p>Contact us for a personalised day-by-day itinerary for this holiday.</p></c:otherwise>
-                </c:choose>
-            </section>
-            <section class="holiday-detail-section" aria-labelledby="included-title"><h2 id="included-title">What's included</h2><p class="holiday-preserve-lines"><c:out value="${holiday.inclusions}"/></p></section>
-            <section class="holiday-detail-section" aria-labelledby="excluded-title"><h2 id="excluded-title">What's not included</h2><p class="holiday-preserve-lines"><c:out value="${holiday.exclusions}"/></p></section>
-        </div>
-        <aside class="holiday-booking-panel" aria-label="Price and booking">
-            <c:url var="holidayCoverUrl" value="/holiday-image"><c:param name="id" value="${holiday.id}"/></c:url>
-            <div class="holiday-main-cover"><img src="${holidayCoverUrl}" alt="<c:out value='${holiday.name}'/> cover" width="1200" height="800" decoding="async"><span><c:out value="${holiday.occasion}"/> getaway</span></div>
-            <div class="holiday-booking-inner">
-                <p class="eyebrow">YOUR CELEBRATION STARTS HERE</p>
-                <p class="holiday-detail-price">₹<fmt:formatNumber value="${holiday.price}"/></p>
-                <p class="holiday-note">Per person · ${holiday.duration} days</p>
-                <p>Departing from <strong><c:out value="${holiday.departureCity}"/></strong>. Choose your preferred date on the booking page.</p>
-                <c:url var="bookingUrl" value="/booking"><c:param name="holiday_id" value="${holiday.id}"/></c:url>
-                <a class="primary-btn-small" href="${bookingUrl}">Book this holiday</a>
-                <a class="outline-btn-small" href="${pageContext.request.contextPath}/contact">Enquire about this holiday</a>
-                <p class="holiday-note">Your booking request will be reviewed for availability. No payment is collected at this step.</p>
-            </div>
-        </aside>
-    </div>
-</main>
-<%@ include file="common/footer.jsp" %>
-</body>
-</html>
+<c:url var="coverUrl" value="/holiday-image"><c:param name="id" value="${holiday.id}"/></c:url>
+<c:url var="bookingUrl" value="/booking"><c:param name="holiday_id" value="${holiday.id}"/></c:url>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title><c:out value="${holiday.name}"/> | TravelTourism</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/css/destinations.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/css/customized.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/css/holiday-premium.css"><script defer src="${pageContext.request.contextPath}/js/holiday-gallery.js"></script>
+</head><body class="customized-page holiday-story-page"><%@ include file="common/header.jsp" %>
+<main class="holiday-story"><header class="holiday-story-heading">
+<nav class="holiday-story-breadcrumb" aria-label="Breadcrumb"><a href="${pageContext.request.contextPath}/customize">Customized holidays</a><span aria-hidden="true">/</span><span><c:out value="${holiday.occasion}"/></span></nav>
+<div class="holiday-title-row"><div><p class="holiday-kicker">A LITTLE MORE PERSONAL</p><h1><c:out value="${holiday.name}"/></h1></div><span class="holiday-occasion-seal">✦ <c:out value="${holiday.occasion}"/> collection</span></div>
+<div class="holiday-story-meta"><span><c:out value="${holiday.departureCity}"/> departure</span><span>${holiday.duration} days away</span><span>Choose your travel date</span></div></header>
+<section class="holiday-gallery ${not empty gallery ? 'has-gallery' : ''}" aria-label="Holiday photo gallery">
+<a href="${coverUrl}" class="holiday-gallery-photo holiday-gallery-main" data-caption="<c:out value='${holiday.name}'/>"><img src="${coverUrl}" alt="<c:out value='${holiday.name}'/> main cover" width="1200" height="800" fetchpriority="high"><span class="holiday-gallery-open">Explore photos ↗</span></a>
+<c:if test="${not empty gallery}"><div class="holiday-gallery-side ${gallery.size() == 1 ? 'one-photo' : ''}">
+<c:forEach var="photo" items="${gallery}" varStatus="photoStatus"><c:url var="photoUrl" value="/holiday-image"><c:param name="id" value="${holiday.id}"/><c:param name="photo" value="${photo.id}"/></c:url>
+<a class="holiday-gallery-photo" href="${photoUrl}" data-caption="<c:out value='${photo.caption}'/>"><img src="${photoUrl}" alt="<c:out value='${empty photo.caption ? holiday.name : photo.caption}'/> — photo ${photoStatus.count}" width="600" height="400" loading="lazy"></a></c:forEach></div></c:if></section>
+<nav class="holiday-section-nav" aria-label="Holiday details"><a href="#holiday-overview">The experience</a><a href="#holiday-itinerary">Your itinerary</a><a href="#holiday-inclusions">What's included</a><a href="#holiday-planning">Make it yours</a></nav>
+<div class="holiday-story-layout"><div class="holiday-story-content">
+<section id="holiday-overview" class="holiday-story-section"><p class="holiday-kicker">THE EXPERIENCE</p><h2>For the moments that matter.</h2><p class="holiday-overview-copy"><c:out value="${holiday.shortDescription}"/></p>
+<div class="holiday-facts"><div><small>Your occasion</small><strong><c:out value="${holiday.occasion}"/></strong></div><div><small>Time to unwind</small><strong>${holiday.duration} days</strong></div><div><small>Starting from</small><strong><c:out value="${holiday.departureCity}"/></strong></div></div></section>
+<section id="holiday-itinerary" class="holiday-story-section"><div class="holiday-section-title"><div><p class="holiday-kicker">ONE DAY AT A TIME</p><h2>Your days, thoughtfully planned.</h2></div><span class="holiday-day-pill">${holiday.duration} days</span></div>
+<c:choose><c:when test="${not empty holiday.itinerary}"><div class="holiday-timeline"><c:forEach var="day" items="${holiday.itinerary}" varStatus="dayStatus"><details class="holiday-timeline-day" ${dayStatus.first ? 'open' : ''}><summary><span class="holiday-day-marker"><small>DAY</small>${dayStatus.count}</span><span>Day ${dayStatus.count} of your holiday</span><span class="holiday-day-toggle" aria-hidden="true">+</span></summary><div class="holiday-day-copy"><p><c:out value="${day}"/></p></div></details></c:forEach></div></c:when><c:otherwise><p>Contact us for a personalised day-by-day itinerary for this holiday.</p></c:otherwise></c:choose></section>
+<section id="holiday-inclusions" class="holiday-story-section"><p class="holiday-kicker">THE FINER DETAILS</p><h2>Know what comes with your getaway.</h2><div class="holiday-inclusion-grid"><div><span class="holiday-inclusion-icon" aria-hidden="true">✓</span><h3>Included in your holiday</h3><p class="holiday-preserve-lines"><c:out value="${holiday.inclusions}"/></p></div><div><span class="holiday-inclusion-icon neutral" aria-hidden="true">−</span><h3>Plan for separately</h3><p class="holiday-preserve-lines"><c:out value="${holiday.exclusions}"/></p></div></div></section>
+<section id="holiday-planning" class="holiday-personal-note"><span aria-hidden="true">✦</span><div><p class="holiday-kicker">A FEW PERSONAL TOUCHES</p><h2>Make this holiday feel like you.</h2><p>Share your preferred dates, room preferences, dietary needs or celebration ideas when you book. We will review your requests alongside availability.</p><small>Additional arrangements and itinerary changes may change the final price.</small></div></section>
+</div><aside class="holiday-reservation" aria-label="Price and booking"><p class="holiday-kicker">YOUR NEXT SPECIAL MOMENT</p><div class="holiday-reservation-price">₹<fmt:formatNumber value="${holiday.price}" groupingUsed="true"/><span>per person</span></div><p class="holiday-reservation-intro">A starting point for a holiday that's yours.</p>
+<dl><div><dt>Occasion</dt><dd><c:out value="${holiday.occasion}"/></dd></div><div><dt>Duration</dt><dd>${holiday.duration} days</dd></div><div><dt>Departure</dt><dd><c:out value="${holiday.departureCity}"/></dd></div><div><dt>Travel dates</dt><dd>Your choice</dd></div></dl>
+<a class="holiday-book-button" href="${bookingUrl}">Plan &amp; book this holiday →</a><a class="holiday-enquire-link" href="${pageContext.request.contextPath}/contact">Have something else in mind? Talk to us</a><p class="holiday-booking-reassurance">Choose your dates and tell us about your travellers on the next page. Your request will be reviewed for availability; no payment is collected at this step.</p></aside></div>
+<div class="holiday-back-link"><a href="${pageContext.request.contextPath}/customize">← Explore more occasion getaways</a></div></main>
+<dialog class="holiday-lightbox" aria-label="Holiday photo viewer"><div class="holiday-lightbox-toolbar"><p id="holiday-photo-counter" aria-live="polite"></p><button type="button" data-close aria-label="Close photo viewer">Close ✕</button></div><div class="holiday-lightbox-stage"><button type="button" data-direction="-1" aria-label="Previous photo">←</button><img alt=""><button type="button" data-direction="1" aria-label="Next photo">→</button></div><p class="holiday-lightbox-caption"></p></dialog>
+<%@ include file="common/footer.jsp" %></body></html>

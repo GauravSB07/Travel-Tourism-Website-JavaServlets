@@ -58,6 +58,18 @@ long live = packages.stream().filter(p -> "1".equals(p.get("active")) && p.get("
 <button class="button" type="submit">Remove photo</button></form></div></div>
 <% } else { %><p class="muted">Create the package first, then upload its main cover photo here.</p><% } %>
 </section>
+<% if (editing) { %>
+<section class="card" id="holiday-gallery-admin"><div class="section-heading"><span>▦</span><div><h3>Holiday gallery</h3><p>Add up to 12 additional photos for the details page. Your main cover stays separate.</p></div></div>
+<form method="post" enctype="multipart/form-data" action="<%= context %>/admin/holiday-image">
+<input type="hidden" name="csrf" value="<%= esc(session.getAttribute("holidayCsrf")) %>"><input type="hidden" name="id" value="<%= esc(editor.get("id")) %>"><input type="hidden" name="action" value="uploadGallery">
+<div class="form-grid"><label>Gallery photo<input type="file" name="photo" accept="image/jpeg,image/png" required><small>JPEG or PNG · up to 5 MB, 24 megapixels.</small></label><label>Caption (optional)<input name="caption" maxlength="200" placeholder="Describe the view or experience"></label></div><button class="button primary" type="submit">Add gallery photo</button></form>
+<div class="holiday-admin-gallery">
+<% List<Map<String,Object>> galleryPhotos=(List<Map<String,Object>>)request.getAttribute("gallery");
+if(galleryPhotos!=null) for(Map<String,Object> photo:galleryPhotos) { %>
+<figure><img src="<%= context %>/holiday-image?id=<%= esc(URLEncoder.encode(editor.get("id").toString(), StandardCharsets.UTF_8)) %>&amp;photo=<%= esc(photo.get("id")) %>" alt="<%= esc(photo.get("caption")) %>" loading="lazy" width="300" height="200"><figcaption><%= esc(photo.get("caption")) %></figcaption>
+<form method="post" action="<%= context %>/admin/holiday-image" onsubmit="return confirm('Remove this gallery photo?');"><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("holidayCsrf")) %>"><input type="hidden" name="id" value="<%= esc(editor.get("id")) %>"><input type="hidden" name="photoId" value="<%= esc(photo.get("id")) %>"><input type="hidden" name="action" value="removeGallery"><button class="button" type="submit">Remove photo</button></form></figure><% } %>
+</div><% if(galleryPhotos==null || galleryPhotos.isEmpty()) { %><p class="muted">No extra gallery photos yet. Upload your first image above.</p><% } %></section>
+<% } %>
 <form method="post" action="<%= context %>/admin/holidays" id="holiday-form">
 <input type="hidden" name="csrf" value="<%= esc(session.getAttribute("holidayCsrf")) %>">
 <input type="hidden" name="action" value="<%= editing ? "save" : "create" %>">
