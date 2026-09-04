@@ -5,6 +5,7 @@
 <nav aria-label="Admin sections">
 <a href="${pageContext.request.contextPath}/admin/homepage" <%= request.getAttribute("adminSection").equals("homepage") ? "aria-current=\"page\"" : "" %>>Homepage</a>
 <a href="${pageContext.request.contextPath}/admin/tours" <%= request.getAttribute("adminSection").equals("tours") ? "aria-current=\"page\"" : "" %>>Destinations</a>
+<a href="${pageContext.request.contextPath}/admin/enquiries" <%= request.getAttribute("adminSection").equals("enquiries") ? "aria-current=\"page\"" : "" %>>Enquiries</a>
 <a href="${pageContext.request.contextPath}/admin/holidays" <%= request.getAttribute("adminSection").equals("holidays") ? "aria-current=\"page\"" : "" %>>Customized Holidays</a>
 </nav>
 <a class="admin-website-link" href="${pageContext.request.contextPath}/index.jsp" target="_blank" rel="noopener">View website &#8599;</a>
