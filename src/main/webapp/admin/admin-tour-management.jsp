@@ -1615,15 +1615,11 @@ private String esc(Object value) {
                         <div>
 
                             <h2>
-                                Cover &amp; Gallery Images
+                                Destination photography
                             </h2>
 
                             <p>
-                                Upload images for this tour. They are
-                                stored as BLOB in the database.
-                                Cover images appear on the tour hero;
-                                all uploaded images appear in the
-                                Gallery section on the tour details page.
+                                Curate the main cover and gallery travellers see across the destination experience.
                             </p>
 
                         </div>
@@ -1631,68 +1627,47 @@ private String esc(Object value) {
                     </div>
 
 
-                    <form
-                        method="post"
-                        action="<%= esc( request.getContextPath() ) %>/admin/tours"
-                        enctype="multipart/form-data"
-                    ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
-
-                        <input
-                            type="hidden"
-                            name="action"
-                            value="uploadImage"
-                        >
-
-                        <input
-                            type="hidden"
-                            name="tourId"
-                            value="<%= esc( selectedTour.get("id") ) %>"
-                        >
-
-
-                        <label>
-                            Add Gallery Image
-                        </label>
-
-                        <input
-                            type="file"
-                            name="image"
-                            accept="image/jpeg,image/png,image/webp,image/gif"
-                            required
-                        >
-
-
-                        <label>
-
-                            <input
-                                type="checkbox"
-                                name="is_cover"
-                                value="true"
-                                style="width:auto;margin-right:6px;"
-                            >
-
-                            Also use as cover image
-
-                        </label>
-
-
-                        <button
-                            type="submit"
-                            class="button primary"
-                        >
-                            Upload to Gallery
-                        </button>
-
+<%
+                    java.util.List<java.util.Map<String,Object>> images =
+                        (java.util.List<java.util.Map<String,Object>>) request.getAttribute("images");
+                    java.util.Map<String,Object> coverImage = null;
+                    if (images != null) {
+                        for (java.util.Map<String,Object> candidate : images) {
+                            if (Boolean.TRUE.equals(candidate.get("is_cover"))) { coverImage = candidate; break; }
+                        }
+                    }
+                %>
+                <div class="destination-photo-studio">
+                    <div class="destination-cover-preview <%= coverImage == null ? "is-empty" : "" %>">
+                        <% if (coverImage != null) { %>
+                        <img id="destination-cover-preview" src="<%= esc(request.getContextPath()) %>/TourImageServlet?id=<%= esc(coverImage.get("id")) %>" alt="<%= esc(selectedTour.get("name")) %> cover" width="720" height="480">
+                        <span>Main cover</span>
+                        <% } else { %>
+                        <div id="destination-cover-placeholder"><b>✦</b><strong>Your destination deserves a beautiful cover.</strong><small>Upload a landscape JPEG or PNG to begin.</small></div>
+                        <img id="destination-cover-preview" hidden alt="New destination cover preview">
+                        <% } %>
+                    </div>
+                    <div class="destination-cover-controls">
+                        <p class="photo-eyebrow">MAIN PACKAGE IMAGE</p>
+                        <h3><%= coverImage == null ? "Add a cover photo" : "Replace the cover photo" %></h3>
+                        <p>This is the first image travellers see on the destination card and details page. Replacing it keeps the previous cover in the gallery.</p>
+                        <form method="post" action="<%= esc(request.getContextPath()) %>/admin/tours" enctype="multipart/form-data" class="destination-photo-form">
+                            <input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>"><input type="hidden" name="action" value="uploadImage"><input type="hidden" name="tourId" value="<%= esc(selectedTour.get("id")) %>"><input type="hidden" name="is_cover" value="true">
+                            <label for="destination-cover-file">Choose cover photo</label>
+                            <input id="destination-cover-file" type="file" name="image" accept="image/jpeg,image/png" required>
+                            <small>JPEG or PNG · up to 5 MB and 24 megapixels. A 3:2 landscape image works best.</small>
+                            <button type="submit" class="button primary">Save main cover</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="destination-gallery-upload">
+                    <div><p class="photo-eyebrow">DESTINATION GALLERY</p><h3>Add another view</h3><p>Show the places, stays and experiences included in this destination.</p></div>
+                    <form method="post" action="<%= esc(request.getContextPath()) %>/admin/tours" enctype="multipart/form-data" class="destination-photo-form inline">
+                        <input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>"><input type="hidden" name="action" value="uploadImage"><input type="hidden" name="tourId" value="<%= esc(selectedTour.get("id")) %>">
+                        <label for="destination-gallery-file">Gallery photo</label><input id="destination-gallery-file" type="file" name="image" accept="image/jpeg,image/png" required>
+                        <button type="submit" class="button">Add to gallery</button>
                     </form>
-
-
-                    <%
-                        java.util.List<java.util.Map<String,Object>> images =
-                            (java.util.List<java.util.Map<String,Object>>)
-                                request.getAttribute("images");
-                    %>
-
-
+                </div>
                     <% if (images != null &&
                            !images.isEmpty()) { %>
 
@@ -1734,7 +1709,7 @@ private String esc(Object value) {
                                         <% if (isCover) { %>
 
                                             <span class="cover">
-                                                COVER IMAGE
+                                                MAIN COVER
                                             </span>
 
                                         <% } %>
@@ -1773,7 +1748,7 @@ private String esc(Object value) {
                                                         type="submit"
                                                         class="button warning"
                                                     >
-                                                        Set Cover
+                                                        Make main cover
                                                     </button>
 
                                                 </form>
@@ -1837,7 +1812,7 @@ private String esc(Object value) {
                                 +
                             </div>
 
-                            No images uploaded for this tour.
+                            No destination photos yet. Add the main cover above, then build the gallery.
 
                         </div>
 

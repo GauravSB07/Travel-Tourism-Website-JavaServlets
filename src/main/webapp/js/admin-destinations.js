@@ -48,3 +48,27 @@
  });
  window.addEventListener('beforeunload',e=>{if(changed.size){e.preventDefault();e.returnValue='';}});
 })();
+(() => {
+ const input=document.getElementById('destination-cover-file');
+ const preview=document.getElementById('destination-cover-preview');
+ const placeholder=document.getElementById('destination-cover-placeholder');
+ if(!input||!preview)return;
+ let objectUrl;
+ input.addEventListener('change',()=>{
+   input.setCustomValidity('');
+   const file=input.files[0];if(!file)return;
+   if(file.size>5*1024*1024||!['image/jpeg','image/png'].includes(file.type)){
+     input.setCustomValidity('Choose a JPEG or PNG photo up to 5 MB.');input.reportValidity();return;
+   }
+   if(objectUrl)URL.revokeObjectURL(objectUrl);
+   objectUrl=URL.createObjectURL(file);preview.src=objectUrl;preview.hidden=false;
+   if(placeholder)placeholder.hidden=true;
+ });
+ const gallery=document.getElementById('destination-gallery-file');
+ if(gallery)gallery.addEventListener('change',()=>{
+   gallery.setCustomValidity('');
+   const file=gallery.files[0];if(file&&(file.size>5*1024*1024||!['image/jpeg','image/png'].includes(file.type))){
+     gallery.setCustomValidity('Choose a JPEG or PNG photo up to 5 MB.');gallery.reportValidity();
+   }
+ });
+})();

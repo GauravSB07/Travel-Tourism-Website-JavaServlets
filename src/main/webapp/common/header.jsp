@@ -24,14 +24,14 @@
 
             <a href="${pageContext.request.contextPath}/destinations">
                 Destinations
+            </a><a href="${pageContext.request.contextPath}/customize">
+                Customized Holidays
             </a>
+
+            
 
             <a href="${pageContext.request.contextPath}/experiences">
                 Experiences
-            </a>
-
-            <a href="${pageContext.request.contextPath}/customize">
-                Customized Holidays
             </a>
 
             <a href="${pageContext.request.contextPath}/about">

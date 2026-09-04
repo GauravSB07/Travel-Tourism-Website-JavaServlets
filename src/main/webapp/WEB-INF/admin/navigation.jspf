@@ -3,6 +3,7 @@
 <a class="admin-site-logo" href="${pageContext.request.contextPath}/index.jsp">Travel<span>Tourism</span></a>
 <span class="admin-area-label">ADMIN</span>
 <nav aria-label="Admin sections">
+<a href="${pageContext.request.contextPath}/admin/homepage" <%= request.getAttribute("adminSection").equals("homepage") ? "aria-current=\"page\"" : "" %>>Homepage</a>
 <a href="${pageContext.request.contextPath}/admin/tours" <%= request.getAttribute("adminSection").equals("tours") ? "aria-current=\"page\"" : "" %>>Destinations</a>
 <a href="${pageContext.request.contextPath}/admin/holidays" <%= request.getAttribute("adminSection").equals("holidays") ? "aria-current=\"page\"" : "" %>>Customized Holidays</a>
 </nav>
