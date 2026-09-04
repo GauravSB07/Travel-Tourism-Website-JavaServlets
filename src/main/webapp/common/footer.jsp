@@ -101,11 +101,11 @@
 
         <div>
 
-            <a href="#">Privacy Policy</a>
+            <a href="${pageContext.request.contextPath}/privacy-policy.jsp">Privacy Policy</a>
 
             <span>|</span>
 
-            <a href="#">Terms & Conditions</a>
+            <a href="${pageContext.request.contextPath}/terms-and-conditions.jsp">Terms &amp; Conditions</a>
 
         </div>
 
