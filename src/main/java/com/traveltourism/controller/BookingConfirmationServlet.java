@@ -57,10 +57,17 @@ public class BookingConfirmationServlet extends HttpServlet {
             String preferences = request.getParameter("preferences");
             if (preferences == null) preferences = "";
             if (preferences.length() > 2000) throw new IllegalArgumentException("Keep your preferences within 2,000 characters.");
+            String contactPreference = request.getParameter("contactPreference");
+            if (!java.util.Set.of("email", "phone", "whatsapp").contains(contactPreference)) throw new IllegalArgumentException("Choose how you would like us to contact you.");
+            String pickupLocation = request.getParameter("pickupLocation");
+            if (pickupLocation == null) pickupLocation = "";
+            pickupLocation = pickupLocation.trim();
+            if (pickupLocation.length() > 180) throw new IllegalArgumentException("Keep the pickup location within 180 characters.");
+            if (!"accepted".equals(request.getParameter("termsAccepted"))) throw new IllegalArgumentException("Please accept the booking-request terms before continuing.");
             long total = ((Number) selected.get("price")).longValue() * travelers;
             String reference = UUID.randomUUID().toString();
             // A unique form token also prevents duplicate requests from a double click.
-            String sql = "INSERT INTO booking_requests (reference, request_token, package_type, package_id, package_name, departure_city, duration, price_per_person, customer_name, email, phone, travelers, travel_date, preferences, total_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO booking_requests (reference, request_token, package_type, package_id, package_name, departure_city, duration, price_per_person, customer_name, email, phone, travelers, travel_date, preferences, contact_preference, pickup_location, terms_accepted_at, booking_channel, total_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,'guest',?)";
             try (Connection con = DBConnection.getConnection()) {
                 if (con == null) throw new SQLException("Database connection unavailable");
                 try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -70,14 +77,14 @@ public class BookingConfirmationServlet extends HttpServlet {
                     ps.setInt(7, (Integer) selected.get("duration")); ps.setInt(8, (Integer) selected.get("price"));
                     ps.setString(9, name); ps.setString(10, email); ps.setString(11, phone);
                     ps.setInt(12, travelers); ps.setDate(13, java.sql.Date.valueOf(date));
-                    ps.setString(14, preferences); ps.setLong(15, total);
+                    ps.setString(14, preferences); ps.setString(15, contactPreference); ps.setString(16, pickupLocation); ps.setLong(17, total);
                     ps.executeUpdate();
                 }
             }
             Map<String, Object> receipt = new LinkedHashMap<>(selected);
             receipt.put("reference", reference); receipt.put("customerName", name); receipt.put("email", email);
             receipt.put("phone", phone); receipt.put("travelers", travelers); receipt.put("date", date.toString());
-            receipt.put("preferences", preferences); receipt.put("total", total);
+            receipt.put("preferences", preferences); receipt.put("contactPreference", contactPreference); receipt.put("pickupLocation", pickupLocation); receipt.put("total", total);
             session.setAttribute("bookingReceipt", receipt);
             session.setAttribute("bookingToken", UUID.randomUUID().toString());
             response.sendRedirect(request.getContextPath() + "/booking-confirmation");

@@ -8,6 +8,8 @@ stats.put("tours",adminCount("SELECT COUNT(*) FROM tours"));
 stats.put("activeTours",adminCount("SELECT COUNT(*) FROM tours WHERE status='active'"));
 stats.put("holidays",adminCount("SELECT COUNT(*) FROM holiday_packages"));
 stats.put("activeHolidays",adminCount("SELECT COUNT(*) FROM holiday_packages WHERE active=TRUE"));
+stats.put("pendingBookings",adminCount("SELECT COUNT(*) FROM booking_requests WHERE archived=FALSE AND status='pending'"));
+stats.put("openBookings",adminCount("SELECT COUNT(*) FROM booking_requests WHERE archived=FALSE AND status IN('pending','reviewing')"));
 stats.put("newEnquiries",adminCount("SELECT COUNT(*) FROM contact_enquiries WHERE archived=FALSE AND status='new'"));
 stats.put("openEnquiries",adminCount("SELECT COUNT(*) FROM contact_enquiries WHERE archived=FALSE AND status IN('new','in_progress')"));
 stats.put("homePhotos",adminCount("SELECT COUNT(*) FROM homepage_images"));

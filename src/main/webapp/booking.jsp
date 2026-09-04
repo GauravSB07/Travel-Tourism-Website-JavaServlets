@@ -8,7 +8,7 @@
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Book Your Holiday | TravelTourism</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/booking.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/booking.css?v=3">
 </head>
 <body>
 <%@ include file="common/header.jsp" %>
@@ -32,11 +32,14 @@
             <div class="booking-field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" minlength="7" maxlength="30" value="<c:out value='${param.phone}'/>" required></div>
             <div class="booking-field"><label for="travelers">Number of travellers</label><input id="travelers" name="travelers" type="number" min="1" max="30" value="<c:out value='${empty param.travelers ? 1 : param.travelers}'/>" required></div>
             <div class="booking-field"><label for="travelDate">Departure date</label><input id="travelDate" name="travelDate" type="date" min="${today}" value="<c:out value='${param.travelDate}'/>" required></div>
+            <div class="booking-field"><label for="contactPreference">Preferred contact method</label><select id="contactPreference" name="contactPreference" required><option value="email" ${param.contactPreference == 'email' ? 'selected' : ''}>Email</option><option value="phone" ${param.contactPreference == 'phone' ? 'selected' : ''}>Phone call</option><option value="whatsapp" ${param.contactPreference == 'whatsapp' ? 'selected' : ''}>WhatsApp</option></select></div>
+            <div class="booking-field"><label for="pickupLocation">Pickup location <span>(optional)</span></label><input id="pickupLocation" name="pickupLocation" maxlength="180" value="<c:out value='${param.pickupLocation}'/>" placeholder="Hotel, airport, railway station or area"></div>
         </div>
         <c:if test="${selection.type == 'holiday'}"><p class="booking-help">Choose your preferred travel date and tell us how you would like to celebrate. Availability will be confirmed with you.</p></c:if>
         <div class="booking-field"><label for="preferences">Make it yours <span>(optional)</span></label><textarea id="preferences" name="preferences" rows="4" maxlength="2000" placeholder="Tell us about dietary needs, room preferences, accessibility requirements or itinerary changes."><c:out value="${param.preferences}"/></textarea></div>
         <p class="booking-total">Estimated package total: <strong id="bookingTotal" data-price="${selection.price}">₹<fmt:formatNumber value="${selection.price}"/> for one traveller</strong></p>
         <p class="booking-help">Submit a booking request for this package. Availability and any requested changes will be confirmed separately. No payment is collected here.</p>
+        <label class="booking-consent"><input type="checkbox" name="termsAccepted" value="accepted" required><span>I agree that this is a booking request, not a confirmed reservation or payment. I have reviewed the <a href="${pageContext.request.contextPath}/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="${pageContext.request.contextPath}/privacy-policy" target="_blank">Privacy Policy</a>.</span></label>
         <button class="booking-submit" type="submit">Submit booking request</button>
     </form>
 </main>
