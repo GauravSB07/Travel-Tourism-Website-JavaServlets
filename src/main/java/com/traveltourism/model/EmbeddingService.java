@@ -23,18 +23,25 @@ public class EmbeddingService {
     
     private EmbeddingService() {
         try {
-            Properties props = new Properties();
-            try (InputStream is = getClass().getClassLoader().getResourceAsStream("application.properties")) {
-                if (is != null) {
-                    props.load(is);
-                }
+            String modelDir = System.getenv("MODEL_DIR");
+            if (modelDir == null || modelDir.trim().isEmpty()) {
+                modelDir = System.getenv("ONNX_MODEL_DIR");
             }
-            String modelDir = props.getProperty("model.dir", "/home/rehat/dev/java/models/bge-m3/onnx");
+            if (modelDir == null || modelDir.trim().isEmpty()) {
+                Properties props = new Properties();
+                try (InputStream is = getClass().getClassLoader().getResourceAsStream("application.properties")) {
+                    if (is != null) {
+                        props.load(is);
+                    }
+                }
+                modelDir = props.getProperty("model.dir", "/home/rehat/dev/java/models/bge-m3/onnx");
+            }
             
-            String modelPath = modelDir + "/model.onnx";
-            String tokenizerPath = modelDir + "/tokenizer.json";
+            // Hardcoded filenames
+            String modelPath = Paths.get(modelDir, "model.onnx").toString();
+            java.nio.file.Path tokenizerPath = Paths.get(modelDir, "tokenizer.json");
             
-            tokenizer = HuggingFaceTokenizer.newInstance(Paths.get(tokenizerPath));
+            tokenizer = HuggingFaceTokenizer.newInstance(tokenizerPath);
             env = OrtEnvironment.getEnvironment();
             session = env.createSession(modelPath, new OrtSession.SessionOptions());
             
