@@ -466,6 +466,7 @@ public class AdminTourPanelServlet extends HttpServlet {
     }
 
 
+    
     // =============================================================
     // CREATE TOUR
     // =============================================================
@@ -475,223 +476,127 @@ public class AdminTourPanelServlet extends HttpServlet {
             HttpServletRequest request)
             throws Exception {
 
-        String name =
-                clean(request.getParameter("name"));
-
-        String category =
-                clean(request.getParameter("category"));
-
-        String departureCity =
-                getParameter(
-                        request,
-                        "departureCity",
-                        "departure_city"
-                );
-
+        String name = clean(request.getParameter("name"));
+        String category = clean(request.getParameter("category"));
+        String departureCity = getParameter(request, "departureCity", "departure_city");
         departureCity = clean(departureCity);
-
-        String durationValue =
-                clean(request.getParameter("duration"));
-
-        String priceValue =
-                clean(request.getParameter("price"));
-
-        String status =
-                clean(request.getParameter("status"));
+        String durationValue = clean(request.getParameter("duration"));
+        String priceValue = clean(request.getParameter("price"));
+        String status = clean(request.getParameter("status"));
+        
+        // Extended Details
+        String shortDesc = clean(request.getParameter("short_description"));
+        String longDesc = clean(request.getParameter("long_description"));
+        String durationText = clean(request.getParameter("duration_text"));
+        String bestTime = clean(request.getParameter("best_time"));
+        String statesCovered = clean(request.getParameter("states_covered"));
+        String citiesCovered = clean(request.getParameter("cities_covered"));
+        String route = clean(request.getParameter("route"));
+        String highlights = clean(request.getParameter("highlights"));
+        String inclusions = clean(request.getParameter("inclusions"));
+        String exclusions = clean(request.getParameter("exclusions"));
+        String prep = clean(request.getParameter("preparation"));
+        String terms = clean(request.getParameter("payment_terms"));
+        String upgrades = clean(request.getParameter("upgrades_info"));
 
         // =========================================================
         // VALIDATION
         // =========================================================
-
-        if (name == null) {
-            throw new Exception(
-                    "Tour name is required."
-            );
-        }
-
-        if (category == null) {
-            throw new Exception(
-                    "Tour category is required."
-            );
-        }
-
-        if (departureCity == null) {
-            throw new Exception(
-                    "Departure city is required."
-            );
-        }
-
-        if (durationValue == null) {
-            throw new Exception(
-                    "Duration is required."
-            );
-        }
-
-        if (priceValue == null) {
-            throw new Exception(
-                    "Price is required."
-            );
-        }
-
-        // =========================================================
-        // PARSE DURATION
-        // =========================================================
+        if (name == null) throw new Exception("Tour name is required.");
+        if (category == null) throw new Exception("Tour category is required.");
+        if (departureCity == null) throw new Exception("Departure city is required.");
+        if (durationValue == null) throw new Exception("Duration is required.");
+        if (priceValue == null) throw new Exception("Price is required.");
+        if (longDesc == null || longDesc.length() < 250) throw new Exception("Long description must be at least 250 characters.");
 
         int duration;
-
-        try {
-
-            duration =
-                    Integer.parseInt(
-                            durationValue
-                    );
-
-        } catch (NumberFormatException e) {
-
-            throw new Exception(
-                    "Invalid duration. Please enter a whole number."
-            );
-        }
-
-        if (duration <= 0) {
-
-            throw new Exception(
-                    "Duration must be greater than zero."
-            );
-        }
-
-        // =========================================================
-        // PARSE PRICE
-        // =========================================================
+        try { duration = Integer.parseInt(durationValue); }
+        catch (NumberFormatException e) { throw new Exception("Invalid duration."); }
+        if (duration <= 0) throw new Exception("Duration must be greater than zero.");
 
         BigDecimal price;
+        try { price = new BigDecimal(priceValue); }
+        catch (NumberFormatException e) { throw new Exception("Invalid price."); }
+        if (price.compareTo(BigDecimal.ZERO) < 0) throw new Exception("Price cannot be negative.");
 
-        try {
-
-            price =
-                    new BigDecimal(
-                            priceValue
-                    );
-
-        } catch (NumberFormatException e) {
-
-            throw new Exception(
-                    "Invalid price. Please enter a valid amount."
-            );
-        }
-
-        if (price.compareTo(BigDecimal.ZERO) < 0) {
-
-            throw new Exception(
-                    "Price cannot be negative."
-            );
-        }
-
-        // =========================================================
-        // STATUS
-        // =========================================================
-
-        if (status == null) {
-            status = "active";
-        }
-
-        if (!"active".equalsIgnoreCase(status)
-                &&
-            !"inactive".equalsIgnoreCase(status)) {
-
-            throw new Exception(
-                    "Invalid tour status."
-            );
-        }
-
+        if (status == null) status = "active";
         status = status.toLowerCase();
 
         // =========================================================
-        // CURRENT TOURS TABLE
-        //
-        // IMPORTANT:
-        // The image column was removed from tours.
-        //
-        // Current columns being inserted:
-        // name
-        // category
-        // departure_city
-        // duration
-        // price
-        // status
-        //
-        // created_at and updated_at are automatic.
+        // INSERT INTO tours
         // =========================================================
-
-        String sql =
-                "INSERT INTO tours " +
-                "(name, category, departure_city, " +
-                "duration, price, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement statement =
-                     connection.prepareStatement(
-                             sql,
-                             Statement.RETURN_GENERATED_KEYS
-                     )) {
-
-            statement.setString(
-                    1,
-                    name
-            );
-
-            statement.setString(
-                    2,
-                    category
-            );
-
-            statement.setString(
-                    3,
-                    departureCity
-            );
-
-            statement.setInt(
-                    4,
-                    duration
-            );
-
-            statement.setBigDecimal(
-                    5,
-                    price
-            );
-
-            statement.setString(
-                    6,
-                    status
-            );
-
-            int affectedRows =
-                    statement.executeUpdate();
-
-            if (affectedRows == 0) {
-
-                throw new Exception(
-                        "Tour package could not be created."
-                );
+        String sqlTours = "INSERT INTO tours (name, category, departure_city, duration, price, status, short_description) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        int newId = -1;
+        try (PreparedStatement statement = connection.prepareStatement(sqlTours, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, name);
+            statement.setString(2, category);
+            statement.setString(3, departureCity);
+            statement.setInt(4, duration);
+            statement.setBigDecimal(5, price);
+            statement.setString(6, status);
+            statement.setString(7, shortDesc);
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) throw new Exception("Tour package could not be created.");
+            try (ResultSet keys = statement.getGeneratedKeys()) {
+                if (keys.next()) newId = keys.getInt(1);
             }
+        }
+        if (newId == -1) throw new Exception("Tour package was inserted but ID could not be retrieved.");
 
-            // =====================================================
-            // GET GENERATED TOUR ID
-            // =====================================================
+        // =========================================================
+        // INSERT INTO tour_details
+        // =========================================================
+        String sqlDetails = "INSERT INTO tour_details (tour_id, long_description, highlights, inclusions, exclusions, best_time, duration_text, states_covered, cities_covered, route, preparation, payment_terms, upgrades_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sqlDetails)) {
+            stmt.setInt(1, newId);
+            stmt.setString(2, longDesc);
+            stmt.setString(3, highlights);
+            stmt.setString(4, inclusions);
+            stmt.setString(5, exclusions);
+            stmt.setString(6, bestTime);
+            stmt.setString(7, durationText);
+            stmt.setString(8, statesCovered);
+            stmt.setString(9, citiesCovered);
+            stmt.setString(10, route);
+            stmt.setString(11, prep);
+            stmt.setString(12, terms);
+            stmt.setString(13, upgrades);
+            stmt.executeUpdate();
+        }
 
-            try (ResultSet keys =
-                         statement.getGeneratedKeys()) {
+        // =========================================================
+        // AUTO-GENERATE EMBEDDING MyVector
+        // =========================================================
+        String embeddingTextTemplate = String.format(
+            "TOUR\nName: %s\nCategory: %s\nDeparture City: %s\nDuration: %s days\nPrice: %s INR\nStatus: %s\n\n" +
+            "DESCRIPTION\nDescription: %s\nShort Description: %s\n\n" +
+            "HIGHLIGHTS\nHighlights: %s\n\nINCLUSIONS\nInclusions: %s\n\nEXCLUSIONS\nExclusions: %s\n\n" +
+            "BEST TIME\nBest Time: %s\n\nDURATION\nDuration: %s\n\n" +
+            "GEOGRAPHY\nStates Covered: %s\nCities Covered: %s\nRoute: %s\n\n" +
+            "PREPARATION\nPreparation: %s\n\nPAYMENT TERMS\nPayment Terms: %s\n\nUPGRADES\nUpgrades: %s\n",
+            name, category, departureCity, duration, price, status,
+            longDesc, shortDesc, highlights, inclusions, exclusions, bestTime, durationText,
+            statesCovered, citiesCovered, route, prep, terms, upgrades
+        );
 
-                if (keys.next()) {
-
-                    return keys.getInt(1);
-                }
+        com.traveltourism.model.EmbeddingService embedServ = com.traveltourism.model.EmbeddingService.getInstance();
+        float[] vec = embedServ.getEmbedding(embeddingTextTemplate);
+        if (vec != null) {
+            String vectorString = embedServ.vectorToMysql(vec);
+            // Must execute setting the variable first
+            try (PreparedStatement ps1 = connection.prepareStatement("SET @create_vec = myvector_construct(?)")) {
+                ps1.setString(1, vectorString);
+                ps1.execute();
+            }
+            try (PreparedStatement ps2 = connection.prepareStatement(
+                "INSERT INTO tour_embedding (tour_id, embedding_text, embedding_myvector) VALUES (?, ?, @create_vec)")) {
+                ps2.setInt(1, newId);
+                ps2.setString(2, embeddingTextTemplate);
+                ps2.executeUpdate();
             }
         }
 
-        throw new Exception(
-                "Tour package was inserted but its generated ID could not be retrieved."
-        );
+        return newId;
     }
 
 
