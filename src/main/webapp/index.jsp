@@ -1,7 +1,9 @@
 
 <%@ page language="java"
          contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" import="java.util.Map,com.traveltourism.model.HomepageDataAccess" %>
+<%! private String homeEsc(String value){if(value==null)return "";return value.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("''","&#39;");} %>
+<% Map<String,String> hp=HomepageDataAccess.load(); %>
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -10,7 +12,7 @@
 <title>TravelTourism | Explore India</title>
 
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/style.css">
+      href="${pageContext.request.contextPath}/css/style.css?v=homepage-2">
 
 
 <!-- =====================================================
@@ -31,25 +33,21 @@
          HERO SECTION
          ================================================= -->
 
-    <section class="hero">
+    <section class="hero" style="background-image:linear-gradient(90deg,rgba(12,36,54,.94),rgba(12,43,61,.62),rgba(13,50,56,.18)),url('${pageContext.request.contextPath}/homepage-image?slot=hero')">
 
         <div class="hero-content">
 
             <p class="hero-tagline">
-                DISCOVER • EXPERIENCE • REMEMBER
+                <%=homeEsc(hp.get("hero_label"))%>
             </p>
 
             <h1>
-                Your Journey.
+                <%=homeEsc(hp.get("hero_title"))%>
                 <br>
-                <span>Your Way.</span>
+                <span><%=homeEsc(hp.get("hero_accent"))%></span>
             </h1>
 
-            <p class="hero-description">
-                Explore India's most beautiful destinations,
-                discover unforgettable experiences and create
-                a holiday designed around you.
-            </p>
+            <p class="hero-description"><%=homeEsc(hp.get("hero_description"))%></p>
 
             <div class="hero-actions">
 
@@ -131,17 +129,12 @@
         <div class="section-heading">
 
             <p>
-                EXPLORE INDIA
+                <%=homeEsc(hp.get("destination_label"))%>
             </p>
 
-            <h2>
-                Popular Destinations
-            </h2>
+            <h2><%=homeEsc(hp.get("destination_title"))%></h2>
 
-            <span>
-                From beaches and mountains to heritage cities,
-                discover places worth remembering.
-            </span>
+            <span><%=homeEsc(hp.get("destination_description"))%></span>
 
         </div>
 
@@ -155,7 +148,7 @@
 
             <article class="destination-card">
 
-                <div class="destination-image goa-image">
+                <div class="destination-image goa-image" style="background-image:linear-gradient(180deg,rgba(12,38,52,.02),rgba(12,38,52,.34)),url('${pageContext.request.contextPath}/homepage-image?slot=goa')!important">
 
                     <span class="destination-tag">
                         BEACH
@@ -187,7 +180,7 @@
 
             <article class="destination-card">
 
-                <div class="destination-image kerala-image">
+                <div class="destination-image kerala-image" style="background-image:linear-gradient(180deg,rgba(12,38,52,.02),rgba(12,38,52,.34)),url('${pageContext.request.contextPath}/homepage-image?slot=kerala')!important">
 
                     <span class="destination-tag">
                         NATURE
@@ -219,7 +212,7 @@
 
             <article class="destination-card">
 
-                <div class="destination-image rajasthan-image">
+                <div class="destination-image rajasthan-image" style="background-image:linear-gradient(180deg,rgba(12,38,52,.02),rgba(12,38,52,.34)),url('${pageContext.request.contextPath}/homepage-image?slot=rajasthan')!important">
 
                     <span class="destination-tag">
                         HERITAGE
@@ -251,7 +244,7 @@
 
             <article class="destination-card">
 
-                <div class="destination-image kashmir-image">
+                <div class="destination-image kashmir-image" style="background-image:linear-gradient(180deg,rgba(12,38,52,.02),rgba(12,38,52,.34)),url('${pageContext.request.contextPath}/homepage-image?slot=kashmir')!important">
 
                     <span class="destination-tag">
                         MOUNTAINS
@@ -283,7 +276,7 @@
 
             <article class="destination-card">
 
-                <div class="destination-image himachal-image">
+                <div class="destination-image himachal-image" style="background-image:linear-gradient(180deg,rgba(12,38,52,.02),rgba(12,38,52,.34)),url('${pageContext.request.contextPath}/homepage-image?slot=himachal')!important">
 
                     <span class="destination-tag">
                         ADVENTURE
@@ -315,7 +308,7 @@
 
             <article class="destination-card">
 
-                <div class="destination-image maharashtra-image">
+                <div class="destination-image maharashtra-image" style="background-image:linear-gradient(180deg,rgba(12,38,52,.02),rgba(12,38,52,.34)),url('${pageContext.request.contextPath}/homepage-image?slot=maharashtra')!important">
 
                     <span class="destination-tag">
                         CULTURE
@@ -578,12 +571,11 @@
                 </div>
 
                 <h3>
-                    Personalized Holidays
+                    Occasion-ready Holidays
                 </h3>
 
                 <p>
-                    Create a holiday that matches your interests,
-                    travel style and preferred experiences.
+                    Find birthday, honeymoon, anniversary and family packages designed for the moment.
                 </p>
 
             </div>
@@ -632,7 +624,7 @@
 
     </section>
     <!-- =================================================
-     CREATE YOUR OWN HOLIDAY
+     CUSTOMIZED HOLIDAYS BY OCCASION
      ================================================= -->
 
     <section class="custom-holiday-section">
@@ -645,21 +637,16 @@
             <div class="custom-holiday-content">
 
                 <p class="custom-holiday-label">
-                    YOUR TRIP. YOUR WAY.
+                    <%=homeEsc(hp.get("holiday_label"))%>
                 </p>
 
 
                 <h2>
-                    Create Your Own Holiday
+                    <%=homeEsc(hp.get("holiday_title"))%>
                 </h2>
 
 
-                <p class="custom-holiday-description">
-                    Don't want a standard package?
-                    Build a holiday that is completely yours.
-                    Choose your destination, experiences and travel
-                    preferences and create a journey designed around you.
-                </p>
+                <p class="custom-holiday-description"><%=homeEsc(hp.get("holiday_description"))%></p>
 
 
                 <!-- ================= STEPS ================= -->
@@ -679,13 +666,12 @@
                         <div class="custom-step-content">
 
                             <h3>
-                                Choose Your Destination
+                                Choose Your Occasion
                             </h3>
 
 
                             <p>
-                                Pick the places you want to explore
-                                across India.
+                                Start with a birthday, honeymoon, anniversary, family celebration or group escape.
                             </p>
 
                         </div>
@@ -705,13 +691,12 @@
                         <div class="custom-step-content">
 
                             <h3>
-                                Select Your Experiences
+                                Compare Curated Packages
                             </h3>
 
 
                             <p>
-                                Choose from adventure, culture,
-                                nature, food and more.
+                                View package details, inclusions, galleries and prices before deciding.
                             </p>
 
                         </div>
@@ -731,13 +716,12 @@
                         <div class="custom-step-content">
 
                             <h3>
-                                Build Your Perfect Holiday
+                                Book Your Favourite
                             </h3>
 
 
                             <p>
-                                Create a personalized itinerary
-                                that matches your travel style.
+                                Select the package that fits your moment and continue through the familiar booking flow.
                             </p>
 
                         </div>
@@ -752,7 +736,7 @@
                 <a href="${pageContext.request.contextPath}/customize"
                    class="custom-holiday-btn">
 
-                    Start Customizing →
+                    <%=homeEsc(hp.get("holiday_button"))%> →
 
                 </a>
 
@@ -761,7 +745,7 @@
 
             <!-- ================= VISUAL ================= -->
 
-            <div class="custom-holiday-visual">
+            <div class="custom-holiday-visual" style="background-image:linear-gradient(180deg,rgba(16,47,61,.08),rgba(13,43,54,.84)),url('${pageContext.request.contextPath}/homepage-image?slot=holiday')!important">
 
                 <div class="custom-visual-overlay">
 
@@ -771,14 +755,12 @@
 
 
                     <h3>
-                        Your Journey,
-                        Your Rules.
+                        Celebrate Your Way.
                     </h3>
 
 
                     <p>
-                        Make every moment of your holiday
-                        truly yours.
+                        Occasion-led escapes, thoughtfully presented and ready to book.
                     </p>
 
                 </div>

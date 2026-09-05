@@ -1,855 +1,146 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
     <meta charset="UTF-8">
-
-    <title>${tour.name} | TravelTourism</title>
-
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/style.css">
-
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/tour_details.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><c:out value="${tour.name}"/> | TravelTourism</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tour_details.css?v=c6940c917971">
 </head>
-
-<body>
-
+<body class="journey-page">
 <%@ include file="common/header.jsp" %>
-
-
-<!-- =====================================================
-     TOP BAR
-     ===================================================== -->
-
-<section class="tourdetails-topbar">
-
-    <div class="tourdetails-topbar-inner">
-
-        <div class="tourdetails-breadcrumb">
-
-            <a href="${pageContext.request.contextPath}/home">
-                Home
-            </a>
-
-            <span>›</span>
-
-            <a href="${pageContext.request.contextPath}/destinations">
-                Destinations
-            </a>
-
-            <span>›</span>
-
-            <b>${tour.name}</b>
-
+<main class="journey-shell">
+    <nav class="journey-breadcrumb" aria-label="Breadcrumb">
+        <a href="${pageContext.request.contextPath}/index.jsp">Home</a><span aria-hidden="true">/</span>
+        <a href="${pageContext.request.contextPath}/destinations">Destinations</a><span aria-hidden="true">/</span>
+        <span aria-current="page"><c:out value="${tour.name}"/></span>
+    </nav>
+    <div class="journey-opening">
+    <header class="journey-heading">
+        <div>
+            <p class="journey-kicker"><span></span> <c:out value="${tour.category}"/> · INDIA</p>
+            <h1><c:out value="${tour.name}"/></h1>
+            <c:if test="${not empty tour.shortDescription}"><p class="journey-lead"><c:out value="${tour.shortDescription}"/></p></c:if>
         </div>
+        <a class="journey-text-link" href="#itinerary-section">Discover the itinerary <span aria-hidden="true">↗</span></a>
+    </header>
 
-        <p>CURATED INDIA JOURNEYS</p>
-
-        <h2>Every detail, beautifully considered.</h2>
+    <section class="journey-hero" aria-label="Tour photograph">
+        <c:choose>
+            <c:when test="${tour.imageId > 0}">
+                <img src="${pageContext.request.contextPath}/TourImageServlet?id=${tour.imageId}" alt="<c:out value='${tour.name}'/>" fetchpriority="high">
+            </c:when>
+            <c:otherwise><div class="journey-image-empty"><span aria-hidden="true">⌖</span><p>Tour photograph not available</p></div></c:otherwise>
+        </c:choose>
+        <div class="journey-hero-caption"><span>THE JOURNEY</span><p><c:out value="${tour.departureCity}"/> <span aria-hidden="true">—</span> ${tour.duration} days</p></div>
+        <c:if test="${not empty images}"><a class="journey-gallery-link" href="#gallery-section"><span aria-hidden="true">▦</span> Explore gallery <span>${fn:length(images)}</span></a></c:if>
+    </section>
 
     </div>
+    <div class="journey-facts" aria-label="Tour at a glance">
+        <div><span class="journey-fact-label">DURATION</span><strong>${tour.duration} days</strong></div>
+        <div><span class="journey-fact-label">DEPARTING FROM</span><strong><c:out value="${tour.departureCity}"/></strong></div>
+        <div><span class="journey-fact-label">TRAVEL STYLE</span><strong><c:out value="${tour.category}"/></strong></div>
+        <div><span class="journey-fact-label">BEST TIME TO VISIT</span><strong><c:out value="${empty details.bestTime ? 'Not specified' : details.bestTime}"/></strong></div>
+    </div>
 
-</section>
-
-
-<main class="page-container">
-
-
-<!-- =====================================================
-     HERO SECTION
-     ===================================================== -->
-
-<div class="hero-banner">
-
-    <c:choose>
-
-        <c:when test="${tour.imageId > 0}">
-
-            <img
-                src="${pageContext.request.contextPath}/TourImageServlet?id=${tour.imageId}"
-                alt="${tour.name}">
-
-        </c:when>
-
-        <c:otherwise>
-
-            <div class="hero-image-placeholder">
-                No image available
-            </div>
-
-        </c:otherwise>
-
-    </c:choose>
-
-
-    <div class="hero-overlay">
-
-        <h1>${tour.name}</h1>
-
-        <p>${tour.shortDescription}</p>
-
-
-        <div class="meta-bar">
-
-            <span>
-                <strong>Duration:</strong>
-                ${tour.duration} Days
-            </span>
-
-            <span>
-                <strong>Category:</strong>
-                ${tour.category}
-            </span>
-
-            <span>
-                <strong>Departure:</strong>
-                ${tour.departureCity}
-            </span>
-
-            <span>
-
-                <strong>Best Time:</strong>
-
+    <nav class="journey-section-nav" aria-label="Tour sections">
+        <a href="#overview-section">Overview</a><a href="#itinerary-section">Itinerary</a><a href="#stays-section">Stays</a><a href="#essentials-section">What's included</a><a href="#gallery-section">Gallery</a><a href="#map-section">Location</a>
+    </nav>
+    <div class="journey-layout">
+        <div class="journey-story">
+            <section class="journey-section" id="overview-section">
+                <p class="journey-kicker">01 / THE EXPERIENCE</p><h2>A closer look at your journey.</h2>
+                <p class="journey-copy"><c:out value="${empty details.longDescription ? 'Details are not available for this tour yet.' : details.longDescription}"/></p>
+                <c:if test="${not empty details.highlights}">
+                    <div class="journey-highlights"><h3>Journey highlights</h3><ul>
+                        <c:forEach var="highlight" items="${fn:split(details.highlights, ',')}"><li><span aria-hidden="true">✦</span><c:out value="${fn:trim(highlight)}"/></li></c:forEach>
+                    </ul></div>
+                </c:if>
+                <c:if test="${empty details.highlights}"><p class="journey-muted">Tour highlights are not available yet.</p></c:if>
+            </section>
+            <section class="journey-section" id="itinerary-section">
+                <div class="journey-section-heading"><div><p class="journey-kicker">02 / THE ITINERARY</p><h2>Every day, a new perspective.</h2></div><span class="journey-duration">${tour.duration} days</span></div>
                 <c:choose>
-
-                    <c:when test="${details != null}">
-                        ${details.bestTime}
+                    <c:when test="${not empty itinerary}">
+                        <div class="journey-timeline">
+                            <c:forEach var="day" items="${itinerary}" varStatus="status">
+                                <details class="journey-day" ${status.first ? 'open' : ''}>
+                                    <summary><span class="journey-day-label">DAY <fmt:formatNumber value="${day.dayNumber}" pattern="00"/></span><span><c:out value="${day.dayTitle}"/></span><span class="journey-expand" aria-hidden="true">+</span></summary>
+                                    <p class="journey-copy"><c:out value="${day.dayDescription}"/></p>
+                                </details>
+                            </c:forEach>
+                        </div>
                     </c:when>
-
-                    <c:otherwise>
-                        Not specified
-                    </c:otherwise>
-
+                    <c:otherwise><p class="journey-muted">Itinerary information is not available yet.</p></c:otherwise>
                 </c:choose>
-
-            </span>
-
-        </div>
-
-
-        <a href="#itinerary-section"
-           class="view-itinerary-btn">
-
-            View Day-wise Itinerary
-
-        </a>
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     QUICK INFORMATION
-     ===================================================== -->
-
-<section class="tour-quick-info"
-         aria-label="Tour at a glance">
-
-
-    <div class="quick-info-item">
-
-        <div class="quick-info-icon">
-            ◷
-        </div>
-
-        <div class="quick-info-text">
-
-            <span class="quick-info-label">
-                Duration
-            </span>
-
-            <span class="quick-info-value">
-                ${tour.duration} memorable days
-            </span>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="quick-info-item">
-
-        <div class="quick-info-icon">
-            ⌖
-        </div>
-
-        <div class="quick-info-text">
-
-            <span class="quick-info-label">
-                Departure
-            </span>
-
-            <span class="quick-info-value">
-                ${tour.departureCity}
-            </span>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="quick-info-item">
-
-        <div class="quick-info-icon">
-            ✦
-        </div>
-
-        <div class="quick-info-text">
-
-            <span class="quick-info-label">
-                Travel style
-            </span>
-
-            <span class="quick-info-value">
-                ${tour.category}
-            </span>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="quick-info-item">
-
-        <div class="quick-info-icon">
-            ₹
-        </div>
-
-        <div class="quick-info-text">
-
-            <span class="quick-info-label">
-                Starting from
-            </span>
-
-            <span class="quick-info-value">
-                ₹${tour.price} per person
-            </span>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     OVERVIEW
-     ===================================================== -->
-
-<div class="card">
-
-    <h2>Overview</h2>
-
-    <c:choose>
-
-        <c:when test="${details != null}">
-
-            <p>
-                ${details.longDescription}
-            </p>
-
-        </c:when>
-
-        <c:otherwise>
-
-            <p>
-                Details are not available for this tour yet.
-            </p>
-
-        </c:otherwise>
-
-    </c:choose>
-
-</div>
-
-
-
-<!-- =====================================================
-     HIGHLIGHTS
-     ===================================================== -->
-
-<div class="card">
-
-    <h2>Tour Highlights</h2>
-
-    <ul class="highlight-list">
-
-        <c:choose>
-
-            <c:when test="${details != null && not empty details.highlights}">
-
-                <c:forEach
-                    var="h"
-                    items="${fn:split(details.highlights, ',')}">
-
-                    <li>
-                        ${h}
-                    </li>
-
-                </c:forEach>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <li>
-                    Tour highlights are not available yet.
-                </li>
-
-            </c:otherwise>
-
-        </c:choose>
-
-    </ul>
-
-</div>
-
-
-
-<!-- =====================================================
-     GALLERY
-     ===================================================== -->
-
-<div class="gallery-section">
-
-    <h2>Gallery</h2>
-
-    <div class="gallery-grid">
-
-        <c:choose>
-
-            <c:when test="${not empty images}">
-
-                <c:forEach
-                    var="img"
-                    items="${images}">
-
-                    <div class="gallery-item">
-
-                        <c:choose>
-
-                            <c:when test="${img.id > 0}">
-
-                                <img
-                                    src="${pageContext.request.contextPath}/TourImageServlet?id=${img.id}"
-                                    alt="${tour.name} gallery image">
-
-                            </c:when>
-
-                            <c:otherwise>
-
-                                <div class="gallery-image-placeholder">
-                                    Image unavailable
-                                </div>
-
-                            </c:otherwise>
-
-                        </c:choose>
-
+            </section>
+            <section class="journey-section" id="stays-section">
+                <p class="journey-kicker">03 / YOUR STAYS</p><h2>A place to pause.</h2>
+                <c:choose>
+                    <c:when test="${not empty hotels}">
+                        <div class="journey-stays">
+                            <c:forEach var="hotel" items="${hotels}">
+                                <article class="journey-hotel"><div class="journey-hotel-icon" aria-hidden="true">⌂</div><div><p class="journey-kicker"><c:out value="${hotel.city}"/></p><h3><c:out value="${hotel.hotelName}"/></h3><div class="journey-hotel-dates"><p><span>Check-in</span><c:out value="${hotel.checkIn}"/></p><p><span>Check-out</span><c:out value="${hotel.checkOut}"/></p></div></div></article>
+                            </c:forEach>
+                        </div>
+                    </c:when>
+                    <c:otherwise><p class="journey-muted">Accommodation information is not available yet.</p></c:otherwise>
+                </c:choose>
+            </section>
+            <section class="journey-section" id="essentials-section">
+                <p class="journey-kicker">04 / THE DETAILS</p><h2>Know before you go.</h2>
+                <div class="journey-inclusions-grid">
+                    <div class="journey-included"><h3><span aria-hidden="true">+</span> Included in your journey</h3>
+                        <c:choose><c:when test="${not empty details.inclusions}"><ul><c:forEach var="item" items="${fn:split(details.inclusions, ',')}"><li><c:out value="${fn:trim(item)}"/></li></c:forEach></ul></c:when><c:otherwise><p class="journey-muted">Inclusion information is not available yet.</p></c:otherwise></c:choose>
                     </div>
-
-                </c:forEach>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <div class="no-gallery-images">
-
-                    <p>
-                        No gallery images have been uploaded for this tour yet.
-                    </p>
-
+                    <div class="journey-excluded"><h3><span aria-hidden="true">−</span> Not included</h3>
+                        <c:choose><c:when test="${not empty details.exclusions}"><ul><c:forEach var="item" items="${fn:split(details.exclusions, ',')}"><li><c:out value="${fn:trim(item)}"/></li></c:forEach></ul></c:when><c:otherwise><p class="journey-muted">Exclusion information is not available yet.</p></c:otherwise></c:choose>
+                    </div>
                 </div>
-
-            </c:otherwise>
-
-        </c:choose>
-
+                <div class="journey-practical">
+                    <details><summary>Preparing for your trip <span aria-hidden="true">+</span></summary><p class="journey-copy"><c:out value="${empty details.preparation ? 'Preparation information is not available yet.' : details.preparation}"/></p></details>
+                    <details><summary>Payment terms <span aria-hidden="true">+</span></summary><p class="journey-copy"><c:out value="${empty details.paymentTerms ? 'Payment terms are not available yet.' : details.paymentTerms}"/></p></details>
+                    <details><summary>Available upgrades <span aria-hidden="true">+</span></summary><p class="journey-copy"><c:out value="${empty details.upgradesInfo ? 'No upgrade information is available yet.' : details.upgradesInfo}"/></p></details>
+                </div>
+            </section>
+            <section class="journey-section" id="gallery-section">
+                <p class="journey-kicker">05 / THROUGH THE LENS</p><h2>A glimpse of what's ahead.</h2>
+                <c:choose>
+                    <c:when test="${not empty images}"><div class="journey-gallery">
+                        <c:forEach var="photo" items="${images}" varStatus="status">
+                            <c:if test="${photo.id > 0}"><a class="journey-photo" href="${pageContext.request.contextPath}/TourImageServlet?id=${photo.id}" aria-label="View photo ${status.count} of <c:out value='${tour.name}'/>"><img src="${pageContext.request.contextPath}/TourImageServlet?id=${photo.id}" loading="lazy" alt="<c:out value='${tour.name}'/> — photo ${status.count}"><span aria-hidden="true">↗</span></a></c:if>
+                        </c:forEach>
+                    </div></c:when>
+                    <c:otherwise><p class="journey-muted">No gallery images have been uploaded for this tour yet.</p></c:otherwise>
+                </c:choose>
+            </section>
+            <section class="journey-section" id="map-section">
+                <p class="journey-kicker">06 / ON THE MAP</p><h2>Find your bearings.</h2>
+                <c:choose><c:when test="${not empty details.mapEmbed}"><iframe class="journey-map" src="<c:out value='${details.mapEmbed}'/>" title="Location map for <c:out value='${tour.name}'/>" loading="lazy" allowfullscreen></iframe></c:when><c:otherwise><p class="journey-muted">Location map is not available yet.</p></c:otherwise></c:choose>
+            </section>
+        </div>
+        <aside class="journey-booking" aria-label="Tour price and booking">
+            <p class="journey-kicker">MAKE THIS JOURNEY YOURS</p>
+            <p class="journey-price">₹<fmt:formatNumber value="${tour.price}" groupingUsed="true"/></p><p class="journey-price-caption">per person</p>
+            <div class="journey-booking-rule"></div>
+            <dl><div><dt>Duration</dt><dd>${tour.duration} days</dd></div><div><dt>Departure</dt><dd><c:out value="${tour.departureCity}"/></dd></div><div><dt>Travel style</dt><dd><c:out value="${tour.category}"/></dd></div></dl>
+            <a class="journey-primary" href="${pageContext.request.contextPath}/booking?tour_id=${tour.id}">Book this tour <span aria-hidden="true">↗</span></a>
+            <a class="journey-secondary" href="${pageContext.request.contextPath}/contact?tour_id=${tour.id}">Enquire about this journey</a>
+            <a class="journey-booking-foot" href="#essentials-section">Review inclusions &amp; payment terms <span aria-hidden="true">↓</span></a>
+        </aside>
     </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     DAY-WISE ITINERARY
-     ===================================================== -->
-
-<div class="card"
-     id="itinerary-section">
-
-    <h2>Day-wise Itinerary</h2>
-
-    <div class="timeline">
-
-        <c:choose>
-
-            <c:when test="${not empty itinerary}">
-
-                <c:forEach
-                    var="day"
-                    items="${itinerary}">
-
-                    <div class="timeline-item">
-
-                        <div class="timeline-day">
-
-                            Day ${day.dayNumber}
-
-                        </div>
-
-                        <div class="timeline-content">
-
-                            <h3>
-                                ${day.dayTitle}
-                            </h3>
-
-                            <p>
-                                ${day.dayDescription}
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </c:forEach>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <p>
-                    Itinerary information is not available yet.
-                </p>
-
-            </c:otherwise>
-
-        </c:choose>
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     ACCOMMODATION DETAILS
-     ===================================================== -->
-
-<div class="card">
-
-    <h2>Accommodation Details</h2>
-
-    <table class="hotel-table">
-
-        <tr>
-
-            <th>City</th>
-
-            <th>Hotel</th>
-
-            <th>Check-in</th>
-
-            <th>Check-out</th>
-
-        </tr>
-
-
-        <c:choose>
-
-            <c:when test="${not empty hotels}">
-
-                <c:forEach
-                    var="h"
-                    items="${hotels}">
-
-                    <tr>
-
-                        <td>
-                            ${h.city}
-                        </td>
-
-                        <td>
-                            ${h.hotelName}
-                        </td>
-
-                        <td>
-                            ${h.checkIn}
-                        </td>
-
-                        <td>
-                            ${h.checkOut}
-                        </td>
-
-                    </tr>
-
-                </c:forEach>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <tr>
-
-                    <td colspan="4">
-
-                        Accommodation information
-                        is not available yet.
-
-                    </td>
-
-                </tr>
-
-            </c:otherwise>
-
-        </c:choose>
-
-    </table>
-
-</div>
-
-
-
-<!-- =====================================================
-     TOUR INFORMATION TABS
-     ===================================================== -->
-
-<div class="info-tabs">
-
-    <div class="tab-buttons">
-
-        <button
-            type="button"
-            class="tab-btn active"
-            onclick="openTab(event, 'inclusions')">
-
-            Inclusions
-
-        </button>
-
-
-        <button
-            type="button"
-            class="tab-btn"
-            onclick="openTab(event, 'exclusions')">
-
-            Exclusions
-
-        </button>
-
-
-        <button
-            type="button"
-            class="tab-btn"
-            onclick="openTab(event, 'preparation')">
-
-            Preparation
-
-        </button>
-
-    </div>
-
-
-
-    <!-- INCLUSIONS -->
-
-    <div id="inclusions"
-         class="tab-content active">
-
-        <ul>
-
-            <c:choose>
-
-                <c:when test="${details != null && not empty details.inclusions}">
-
-                    <c:forEach
-                        var="i"
-                        items="${fn:split(details.inclusions, ',')}">
-
-                        <li>
-                            ${i}
-                        </li>
-
-                    </c:forEach>
-
-                </c:when>
-
-                <c:otherwise>
-
-                    <li>
-                        Inclusion information is not available yet.
-                    </li>
-
-                </c:otherwise>
-
-            </c:choose>
-
-        </ul>
-
-    </div>
-
-
-
-    <!-- EXCLUSIONS -->
-
-    <div id="exclusions"
-         class="tab-content">
-
-        <ul>
-
-            <c:choose>
-
-                <c:when test="${details != null && not empty details.exclusions}">
-
-                    <c:forEach
-                        var="e"
-                        items="${fn:split(details.exclusions, ',')}">
-
-                        <li>
-                            ${e}
-                        </li>
-
-                    </c:forEach>
-
-                </c:when>
-
-                <c:otherwise>
-
-                    <li>
-                        Exclusion information is not available yet.
-                    </li>
-
-                </c:otherwise>
-
-            </c:choose>
-
-        </ul>
-
-    </div>
-
-
-
-    <!-- PREPARATION -->
-
-    <div id="preparation"
-         class="tab-content">
-
-        <c:choose>
-
-            <c:when test="${details != null && not empty details.preparation}">
-
-                <p>
-                    ${details.preparation}
-                </p>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <p>
-                    Preparation information is not available yet.
-                </p>
-
-            </c:otherwise>
-
-        </c:choose>
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     PAYMENT TERMS
-     ===================================================== -->
-
-<div class="card">
-
-    <h2>Payment Terms</h2>
-
-    <c:choose>
-
-        <c:when test="${details != null && not empty details.paymentTerms}">
-
-            <p>
-                ${details.paymentTerms}
-            </p>
-
-        </c:when>
-
-        <c:otherwise>
-
-            <p>
-                Payment terms are not available yet.
-            </p>
-
-        </c:otherwise>
-
-    </c:choose>
-
-</div>
-
-
-
-<!-- =====================================================
-     UPGRADES
-     ===================================================== -->
-
-<div class="card">
-
-    <h2>Upgrades Available</h2>
-
-    <c:choose>
-
-        <c:when test="${details != null && not empty details.upgradesInfo}">
-
-            <p>
-                ${details.upgradesInfo}
-            </p>
-
-        </c:when>
-
-        <c:otherwise>
-
-            <p>
-                No upgrade information is available yet.
-            </p>
-
-        </c:otherwise>
-
-    </c:choose>
-
-</div>
-
-
-
-<!-- =====================================================
-     MAP
-     ===================================================== -->
-
-<div class="card">
-
-    <h2>Location Map</h2>
-
-    <c:choose>
-
-        <c:when test="${details != null && not empty details.mapEmbed}">
-
-            <iframe
-                src="${details.mapEmbed}"
-                loading="lazy"
-                allowfullscreen>
-            </iframe>
-
-        </c:when>
-
-        <c:otherwise>
-
-            <p>
-                Location map is not available yet.
-            </p>
-
-        </c:otherwise>
-
-    </c:choose>
-
-</div>
-
-
-
-<!-- =====================================================
-     BOOKING CTA
-     ===================================================== -->
-
-<div class="book-btn-container">
-
-    <p>
-        READY WHEN YOU ARE
-    </p>
-
-    <h2>
-        Make this journey yours.
-    </h2>
-
-    <p>
-        Reserve your preferred dates and let our specialists
-        tailor every detail.
-    </p>
-
-    <a
-        href="${pageContext.request.contextPath}/booking?tour_id=${tour.id}"
-        class="book-btn">
-
-        Book This Tour
-
-    </a>
-
-</div>
-
-
+    <div class="journey-bottom"><div><p class="journey-kicker">KEEP EXPLORING</p><h2>Where will you go next?</h2></div><a class="journey-secondary" href="${pageContext.request.contextPath}/destinations">Explore all destinations <span aria-hidden="true">↗</span></a></div>
 </main>
-
-
-<!-- =====================================================
-     TAB SCRIPT
-     ===================================================== -->
-
-<script>
-
-function openTab(evt, tabName) {
-
-    var i;
-
-    var tabcontent =
-        document.getElementsByClassName("tab-content");
-
-    for (i = 0; i < tabcontent.length; i++) {
-
-        tabcontent[i].style.display = "none";
-
-        tabcontent[i].classList.remove("active");
-
-    }
-
-
-    var tabbtns =
-        document.getElementsByClassName("tab-btn");
-
-    for (i = 0; i < tabbtns.length; i++) {
-
-        tabbtns[i].classList.remove("active");
-
-    }
-
-
-    document.getElementById(tabName).style.display = "block";
-
-    document.getElementById(tabName).classList.add("active");
-
-    evt.currentTarget.classList.add("active");
-
-}
-
-</script>
-
-
+<dialog class="journey-lightbox" aria-label="Tour photo viewer">
+    <button class="journey-lightbox-close" type="button" aria-label="Close photo viewer">×</button>
+    <img alt=""><div class="journey-lightbox-controls"><button type="button" data-direction="-1" aria-label="Previous photo">←</button><p aria-live="polite"></p><button type="button" data-direction="1" aria-label="Next photo">→</button></div>
+</dialog>
 <%@ include file="common/footer.jsp" %>
-
+<script src="${pageContext.request.contextPath}/js/tour-details.js?v=9ecbbec20db6" defer></script>
 </body>
-
 </html>

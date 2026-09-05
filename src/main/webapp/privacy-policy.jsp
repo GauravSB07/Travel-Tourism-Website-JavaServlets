@@ -1,0 +1,1 @@
+<%@ page contentType="text/html;charset=UTF-8" %><% response.setStatus(301);response.setHeader("Location",request.getContextPath()+"/privacy-policy");return; %>

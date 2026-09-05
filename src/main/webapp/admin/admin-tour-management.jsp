@@ -1,3 +1,8 @@
+<%!
+private String esc(Object value) {
+    return value == null ? "" : value.toString().replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#39;");
+}
+%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
@@ -27,6 +32,7 @@
      * selectedTour != null means EDIT mode.
      */
     boolean createMode = selectedTour == null;
+    long publishedCount = tours == null ? 0 : tours.stream().filter(t -> "active".equalsIgnoreCase(String.valueOf(t.get("status")))).count();
 %>
 
 <!DOCTYPE html>
@@ -41,1310 +47,20 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <style>
+    <link rel="stylesheet" href="<%= esc( request.getContextPath() ) %>/css/admin-tour-management.css"><link rel="stylesheet" href="<%= esc( request.getContextPath() ) %>/css/admin-workspace.css">
 
-        /* =========================================================
-           GLOBAL
-        ========================================================= */
+<script defer src="<%= esc(request.getContextPath()) %>/js/admin-destinations.js"></script></head>
 
-        * {
-            box-sizing: border-box;
-        }
 
-        :root {
-            --primary: #1d4ed8;
-            --primary-dark: #1e40af;
-            --primary-soft: #eff6ff;
-
-            --success: #15803d;
-            --success-soft: #f0fdf4;
-
-            --danger: #dc2626;
-            --danger-soft: #fef2f2;
-
-            --warning: #b45309;
-            --warning-soft: #fffbeb;
-
-            --dark: #172033;
-            --text: #263247;
-            --muted: #718096;
-
-            --border: #e5e9f0;
-            --border-dark: #d5dbe5;
-
-            --background: #f5f7fb;
-            --white: #ffffff;
-
-            --radius: 14px;
-
-            --shadow:
-                0 5px 20px rgba(15, 23, 42, .055);
-
-            --shadow-hover:
-                0 10px 28px rgba(15, 23, 42, .10);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-
-            font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Arial,
-                sans-serif;
-
-            background: var(--background);
-            color: var(--text);
-            line-height: 1.5;
-        }
-
-        button,
-        input,
-        select,
-        textarea {
-            font: inherit;
-        }
-
-
-        /* =========================================================
-           HEADER
-        ========================================================= */
-
-        .header {
-            background:
-                linear-gradient(
-                    135deg,
-                    #172033 0%,
-                    #202c43 55%,
-                    #263653 100%
-                );
-
-            color: white;
-
-            padding: 28px 40px;
-
-            border-bottom:
-                1px solid rgba(255,255,255,.06);
-        }
-
-        .header-inner {
-            max-width: 1550px;
-            margin: auto;
-        }
-
-        .header h1 {
-            margin: 0;
-
-            font-size: 27px;
-            font-weight: 700;
-
-            letter-spacing: -.4px;
-        }
-
-        .header p {
-            margin: 7px 0 0;
-
-            color: #b9c4d6;
-
-            font-size: 14px;
-        }
-
-
-        /* =========================================================
-           MAIN CONTAINER
-        ========================================================= */
-
-        .container {
-            width: 94%;
-            max-width: 1550px;
-
-            margin: 28px auto 50px;
-        }
-
-
-        /* =========================================================
-           MESSAGE
-        ========================================================= */
-
-        .message {
-            background: var(--success-soft);
-
-            color: #166534;
-
-            border: 1px solid #bbf7d0;
-
-            padding: 13px 17px;
-
-            border-radius: 10px;
-
-            margin-bottom: 22px;
-
-            font-size: 14px;
-            font-weight: 600;
-
-            box-shadow:
-                0 2px 8px rgba(22,101,52,.04);
-        }
-
-
-        /* =========================================================
-           MAIN DASHBOARD
-        ========================================================= */
-
-        .dashboard {
-            display: grid;
-
-            grid-template-columns:
-                335px
-                minmax(0, 1fr);
-
-            gap: 24px;
-
-            align-items: start;
-        }
-
-
-        /* =========================================================
-           LEFT SIDEBAR
-        ========================================================= */
-
-        .sidebar {
-            position: sticky;
-            top: 20px;
-
-            background: var(--white);
-
-            border:
-                1px solid var(--border);
-
-            border-radius: var(--radius);
-
-            box-shadow: var(--shadow);
-
-            overflow: hidden;
-        }
-
-        .sidebar-header {
-            padding: 20px 20px 16px;
-
-            border-bottom:
-                1px solid var(--border);
-        }
-
-        .sidebar-title-row {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-        }
-
-        .sidebar-title {
-            margin: 0;
-
-            font-size: 18px;
-
-            font-weight: 700;
-
-            color: var(--dark);
-        }
-
-        .tour-count {
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            min-width: 27px;
-            height: 27px;
-
-            padding: 0 8px;
-
-            border-radius: 999px;
-
-            background: #eef2f7;
-
-            color: #566277;
-
-            font-size: 12px;
-
-            font-weight: 700;
-        }
-
-        .sidebar-subtitle {
-            margin: 5px 0 15px;
-
-            color: var(--muted);
-
-            font-size: 12px;
-        }
-
-
-        /* =========================================================
-           ADD NEW TOUR BUTTON
-        ========================================================= */
-
-        .add-tour-btn {
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            gap: 8px;
-
-            width: 100%;
-
-            padding: 11px 14px;
-
-            border-radius: 9px;
-
-            background: var(--primary);
-
-            color: white;
-
-            text-decoration: none;
-
-            font-size: 13px;
-
-            font-weight: 700;
-
-            transition:
-                background .2s ease,
-                transform .2s ease,
-                box-shadow .2s ease;
-        }
-
-        .add-tour-btn:hover {
-            background: var(--primary-dark);
-
-            transform: translateY(-1px);
-
-            box-shadow:
-                0 5px 14px rgba(29,78,216,.22);
-        }
-
-        .add-tour-btn.active {
-            background: var(--primary-dark);
-
-            box-shadow:
-                0 5px 14px rgba(29,78,216,.20);
-        }
-
-        .plus-icon {
-            font-size: 17px;
-            line-height: 1;
-        }
-
-
-        /* =========================================================
-           TOUR SEARCH
-        ========================================================= */
-
-        .tour-search {
-            position: relative;
-
-            margin-top: 15px;
-        }
-
-        .tour-search input {
-            width: 100%;
-
-            height: 40px;
-
-            padding:
-                9px 36px 9px 37px;
-
-            border:
-                1px solid var(--border-dark);
-
-            border-radius: 9px;
-
-            background: #f8fafc;
-
-            color: var(--text);
-
-            font-size: 12px;
-
-            outline: none;
-
-            transition:
-                border-color .2s ease,
-                background .2s ease,
-                box-shadow .2s ease;
-        }
-
-        .tour-search input::placeholder {
-            color: #9aa4b4;
-        }
-
-        .tour-search input:focus {
-            background: #ffffff;
-
-            border-color: #93b4f5;
-
-            box-shadow:
-                0 0 0 3px rgba(37,99,235,.08);
-        }
-
-        .search-icon {
-            position: absolute;
-
-            left: 12px;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 15px;
-            height: 15px;
-
-            color: #7b8798;
-
-            pointer-events: none;
-        }
-
-        .search-icon::before {
-            content: "";
-
-            position: absolute;
-
-            width: 8px;
-            height: 8px;
-
-            border:
-                1.7px solid currentColor;
-
-            border-radius: 50%;
-
-            left: 0;
-            top: 0;
-        }
-
-        .search-icon::after {
-            content: "";
-
-            position: absolute;
-
-            width: 6px;
-            height: 1.7px;
-
-            background: currentColor;
-
-            border-radius: 2px;
-
-            transform: rotate(45deg);
-
-            left: 8px;
-            top: 10px;
-        }
-
-        .clear-search {
-            position: absolute;
-
-            right: 9px;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 22px;
-            height: 22px;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            border: none;
-
-            background: transparent;
-
-            color: #8b95a5;
-
-            cursor: pointer;
-
-            border-radius: 50%;
-
-            font-size: 15px;
-
-            padding: 0;
-        }
-
-        .clear-search:hover {
-            background: #e9eef5;
-            color: #475569;
-        }
-
-        .search-result-count {
-            display: none;
-
-            margin-top: 7px;
-
-            color: var(--muted);
-
-            font-size: 10.5px;
-        }
-
-
-        /* =========================================================
-           TOUR LIST
-        ========================================================= */
-
-        .tour-list {
-            max-height:
-                calc(100vh - 270px);
-
-            overflow-y: auto;
-
-            padding: 12px;
-        }
-
-        .tour-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .tour-list::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .tour-list::-webkit-scrollbar-thumb {
-            background: #d5dbe5;
-            border-radius: 20px;
-        }
-
-        .tour-item {
-            display: block;
-
-            text-decoration: none;
-
-            color: inherit;
-
-            border:
-                1px solid transparent;
-
-            border-radius: 11px;
-
-            padding: 14px;
-
-            margin-bottom: 8px;
-
-            background: transparent;
-
-            transition:
-                background .2s ease,
-                border-color .2s ease,
-                transform .2s ease,
-                box-shadow .2s ease;
-        }
-
-        .tour-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .tour-item:hover {
-            background: #f8fafc;
-
-            border-color: var(--border);
-
-            transform: translateX(2px);
-        }
-
-        .tour-item.active {
-            background: var(--primary-soft);
-
-            border-color: #bfdbfe;
-
-            box-shadow:
-                inset 3px 0 0 var(--primary);
-        }
-
-        .tour-item.search-hidden {
-            display: none;
-        }
-
-        .tour-name {
-            font-size: 14px;
-
-            font-weight: 700;
-
-            color: var(--dark);
-
-            margin-bottom: 7px;
-
-            line-height: 1.35;
-        }
-
-        .tour-item.active .tour-name {
-            color: #1e40af;
-        }
-
-        .tour-meta {
-            color: var(--muted);
-
-            font-size: 11.5px;
-
-            line-height: 1.65;
-        }
-
-        .tour-meta strong {
-            color: #596579;
-        }
-
-        .status-badge {
-            display: inline-flex;
-
-            align-items: center;
-
-            margin-top: 7px;
-
-            padding: 3px 8px;
-
-            border-radius: 999px;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            letter-spacing: .35px;
-        }
-
-        .status-active {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .status-inactive {
-            background: #f1f5f9;
-            color: #64748b;
-        }
-
-        .search-empty {
-            display: none;
-
-            padding: 35px 20px;
-
-            text-align: center;
-
-            color: var(--muted);
-
-            font-size: 12px;
-        }
-
-        .search-empty.visible {
-            display: block;
-        }
-
-        .search-empty-icon {
-            width: 40px;
-            height: 40px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            margin: 0 auto 10px;
-
-            border-radius: 50%;
-
-            background: #f1f5f9;
-
-            color: #64748b;
-
-            font-size: 17px;
-        }
-
-
-        /* =========================================================
-           RIGHT WORKSPACE
-        ========================================================= */
-
-        .workspace {
-            min-width: 0;
-        }
-
-        .workspace-header {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 20px;
-
-            background: white;
-
-            border:
-                1px solid var(--border);
-
-            border-radius: var(--radius);
-
-            padding: 18px 22px;
-
-            margin-bottom: 18px;
-
-            box-shadow: var(--shadow);
-        }
-
-        .workspace-title {
-            min-width: 0;
-        }
-
-        .workspace-title small {
-            display: block;
-
-            color: var(--muted);
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            letter-spacing: .7px;
-
-            margin-bottom: 4px;
-        }
-
-        .workspace-title h2 {
-            margin: 0;
-
-            color: var(--dark);
-
-            font-size: 21px;
-
-            line-height: 1.3;
-        }
-
-        .workspace-title p {
-            margin: 4px 0 0;
-
-            color: var(--muted);
-
-            font-size: 12px;
-        }
-
-        .workspace-badge {
-            flex-shrink: 0;
-
-            padding: 7px 11px;
-
-            border-radius: 8px;
-
-            background: #f1f5f9;
-
-            color: #64748b;
-
-            font-size: 11px;
-
-            font-weight: 700;
-        }
-
-
-        /* =========================================================
-           CARDS
-        ========================================================= */
-
-        .card {
-            background: var(--white);
-
-            border:
-                1px solid var(--border);
-
-            border-radius: var(--radius);
-
-            padding: 24px;
-
-            box-shadow: var(--shadow);
-
-            margin-bottom: 18px;
-        }
-
-        .card:last-child {
-            margin-bottom: 0;
-        }
-
-        .card-header {
-            display: flex;
-
-            align-items: flex-start;
-
-            justify-content: space-between;
-
-            gap: 15px;
-
-            margin-bottom: 20px;
-
-            padding-bottom: 15px;
-
-            border-bottom:
-                1px solid var(--border);
-        }
-
-        .card-header h2 {
-            margin: 0;
-
-            color: var(--dark);
-
-            font-size: 17px;
-
-            font-weight: 700;
-        }
-
-        .card-header p {
-            margin: 4px 0 0;
-
-            color: var(--muted);
-
-            font-size: 12px;
-        }
-
-
-        /* =========================================================
-           FORMS
-        ========================================================= */
-
-        label {
-            display: block;
-
-            margin: 15px 0 7px;
-
-            font-weight: 700;
-
-            font-size: 12px;
-
-            color: #445066;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-
-            padding: 11px 12px;
-
-            border:
-                1px solid var(--border-dark);
-
-            border-radius: 8px;
-
-            background: #fff;
-
-            color: var(--text);
-
-            outline: none;
-
-            transition:
-                border-color .2s ease,
-                box-shadow .2s ease;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: #a3acba;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #93b4f5;
-
-            box-shadow:
-                0 0 0 3px rgba(37,99,235,.08);
-        }
-
-        textarea {
-            min-height: 125px;
-
-            resize: vertical;
-
-            line-height: 1.55;
-        }
-
-        .small-textarea {
-            min-height: 95px;
-        }
-
-        .row {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 18px;
-        }
-
-        .row-3 {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr 1fr;
-
-            gap: 18px;
-        }
-
-        .form-note {
-            color: var(--muted);
-
-            font-size: 11px;
-
-            margin-top: 6px;
-        }
-
-
-        /* =========================================================
-           BUTTONS
-        ========================================================= */
-
-        .button {
-            border: none;
-
-            border-radius: 8px;
-
-            padding: 10px 15px;
-
-            cursor: pointer;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            margin-top: 14px;
-
-            transition:
-                transform .2s ease,
-                box-shadow .2s ease,
-                opacity .2s ease;
-        }
-
-        .button:hover {
-            transform: translateY(-1px);
-            opacity: .96;
-        }
-
-        .button:active {
-            transform: translateY(0);
-        }
-
-        .primary {
-            background: var(--primary);
-
-            color: white;
-
-            box-shadow:
-                0 4px 10px rgba(29,78,216,.13);
-        }
-
-        .primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .success {
-            background: var(--success);
-            color: white;
-        }
-
-        .danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .secondary {
-            background: #475569;
-            color: white;
-        }
-
-        .warning {
-            background: #d97706;
-            color: white;
-        }
-
-
-        /* =========================================================
-           DANGER ZONE
-        ========================================================= */
-
-        .danger-zone {
-            border:
-                1px solid #fecaca;
-
-            background:
-                var(--danger-soft);
-
-            border-radius: 10px;
-
-            padding: 17px;
-
-            margin-top: 24px;
-        }
-
-        .danger-zone strong {
-            color: #991b1b;
-
-            font-size: 13px;
-        }
-
-        .danger-zone p {
-            margin: 6px 0;
-
-            color: #7f1d1d;
-        }
-
-
-        /* =========================================================
-           TABLES
-        ========================================================= */
-
-        .table-wrapper {
-            overflow-x: auto;
-
-            border:
-                1px solid var(--border);
-
-            border-radius: 10px;
-
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-
-            border-collapse: collapse;
-
-            margin: 0;
-
-            min-width: 760px;
-        }
-
-        th,
-        td {
-            border-bottom:
-                1px solid var(--border);
-
-            padding: 11px;
-
-            text-align: left;
-
-            vertical-align: top;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        th {
-            background: #f8fafc;
-
-            color: #596579;
-
-            font-size: 11px;
-
-            text-transform: uppercase;
-
-            letter-spacing: .4px;
-        }
-
-        td {
-            font-size: 12px;
-        }
-
-        td form {
-            margin: 0 0 6px;
-        }
-
-        td form:last-child {
-            margin-bottom: 0;
-        }
-
-        td .button {
-            margin-top: 0;
-        }
-
-
-        /* =========================================================
-           IMAGE SECTION
-        ========================================================= */
-
-        .image-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    auto-fill,
-                    minmax(190px, 1fr)
-                );
-
-            gap: 16px;
-
-            margin-top: 20px;
-        }
-
-        .image-card {
-            border:
-                1px solid var(--border);
-
-            border-radius: 11px;
-
-            overflow: hidden;
-
-            background: white;
-
-            transition:
-                box-shadow .2s ease,
-                transform .2s ease;
-        }
-
-        .image-card:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                var(--shadow-hover);
-        }
-
-        .image-card img {
-            width: 100%;
-
-            height: 145px;
-
-            object-fit: cover;
-
-            display: block;
-
-            background: #f1f5f9;
-        }
-
-        .image-info {
-            padding: 13px;
-        }
-
-        .image-info strong {
-            display: block;
-
-            color: var(--dark);
-
-            font-size: 12px;
-
-            word-break: break-word;
-        }
-
-        .cover {
-            display: inline-block;
-
-            background: #fef3c7;
-
-            color: #92400e;
-
-            padding: 4px 8px;
-
-            border-radius: 5px;
-
-            font-size: 10px;
-
-            font-weight: 800;
-
-            letter-spacing: .3px;
-
-            margin-top: 6px;
-        }
-
-        .image-actions {
-            margin-top: 9px;
-        }
-
-        .image-actions form {
-            display: inline-block;
-
-            margin-right: 4px;
-        }
-
-        .image-actions .button {
-            margin-top: 5px;
-
-            padding: 7px 9px;
-
-            font-size: 10px;
-        }
-
-
-        /* =========================================================
-           EMPTY STATE
-        ========================================================= */
-
-        .empty {
-            padding: 35px 20px;
-
-            text-align: center;
-
-            color: var(--muted);
-
-            font-size: 13px;
-        }
-
-        .empty-icon {
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            margin: 0 auto 10px;
-
-            border-radius: 50%;
-
-            background: #f1f5f9;
-
-            color: #64748b;
-
-            font-size: 18px;
-        }
-
-        .muted {
-            color: var(--muted);
-
-            font-size: 12px;
-        }
-
-
-        /* =========================================================
-           CREATE TOUR INTRO
-        ========================================================= */
-
-        .create-intro {
-            background:
-                linear-gradient(
-                    135deg,
-                    #f8fbff,
-                    #ffffff
-                );
-
-            border:
-                1px solid #dbeafe;
-
-            border-radius: 11px;
-
-            padding: 16px;
-
-            margin-bottom: 22px;
-
-            color: #475569;
-
-            font-size: 12px;
-        }
-
-        .create-intro strong {
-            display: block;
-
-            color: #1e40af;
-
-            font-size: 13px;
-
-            margin-bottom: 3px;
-        }
-
-
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
-
-        @media (max-width: 1100px) {
-
-            .dashboard {
-                grid-template-columns:
-                    280px
-                    minmax(0, 1fr);
-            }
-
-            .row-3 {
-                grid-template-columns:
-                    1fr 1fr;
-            }
-        }
-
-        @media (max-width: 900px) {
-
-            .header {
-                padding: 24px;
-            }
-
-            .container {
-                width: 94%;
-            }
-
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: static;
-            }
-
-            .tour-list {
-                max-height: 350px;
-            }
-        }
-
-        @media (max-width: 650px) {
-
-            .container {
-                width: 95%;
-            }
-
-            .card {
-                padding: 18px;
-            }
-
-            .workspace-header {
-                align-items: flex-start;
-
-                flex-direction: column;
-            }
-
-            .row,
-            .row-3 {
-                grid-template-columns: 1fr;
-            }
-
-            .header h1 {
-                font-size: 23px;
-            }
-        }
-
-    </style>
-
-</head>
-
-
-<body>
+<body class="tour-admin"><% request.setAttribute("adminSection", "tours"); %><%@ include file="/WEB-INF/admin/navigation.jspf" %>
 
 
 <!-- =========================================================
      HEADER
 ========================================================= -->
 
-<div class="header">
-
-    <div class="header-inner">
-
-        <h1>Tour Management</h1>
-
-        <p>
-            Create, edit and manage tour packages,
-            itinerary, hotels, details and images.
-        </p>
-
-    </div>
-
-</div>
+<div class="admin-intro destination-admin-intro"><div><span class="eyebrow">YOUR DESTINATION COLLECTION</span><h1>Good journeys start here.</h1><p>Shape the stays, stories and experiences your travellers can discover.</p></div>
+<div class="admin-metrics"><div><strong><%= tours == null ? 0 : tours.size() %></strong><span>Destinations</span></div><div><strong><%= publishedCount %></strong><span>Published</span></div><div><strong><%= (tours == null ? 0 : tours.size()) - publishedCount %></strong><span>Hidden</span></div></div></div>
 
 
 <div class="container">
@@ -1358,7 +74,7 @@
 
         <div class="message">
 
-            <%= message %>
+            <%= esc( message ) %>
 
         </div>
 
@@ -1390,7 +106,7 @@
                     </h2>
 
                     <span class="tour-count">
-                        <%= tours != null ? tours.size() : 0 %>
+                        <%= esc( tours != null ? tours.size() : 0 ) %>
                     </span>
 
                 </div>
@@ -1405,8 +121,8 @@
                 <!-- NEW TOUR BUTTON -->
 
                 <a
-                    href="<%= request.getContextPath() %>/admin/tours"
-                    class="add-tour-btn <%= createMode ? "active" : "" %>"
+                    href="<%= esc( request.getContextPath() ) %>/admin/tours"
+                    class="add-tour-btn <%= esc( createMode ? "active" : "" ) %>"
                 >
 
                     <span class="plus-icon">+</span>
@@ -1490,14 +206,14 @@
                     <!-- INDIVIDUAL TOUR -->
 
                     <a
-                        href="<%= request.getContextPath() %>/admin/tours?tourId=<%= id %>"
-                        class="tour-item <%= active ? "active" : "" %>"
-                        data-tour-search="<%= String.valueOf(tour.get("name")) %> <%= String.valueOf(tour.get("category")) %> <%= String.valueOf(tour.get("departure_city")) %> <%= String.valueOf(tour.get("duration")) %> <%= String.valueOf(tour.get("price")) %> <%= status %>"
+                        href="<%= esc( request.getContextPath() ) %>/admin/tours?tourId=<%= esc( id ) %>"
+                        class="tour-item <%= esc( active ? "active" : "" ) %>"
+                        data-tour-search="<%= esc( String.valueOf(tour.get("name")) ) %> <%= esc( String.valueOf(tour.get("category")) ) %> <%= esc( String.valueOf(tour.get("departure_city")) ) %> <%= esc( String.valueOf(tour.get("duration")) ) %> <%= esc( String.valueOf(tour.get("price")) ) %> <%= esc( status ) %>"
                     >
 
                         <div class="tour-name">
 
-                            <%= tour.get("name") %>
+                            <%= esc( tour.get("name") ) %>
 
                         </div>
 
@@ -1505,29 +221,28 @@
                         <div class="tour-meta">
 
                             <strong>
-                                <%= tour.get("category") %>
+                                <%= esc( tour.get("category") ) %>
                             </strong>
 
                             <br>
 
-                            <%= tour.get("duration") %> days
-                            · ₹<%= tour.get("price") %>
+                            <%= esc( tour.get("duration") ) %> days
+                            · ₹<%= esc( tour.get("price") ) %>
 
                             <br>
 
-                            <%= tour.get("departure_city") %>
+                            <%= esc( tour.get("departure_city") ) %>
 
                         </div>
 
 
                         <span
-                            class="status-badge <%= isActive
+                            class="status-badge <%= esc( isActive
                                 ? "status-active"
-                                : "status-inactive" %>"
+                                : "status-inactive" ) %>"
                         >
 
-                            <%= status %>
-
+                            <%= isActive ? "Published" : "Hidden" %>
                         </span>
 
                     </a>
@@ -1615,7 +330,7 @@
                         </small>
 
                         <h2>
-                            <%= selectedTour.get("name") %>
+                            <%= esc( selectedTour.get("name") ) %>
                         </h2>
 
                         <p>
@@ -1627,11 +342,11 @@
                 </div>
 
 
-                <div class="workspace-badge">
+                <% if (!createMode && "active".equals(String.valueOf(selectedTour.get("status")))) { %><a class="button" href="<%= esc(request.getContextPath()) %>/tour-details?id=<%= esc(selectedTour.get("id")) %>" target="_blank" rel="noopener">View details ↗</a><% } %><div class="workspace-badge">
 
-                    <%= createMode
+                    <%= esc( createMode
                             ? "NEW PACKAGE"
-                            : "PACKAGE #" + selectedTour.get("id") %>
+                            : "PACKAGE #" + selectedTour.get("id") ) %>
 
                 </div>
 
@@ -1682,8 +397,8 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tours"
-                    >
+                        action="<%= esc( request.getContextPath() ) %>/admin/tours"
+                    ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                         <input
                             type="hidden"
@@ -1702,7 +417,7 @@
                             required
                             maxlength="150"
                             placeholder="Example: Goa Beach Holiday"
-                        >
+                        ><label>Destination card summary</label><textarea name="short_description" maxlength="15000" rows="3"></textarea>
 
 
                         <div class="row">
@@ -1783,20 +498,20 @@
 
 
                         <label>
-                            Status
+                            Visibility
                         </label>
 
                         <select name="status">
 
                             <option value="active">
-                                Active
+                                Published — available to book
                             </option>
 
                             <option value="inactive">
-                                Inactive
+                                Hidden — removed from website
                             </option>
 
-                        </select>
+                        </select><p class="visibility-help">Published tours appear on Destinations and can be booked. Hidden tours stay in admin and cannot receive new bookings. Save this section to apply.</p>
 
 
                         <button
@@ -1845,8 +560,8 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tours"
-                    >
+                        action="<%= esc( request.getContextPath() ) %>/admin/tours"
+                    ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                         <input
                             type="hidden"
@@ -1857,7 +572,7 @@
                         <input
                             type="hidden"
                             name="tourId"
-                            value="<%= selectedTour.get("id") %>"
+                            value="<%= esc( selectedTour.get("id") ) %>"
                         >
 
 
@@ -1868,10 +583,10 @@
                         <input
                             type="text"
                             name="name"
-                            value="<%= selectedTour.get("name") %>"
+                            value="<%= esc( selectedTour.get("name") ) %>"
                             required
                             maxlength="150"
-                        >
+                        ><label>Destination card summary</label><textarea name="short_description" maxlength="15000" rows="3"><%= esc( selectedTour == null ? "" : selectedTour.get("short_description") ) %></textarea>
 
 
                         <div class="row">
@@ -1885,7 +600,7 @@
                                 <input
                                     type="text"
                                     name="category"
-                                    value="<%= selectedTour.get("category") %>"
+                                    value="<%= esc( selectedTour.get("category") ) %>"
                                     required
                                     maxlength="50"
                                 >
@@ -1902,7 +617,7 @@
                                 <input
                                     type="text"
                                     name="departure_city"
-                                    value="<%= selectedTour.get("departure_city") %>"
+                                    value="<%= esc( selectedTour.get("departure_city") ) %>"
                                     required
                                     maxlength="50"
                                 >
@@ -1923,7 +638,7 @@
                                 <input
                                     type="number"
                                     name="duration"
-                                    value="<%= selectedTour.get("duration") %>"
+                                    value="<%= esc( selectedTour.get("duration") ) %>"
                                     min="1"
                                     required
                                 >
@@ -1940,7 +655,7 @@
                                 <input
                                     type="number"
                                     name="price"
-                                    value="<%= selectedTour.get("price") %>"
+                                    value="<%= esc( selectedTour.get("price") ) %>"
                                     min="0"
                                     step="0.01"
                                     required
@@ -1952,34 +667,34 @@
                             <div>
 
                                 <label>
-                                    Status
+                                    Visibility
                                 </label>
 
                                 <select name="status">
 
                                     <option
                                         value="active"
-                                        <%= "active".equals(
+                                        <%= esc( "active".equals(
                                             String.valueOf(
                                                 selectedTour.get("status")
                                             )
-                                        ) ? "selected" : "" %>
+                                        ) ? "selected" : "" ) %>
                                     >
-                                        Active
+                                        Published — available to book
                                     </option>
 
                                     <option
                                         value="inactive"
-                                        <%= "inactive".equals(
+                                        <%= esc( "inactive".equals(
                                             String.valueOf(
                                                 selectedTour.get("status")
                                             )
-                                        ) ? "selected" : "" %>
+                                        ) ? "selected" : "" ) %>
                                     >
-                                        Inactive
+                                        Hidden — removed from website
                                     </option>
 
-                                </select>
+                                </select><p class="visibility-help">Published tours appear on Destinations and can be booked. Hidden tours stay in admin and cannot receive new bookings. Save this section to apply.</p>
 
                             </div>
 
@@ -2014,9 +729,9 @@
 
                         <form
                             method="post"
-                            action="<%= request.getContextPath() %>/admin/tours"
+                            action="<%= esc( request.getContextPath() ) %>/admin/tours"
                             onsubmit="return confirm('Delete this entire tour and all related data?');"
-                        >
+                        ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                             <input
                                 type="hidden"
@@ -2027,7 +742,7 @@
                             <input
                                 type="hidden"
                                 name="tourId"
-                                value="<%= selectedTour.get("id") %>"
+                                value="<%= esc( selectedTour.get("id") ) %>"
                             >
 
                             <button
@@ -2078,8 +793,8 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tours"
-                    >
+                        action="<%= esc( request.getContextPath() ) %>/admin/tours"
+                    ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                         <input
                             type="hidden"
@@ -2090,7 +805,7 @@
                         <input
                             type="hidden"
                             name="tourId"
-                            value="<%= selectedTour.get("id") %>"
+                            value="<%= esc( selectedTour.get("id") ) %>"
                         >
 
 
@@ -2098,12 +813,12 @@
                             Long Description
                         </label>
 
-                        <textarea name="long_description"><%=
+                        <textarea name="long_description"><%= esc(
                             details != null &&
                             details.get("long_description") != null
                             ? details.get("long_description")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <div class="row">
@@ -2117,12 +832,12 @@
                                 <input
                                     type="text"
                                     name="duration_text"
-                                    value="<%=
+                                    value="<%= esc(
                                         details != null &&
                                         details.get("duration_text") != null
                                         ? details.get("duration_text")
                                         : ""
-                                    %>"
+                                    ) %>"
                                     placeholder="5 Days / 4 Nights"
                                 >
 
@@ -2138,12 +853,12 @@
                                 <input
                                     type="text"
                                     name="best_time"
-                                    value="<%=
+                                    value="<%= esc(
                                         details != null &&
                                         details.get("best_time") != null
                                         ? details.get("best_time")
                                         : ""
-                                    %>"
+                                    ) %>"
                                     placeholder="October to March"
                                 >
 
@@ -2163,12 +878,12 @@
                                 <input
                                     type="text"
                                     name="states_covered"
-                                    value="<%=
+                                    value="<%= esc(
                                         details != null &&
                                         details.get("states_covered") != null
                                         ? details.get("states_covered")
                                         : ""
-                                    %>"
+                                    ) %>"
                                 >
 
                             </div>
@@ -2183,12 +898,12 @@
                                 <input
                                     type="text"
                                     name="cities_covered"
-                                    value="<%=
+                                    value="<%= esc(
                                         details != null &&
                                         details.get("cities_covered") != null
                                         ? details.get("cities_covered")
                                         : ""
-                                    %>"
+                                    ) %>"
                                 >
 
                             </div>
@@ -2203,12 +918,12 @@
                         <textarea
                             name="route"
                             class="small-textarea"
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("route") != null
                             ? details.get("route")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <label>
@@ -2218,12 +933,12 @@
                         <textarea
                             name="highlights"
                             class="small-textarea"
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("highlights") != null
                             ? details.get("highlights")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <label>
@@ -2233,12 +948,12 @@
                         <textarea
                             name="inclusions"
                             class="small-textarea"
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("inclusions") != null
                             ? details.get("inclusions")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <label>
@@ -2248,12 +963,12 @@
                         <textarea
                             name="exclusions"
                             class="small-textarea"
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("exclusions") != null
                             ? details.get("exclusions")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <label>
@@ -2263,12 +978,12 @@
                         <textarea
                             name="preparation"
                             class="small-textarea"
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("preparation") != null
                             ? details.get("preparation")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <label>
@@ -2278,12 +993,12 @@
                         <textarea
                             name="payment_terms"
                             class="small-textarea"
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("payment_terms") != null
                             ? details.get("payment_terms")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <label>
@@ -2293,12 +1008,12 @@
                         <textarea
                             name="upgrades_info"
                             class="small-textarea"
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("upgrades_info") != null
                             ? details.get("upgrades_info")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <label>
@@ -2309,12 +1024,12 @@
                             name="map_embed"
                             class="small-textarea"
                             placeholder="https://www.google.com/maps/embed?..."
-                        ><%=
+                        ><%= esc(
                             details != null &&
                             details.get("map_embed") != null
                             ? details.get("map_embed")
                             : ""
-                        %></textarea>
+                        ) %></textarea>
 
 
                         <button
@@ -2356,8 +1071,8 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tours"
-                    >
+                        action="<%= esc( request.getContextPath() ) %>/admin/tours"
+                    ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                         <input
                             type="hidden"
@@ -2368,7 +1083,7 @@
                         <input
                             type="hidden"
                             name="tourId"
-                            value="<%= selectedTour.get("id") %>"
+                            value="<%= esc( selectedTour.get("id") ) %>"
                         >
 
 
@@ -2473,9 +1188,9 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tours"
+                                                action="<%= esc( request.getContextPath() ) %>/admin/tours"
                                                 style="margin:0;"
-                                            >
+                                            ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                                                 <input
                                                     type="hidden"
@@ -2486,13 +1201,13 @@
                                                 <input
                                                     type="hidden"
                                                     name="tourId"
-                                                    value="<%= selectedTour.get("id") %>"
+                                                    value="<%= esc( selectedTour.get("id") ) %>"
                                                 >
 
                                                 <input
                                                     type="hidden"
                                                     name="id"
-                                                    value="<%= day.get("id") %>"
+                                                    value="<%= esc( day.get("id") ) %>"
                                                 >
 
 
@@ -2514,7 +1229,7 @@
                                                         <input
                                                             type="number"
                                                             name="day_number"
-                                                            value="<%= day.get("day_number") %>"
+                                                            value="<%= esc( day.get("day_number") ) %>"
                                                             min="1"
                                                             required
                                                         >
@@ -2527,7 +1242,7 @@
                                                         <input
                                                             type="text"
                                                             name="day_title"
-                                                            value="<%= day.get("day_title") %>"
+                                                            value="<%= esc( day.get("day_title") ) %>"
                                                             required
                                                         >
 
@@ -2540,7 +1255,7 @@
                                                             name="day_description"
                                                             class="small-textarea"
                                                             required
-                                                        ><%= day.get("day_description") %></textarea>
+                                                        ><%= esc( day.get("day_description") ) %></textarea>
 
                                                     </div>
 
@@ -2563,9 +1278,9 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tours"
+                                                action="<%= esc( request.getContextPath() ) %>/admin/tours"
                                                 onsubmit="return confirm('Delete this itinerary day?');"
-                                            >
+                                            ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                                                 <input
                                                     type="hidden"
@@ -2576,13 +1291,13 @@
                                                 <input
                                                     type="hidden"
                                                     name="tourId"
-                                                    value="<%= selectedTour.get("id") %>"
+                                                    value="<%= esc( selectedTour.get("id") ) %>"
                                                 >
 
                                                 <input
                                                     type="hidden"
                                                     name="id"
-                                                    value="<%= day.get("id") %>"
+                                                    value="<%= esc( day.get("id") ) %>"
                                                 >
 
                                                 <button
@@ -2654,8 +1369,8 @@
 
                     <form
                         method="post"
-                        action="<%= request.getContextPath() %>/admin/tours"
-                    >
+                        action="<%= esc( request.getContextPath() ) %>/admin/tours"
+                    ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                         <input
                             type="hidden"
@@ -2666,7 +1381,7 @@
                         <input
                             type="hidden"
                             name="tourId"
-                            value="<%= selectedTour.get("id") %>"
+                            value="<%= esc( selectedTour.get("id") ) %>"
                         >
 
 
@@ -2789,14 +1504,14 @@
                                     <tr>
 
                                         <td>
-                                            <%= hotel.get("city") %>
+                                            <%= esc( hotel.get("city") ) %>
                                         </td>
 
 
                                         <td>
 
                                             <strong>
-                                                <%= hotel.get("hotel_name") %>
+                                                <%= esc( hotel.get("hotel_name") ) %>
                                             </strong>
 
                                         </td>
@@ -2804,18 +1519,18 @@
 
                                         <td>
 
-                                            <%= hotel.get("check_in") != null
+                                            <%= esc( hotel.get("check_in") != null
                                                 ? hotel.get("check_in")
-                                                : "-" %>
+                                                : "-" ) %>
 
                                         </td>
 
 
                                         <td>
 
-                                            <%= hotel.get("check_out") != null
+                                            <%= esc( hotel.get("check_out") != null
                                                 ? hotel.get("check_out")
-                                                : "-" %>
+                                                : "-" ) %>
 
                                         </td>
 
@@ -2824,9 +1539,9 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tours"
+                                                action="<%= esc( request.getContextPath() ) %>/admin/tours"
                                                 onsubmit="return confirm('Delete this hotel?');"
-                                            >
+                                            ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                                                 <input
                                                     type="hidden"
@@ -2837,13 +1552,13 @@
                                                 <input
                                                     type="hidden"
                                                     name="tourId"
-                                                    value="<%= selectedTour.get("id") %>"
+                                                    value="<%= esc( selectedTour.get("id") ) %>"
                                                 >
 
                                                 <input
                                                     type="hidden"
                                                     name="id"
-                                                    value="<%= hotel.get("id") %>"
+                                                    value="<%= esc( hotel.get("id") ) %>"
                                                 >
 
                                                 <button
@@ -2900,15 +1615,11 @@
                         <div>
 
                             <h2>
-                                Cover &amp; Gallery Images
+                                Destination photography
                             </h2>
 
                             <p>
-                                Upload images for this tour. They are
-                                stored as BLOB in the database.
-                                Cover images appear on the tour hero;
-                                all uploaded images appear in the
-                                Gallery section on the tour details page.
+                                Curate the main cover and gallery travellers see across the destination experience.
                             </p>
 
                         </div>
@@ -2916,68 +1627,47 @@
                     </div>
 
 
-                    <form
-                        method="post"
-                        action="<%= request.getContextPath() %>/admin/tours"
-                        enctype="multipart/form-data"
-                    >
-
-                        <input
-                            type="hidden"
-                            name="action"
-                            value="uploadImage"
-                        >
-
-                        <input
-                            type="hidden"
-                            name="tourId"
-                            value="<%= selectedTour.get("id") %>"
-                        >
-
-
-                        <label>
-                            Add Gallery Image
-                        </label>
-
-                        <input
-                            type="file"
-                            name="image"
-                            accept="image/jpeg,image/png,image/webp,image/gif"
-                            required
-                        >
-
-
-                        <label>
-
-                            <input
-                                type="checkbox"
-                                name="is_cover"
-                                value="true"
-                                style="width:auto;margin-right:6px;"
-                            >
-
-                            Also use as cover image
-
-                        </label>
-
-
-                        <button
-                            type="submit"
-                            class="button primary"
-                        >
-                            Upload to Gallery
-                        </button>
-
+<%
+                    java.util.List<java.util.Map<String,Object>> images =
+                        (java.util.List<java.util.Map<String,Object>>) request.getAttribute("images");
+                    java.util.Map<String,Object> coverImage = null;
+                    if (images != null) {
+                        for (java.util.Map<String,Object> candidate : images) {
+                            if (Boolean.TRUE.equals(candidate.get("is_cover"))) { coverImage = candidate; break; }
+                        }
+                    }
+                %>
+                <div class="destination-photo-studio">
+                    <div class="destination-cover-preview <%= coverImage == null ? "is-empty" : "" %>">
+                        <% if (coverImage != null) { %>
+                        <img id="destination-cover-preview" src="<%= esc(request.getContextPath()) %>/TourImageServlet?id=<%= esc(coverImage.get("id")) %>" alt="<%= esc(selectedTour.get("name")) %> cover" width="720" height="480">
+                        <span>Main cover</span>
+                        <% } else { %>
+                        <div id="destination-cover-placeholder"><b>✦</b><strong>Your destination deserves a beautiful cover.</strong><small>Upload a landscape JPEG or PNG to begin.</small></div>
+                        <img id="destination-cover-preview" hidden alt="New destination cover preview">
+                        <% } %>
+                    </div>
+                    <div class="destination-cover-controls">
+                        <p class="photo-eyebrow">MAIN PACKAGE IMAGE</p>
+                        <h3><%= coverImage == null ? "Add a cover photo" : "Replace the cover photo" %></h3>
+                        <p>This is the first image travellers see on the destination card and details page. Replacing it keeps the previous cover in the gallery.</p>
+                        <form method="post" action="<%= esc(request.getContextPath()) %>/admin/tours" enctype="multipart/form-data" class="destination-photo-form">
+                            <input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>"><input type="hidden" name="action" value="uploadImage"><input type="hidden" name="tourId" value="<%= esc(selectedTour.get("id")) %>"><input type="hidden" name="is_cover" value="true">
+                            <label for="destination-cover-file">Choose cover photo</label>
+                            <input id="destination-cover-file" type="file" name="image" accept="image/jpeg,image/png" required>
+                            <small>JPEG or PNG · up to 5 MB and 24 megapixels. A 3:2 landscape image works best.</small>
+                            <button type="submit" class="button primary">Save main cover</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="destination-gallery-upload">
+                    <div><p class="photo-eyebrow">DESTINATION GALLERY</p><h3>Add another view</h3><p>Show the places, stays and experiences included in this destination.</p></div>
+                    <form method="post" action="<%= esc(request.getContextPath()) %>/admin/tours" enctype="multipart/form-data" class="destination-photo-form inline">
+                        <input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>"><input type="hidden" name="action" value="uploadImage"><input type="hidden" name="tourId" value="<%= esc(selectedTour.get("id")) %>">
+                        <label for="destination-gallery-file">Gallery photo</label><input id="destination-gallery-file" type="file" name="image" accept="image/jpeg,image/png" required>
+                        <button type="submit" class="button">Add to gallery</button>
                     </form>
-
-
-                    <%
-                        java.util.List<java.util.Map<String,Object>> images =
-                            (java.util.List<java.util.Map<String,Object>>)
-                                request.getAttribute("images");
-                    %>
-
-
+                </div>
                     <% if (images != null &&
                            !images.isEmpty()) { %>
 
@@ -2995,8 +1685,8 @@
 
 
                                     <img
-                                        src="<%= request.getContextPath() %>/TourImageServlet?id=<%= image.get("id") %>"
-                                        alt="<%= image.get("original_name") %>"
+                                        src="<%= esc( request.getContextPath() ) %>/TourImageServlet?id=<%= esc( image.get("id") ) %>"
+                                        alt="<%= esc( image.get("original_name") ) %>"
                                     >
 
 
@@ -3004,7 +1694,7 @@
 
 
                                         <strong>
-                                            <%= image.get("original_name") %>
+                                            <%= esc( image.get("original_name") ) %>
                                         </strong>
 
 
@@ -3019,7 +1709,7 @@
                                         <% if (isCover) { %>
 
                                             <span class="cover">
-                                                COVER IMAGE
+                                                MAIN COVER
                                             </span>
 
                                         <% } %>
@@ -3033,8 +1723,8 @@
 
                                                 <form
                                                     method="post"
-                                                    action="<%= request.getContextPath() %>/admin/tours"
-                                                >
+                                                    action="<%= esc( request.getContextPath() ) %>/admin/tours"
+                                                ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                                                     <input
                                                         type="hidden"
@@ -3045,20 +1735,20 @@
                                                     <input
                                                         type="hidden"
                                                         name="tourId"
-                                                        value="<%= selectedTour.get("id") %>"
+                                                        value="<%= esc( selectedTour.get("id") ) %>"
                                                     >
 
                                                     <input
                                                         type="hidden"
                                                         name="id"
-                                                        value="<%= image.get("id") %>"
+                                                        value="<%= esc( image.get("id") ) %>"
                                                     >
 
                                                     <button
                                                         type="submit"
                                                         class="button warning"
                                                     >
-                                                        Set Cover
+                                                        Make main cover
                                                     </button>
 
                                                 </form>
@@ -3069,9 +1759,9 @@
 
                                             <form
                                                 method="post"
-                                                action="<%= request.getContextPath() %>/admin/tours"
+                                                action="<%= esc( request.getContextPath() ) %>/admin/tours"
                                                 onsubmit="return confirm('Delete this image?');"
-                                            >
+                                            ><input type="hidden" name="csrf" value="<%= esc(session.getAttribute("tourCsrf")) %>">
 
                                                 <input
                                                     type="hidden"
@@ -3082,13 +1772,13 @@
                                                 <input
                                                     type="hidden"
                                                     name="tourId"
-                                                    value="<%= selectedTour.get("id") %>"
+                                                    value="<%= esc( selectedTour.get("id") ) %>"
                                                 >
 
                                                 <input
                                                     type="hidden"
                                                     name="id"
-                                                    value="<%= image.get("id") %>"
+                                                    value="<%= esc( image.get("id") ) %>"
                                                 >
 
                                                 <button
@@ -3122,7 +1812,7 @@
                                 +
                             </div>
 
-                            No images uploaded for this tour.
+                            No destination photos yet. Add the main cover above, then build the gallery.
 
                         </div>
 

@@ -20,9 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
 
@@ -48,6 +45,9 @@ public class AdminTourPanelServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
+        if (request.getSession().getAttribute("tourCsrf") == null) {
+            request.getSession().setAttribute("tourCsrf", java.util.UUID.randomUUID().toString());
+        }
         Integer selectedTourId =
                 parseInteger(request.getParameter("tourId"));
 
@@ -165,6 +165,12 @@ public class AdminTourPanelServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
+
+        if (request.getSession(false) == null || request.getParameter("csrf") == null
+                || !request.getParameter("csrf").equals(request.getSession().getAttribute("tourCsrf"))) {
+            response.sendError(403, "Please reload the admin panel before saving.");
+            return;
+        }
 
         String action = request.getParameter("action");
 
@@ -360,7 +366,7 @@ public class AdminTourPanelServlet extends HttpServlet {
 
                 setMessage(
                         request,
-                        "Image uploaded successfully."
+                        "true".equalsIgnoreCase(getParameter(request, "isCover", "is_cover")) ? "Main cover photo saved." : "Gallery photo added."
                 );
 
             // =====================================================
@@ -626,8 +632,8 @@ public class AdminTourPanelServlet extends HttpServlet {
         String sql =
                 "INSERT INTO tours " +
                 "(name, category, departure_city, " +
-                "duration, price, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "duration, price, status, short_description) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement =
                      connection.prepareStatement(
@@ -665,6 +671,7 @@ public class AdminTourPanelServlet extends HttpServlet {
                     status
             );
 
+            statement.setString(7, clean(request.getParameter("short_description")));
             int affectedRows =
                     statement.executeUpdate();
 
@@ -821,7 +828,7 @@ public class AdminTourPanelServlet extends HttpServlet {
                 "departure_city = ?, " +
                 "duration = ?, " +
                 "price = ?, " +
-                "status = ? " +
+                "status = ?, short_description = ? " +
                 "WHERE id = ?";
 
         try (PreparedStatement statement =
@@ -833,7 +840,8 @@ public class AdminTourPanelServlet extends HttpServlet {
             statement.setInt(4, duration);
             statement.setBigDecimal(5, price);
             statement.setString(6, status);
-            statement.setInt(7, tourId);
+            statement.setString(7, clean(request.getParameter("short_description")));
+            statement.setInt(8, tourId);
 
             int updated =
                     statement.executeUpdate();
@@ -1553,124 +1561,42 @@ public class AdminTourPanelServlet extends HttpServlet {
     // UPLOAD IMAGE
     // =============================================================
 
-    private void uploadImage(
-            Connection connection,
-            HttpServletRequest request)
-            throws Exception {
-
-        int tourId =
-                requiredInt(
-                        request.getParameter("tourId")
-                );
-
-        ensureTourExists(
-                connection,
-                tourId
-        );
-
-        Part filePart =
-                request.getPart("image");
-
-        if (filePart == null ||
-                filePart.getSize() == 0) {
-
-            throw new Exception(
-                    "Please select an image."
-            );
+    private void uploadImage(Connection connection, HttpServletRequest request) throws Exception {
+        int tourId = requiredInt(request.getParameter("tourId"));
+        ensureTourExists(connection, tourId);
+        Part filePart = request.getPart("image");
+        if (filePart == null || filePart.getSize() == 0 || filePart.getSize() > 5L * 1024 * 1024) {
+            throw new Exception("Choose a JPEG or PNG photo up to 5 MB.");
         }
-
-        String originalName =
-                filePart.getSubmittedFileName();
-
-        String mimeType =
-                filePart.getContentType();
-
-        if (mimeType == null ||
-                !mimeType.toLowerCase().startsWith("image/")) {
-
-            throw new Exception(
-                    "Only image files are allowed."
-            );
-        }
-
-        byte[] imageData =
-                filePart.getInputStream()
-                        .readAllBytes();
-
-        if (imageData.length == 0) {
-
-            throw new Exception(
-                    "The selected image is empty."
-            );
-        }
-
-        boolean isCover =
-                "true".equalsIgnoreCase(
-                        getParameter(
-                                request,
-                                "isCover",
-                                "is_cover"
-                        )
-                );
-
-        // =========================================================
-        // REMOVE OLD COVER IF THIS IS NEW COVER
-        // =========================================================
-
-        if (isCover) {
-
-            String resetSql =
-                    "UPDATE tour_images " +
-                    "SET is_cover = FALSE " +
-                    "WHERE tour_id = ?";
-
-            try (PreparedStatement statement =
-                         connection.prepareStatement(resetSql)) {
-
-                statement.setInt(
-                        1,
-                        tourId
-                );
-
-                statement.executeUpdate();
+        byte[] imageData;
+        try (java.io.InputStream input = filePart.getInputStream()) { imageData = input.readAllBytes(); }
+        String mimeType;
+        try { mimeType = HolidayImageServlet.validateImage(imageData); }
+        catch (IllegalArgumentException e) { throw new Exception(e.getMessage()); }
+        String originalName = filePart.getSubmittedFileName();
+        originalName = originalName == null ? "destination-photo" : originalName.replace((char) 92, '/');
+        originalName = originalName.substring(originalName.lastIndexOf('/') + 1);
+        if (originalName.length() > 240) originalName = originalName.substring(originalName.length() - 240);
+        boolean isCover = "true".equalsIgnoreCase(getParameter(request, "isCover", "is_cover"));
+        boolean oldAutoCommit = connection.getAutoCommit();
+        try {
+            connection.setAutoCommit(false);
+            if (isCover) {
+                try (PreparedStatement reset = connection.prepareStatement(
+                        "UPDATE tour_images SET is_cover = FALSE WHERE tour_id = ?")) {
+                    reset.setInt(1, tourId); reset.executeUpdate();
+                }
             }
-        }
-
-        String sql =
-                "INSERT INTO tour_images " +
-                "(tour_id, image_data, mime_type, " +
-                "original_name, is_cover) " +
-                "VALUES (?, ?, ?, ?, ?)";
-
-        try (PreparedStatement statement =
-                     connection.prepareStatement(sql)) {
-
-            statement.setInt(
-                    1,
-                    tourId
-            );
-
-            statement.setBytes(
-                    2,
-                    imageData
-            );
-
-            statement.setString(
-                    3,
-                    mimeType
-            );
-
-            statement.setString(
-                    4,
-                    originalName
-            );
-
-            statement.setBoolean(
-                    5,
-                    isCover
-            );
-
-            statement.executeUpdate();
+            try (PreparedStatement insert = connection.prepareStatement(
+                    "INSERT INTO tour_images (tour_id,image_data,mime_type,original_name,is_cover) VALUES (?,?,?,?,?)")) {
+                insert.setInt(1, tourId); insert.setBytes(2, imageData); insert.setString(3, mimeType);
+                insert.setString(4, originalName); insert.setBoolean(5, isCover); insert.executeUpdate();
+            }
+            connection.commit();
+        } catch (Exception e) {
+            connection.rollback(); throw e;
+        } finally {
+            connection.setAutoCommit(oldAutoCommit);
         }
     }
 
@@ -1962,7 +1888,7 @@ public class AdminTourPanelServlet extends HttpServlet {
 
         String sql =
                 "SELECT id, name, category, departure_city, " +
-                "duration, price, status, created_at, updated_at " +
+                "duration, price, status, short_description, created_at, updated_at " +
                 "FROM tours " +
                 "ORDER BY id DESC";
 
@@ -1994,7 +1920,7 @@ public class AdminTourPanelServlet extends HttpServlet {
 
         String sql =
                 "SELECT id, name, category, departure_city, " +
-                "duration, price, status, created_at, updated_at " +
+                "duration, price, status, short_description, created_at, updated_at " +
                 "FROM tours " +
                 "WHERE id = ?";
 
@@ -2078,6 +2004,7 @@ public class AdminTourPanelServlet extends HttpServlet {
                 resultSet.getTimestamp("updated_at")
         );
 
+        tour.put("short_description", resultSet.getString("short_description"));
         return tour;
     }
 
