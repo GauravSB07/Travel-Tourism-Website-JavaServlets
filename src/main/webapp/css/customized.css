@@ -71,3 +71,76 @@
 @media(max-width:1100px){.customized-page .holiday-card-grid{grid-template-columns:1fr}.occasion-cover{aspect-ratio:16/9}}
 @media(max-width:650px){.occasion-card-body{padding:20px}.occasion-card h3{font-size:24px}.occasion-cover{aspect-ratio:3/2}.occasion-details-link{gap:7px;padding:12px}.occasion-meta{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.occasion-card,.occasion-cover img{transition:none}.occasion-card:hover .occasion-cover img{transform:none}}
+/* =========================================================
+   SAVED HOLIDAY HEART
+   ========================================================= */
+
+.occasion-cover {
+    position: relative;
+}
+
+.occasion-cover-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.holiday-save-heart {
+    position: absolute;
+
+    top: 14px;
+    right: 14px;
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #173f5f;
+
+    text-decoration: none;
+
+    font-size: 27px;
+
+    line-height: 1;
+
+    z-index: 20;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.16);
+
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.holiday-save-heart:hover {
+    transform: scale(1.08);
+}
+
+.holiday-save-heart.unsaved {
+    color: #173f5f;
+}
+
+.holiday-save-heart.saved {
+    color: #e53935;
+}
+
+@media (max-width: 650px) {
+
+    .holiday-save-heart {
+        width: 40px;
+        height: 40px;
+
+        top: 10px;
+        right: 10px;
+
+        font-size: 24px;
+    }
+}
