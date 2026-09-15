@@ -418,7 +418,7 @@
             <div class="collection-visual">
                 <c:choose>
                     <c:when test="${not empty experiences}">
-                        <img src="${pageContext.request.contextPath}/images/<c:out value='${experiences[0].imageUrl}'/>"
+                        <img src="${pageContext.request.contextPath}/experience-image?id=${experiences[0].id}"
                              alt="<c:out value='${experiences[0].location}'/>"
                              fetchpriority="high">
                         <div class="collection-photo-caption">
@@ -458,11 +458,11 @@
                                      data-title="<c:out value='${exp.title}'/>"
                                      data-location="<c:out value='${exp.location}'/>"
                                      data-trip-type="<c:out value='${exp.tripType}'/>"
-                                     data-image="${pageContext.request.contextPath}/images/<c:out value='${exp.imageUrl}'/>"
+                                     data-image="${pageContext.request.contextPath}/experience-image?id=${exp.id}"
                                      data-reviewer="<c:out value='${exp.reviewerName}'/>"
                                      data-stars="<c:out value='${exp.stars}'/>">
                                 <div class="experience-image-wrapper">
-                                    <img src="${pageContext.request.contextPath}/images/<c:out value='${exp.imageUrl}'/>"
+                                    <img src="${pageContext.request.contextPath}/experience-image?id=${exp.id}"
                                          alt="<c:out value='${exp.location}'/>"
                                          loading="lazy">
                                     <span class="experience-category-badge"><c:out value="${exp.tripType}"/></span>
