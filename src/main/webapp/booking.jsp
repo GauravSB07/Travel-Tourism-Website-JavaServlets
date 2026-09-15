@@ -1,62 +1,449 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:if test="${empty selection}"><c:redirect url="/booking"/></c:if>
+
+<c:if test="${empty selection}">
+    <c:redirect url="/booking"/>
+</c:if>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
     <title>Book Your Holiday | TravelTourism</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/booking.css?v=3">
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/style.css">
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/booking.css?v=3">
+
 </head>
+
 <body>
+
 <%@ include file="common/header.jsp" %>
+
+
 <main class="booking-container">
-    <a class="booking-back" href="${pageContext.request.contextPath}/${selection.type == 'holiday' ? 'customize' : 'destinations'}">← Explore more packages</a>
-    <p class="booking-eyebrow">YOUR NEXT JOURNEY</p>
-    <h1>Book your ${selection.type == 'holiday' ? 'customized holiday' : 'tour'}</h1>
-    <section class="booking-summary" aria-label="Selected package">
-        <h2><c:out value="${selection.name}"/></h2>
-        <p>From <strong><c:out value="${selection.departure}"/></strong> · ${selection.duration} days</p>
-        <p>₹<fmt:formatNumber value="${selection.price}"/> per person</p>
-        <c:if test="${selection.type == 'holiday'}"><p><c:out value="${selection.occasion}"/></p></c:if>
+
+    <!-- ================= BACK LINK ================= -->
+
+    <a class="booking-back"
+       href="${pageContext.request.contextPath}/${selection.type == 'holiday' ? 'customize' : 'destinations'}">
+
+        ← Explore more packages
+
+    </a>
+
+
+    <!-- ================= PAGE HEADING ================= -->
+
+    <p class="booking-eyebrow">
+        YOUR NEXT JOURNEY
+    </p>
+
+    <h1>
+        Book your ${selection.type == 'holiday' ? 'customized holiday' : 'tour'}
+    </h1>
+
+
+    <!-- ================= SELECTED PACKAGE ================= -->
+
+    <section class="booking-summary"
+             aria-label="Selected package">
+
+        <h2>
+            <c:out value="${selection.name}"/>
+        </h2>
+
+        <p>
+            From
+            <strong>
+                <c:out value="${selection.departure}"/>
+            </strong>
+            · ${selection.duration} days
+        </p>
+
+        <p>
+            ₹<fmt:formatNumber value="${selection.price}"/>
+            per person
+        </p>
+
+        <c:if test="${selection.type == 'holiday'}">
+
+            <p>
+                <c:out value="${selection.occasion}"/>
+            </p>
+
+        </c:if>
+
     </section>
-    <c:if test="${not empty error}"><p class="booking-error" role="alert"><c:out value="${error}"/></p></c:if>
-    <form action="${pageContext.request.contextPath}/booking-confirmation" method="post">
-        <input type="hidden" name="bookingToken" value="<c:out value='${sessionScope.bookingToken}'/>">
-        <input type="hidden" name="${selection.type == 'holiday' ? 'holiday_id' : 'tour_id'}" value="<c:out value='${selection.id}'/>">
+
+
+    <!-- ================= ERROR MESSAGE ================= -->
+
+    <c:if test="${not empty error}">
+
+        <p class="booking-error"
+           role="alert">
+
+            <c:out value="${error}"/>
+
+        </p>
+
+    </c:if>
+
+
+    <!-- ================= BOOKING FORM ================= -->
+
+    <form action="${pageContext.request.contextPath}/booking-confirmation"
+          method="post">
+
+
+        <!-- Booking security token -->
+
+        <input type="hidden"
+               name="bookingToken"
+               value="<c:out value='${sessionScope.bookingToken}'/>">
+
+
+        <!-- Selected package -->
+
+        <input type="hidden"
+               name="${selection.type == 'holiday' ? 'holiday_id' : 'tour_id'}"
+               value="<c:out value='${selection.id}'/>">
+
+
         <div class="booking-grid">
-            <div class="booking-field"><label for="customerName">Full name</label><input id="customerName" name="customerName" autocomplete="name" maxlength="120" value="<c:out value='${param.customerName}'/>" required></div>
-            <div class="booking-field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" value="<c:out value='${param.email}'/>" required></div>
-            <div class="booking-field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" minlength="7" maxlength="30" value="<c:out value='${param.phone}'/>" required></div>
-            <div class="booking-field"><label for="travelers">Number of travellers</label><input id="travelers" name="travelers" type="number" min="1" max="30" value="<c:out value='${empty param.travelers ? 1 : param.travelers}'/>" required></div>
-            <div class="booking-field"><label for="travelDate">Departure date</label><input id="travelDate" name="travelDate" type="date" min="${today}" value="<c:out value='${param.travelDate}'/>" required></div>
-            <div class="booking-field"><label for="contactPreference">Preferred contact method</label><select id="contactPreference" name="contactPreference" required><option value="email" ${param.contactPreference == 'email' ? 'selected' : ''}>Email</option><option value="phone" ${param.contactPreference == 'phone' ? 'selected' : ''}>Phone call</option><option value="whatsapp" ${param.contactPreference == 'whatsapp' ? 'selected' : ''}>WhatsApp</option></select></div>
-            <div class="booking-field"><label for="pickupLocation">Pickup location <span>(optional)</span></label><input id="pickupLocation" name="pickupLocation" maxlength="180" value="<c:out value='${param.pickupLocation}'/>" placeholder="Hotel, airport, railway station or area"></div>
+
+
+            <!-- ================= FULL NAME ================= -->
+
+            <div class="booking-field">
+
+                <label for="customerName">
+                    Full name
+                </label>
+
+                <input id="customerName"
+                       name="customerName"
+                       autocomplete="name"
+                       maxlength="120"
+                       value="<c:out value='${empty param.customerName ? sessionScope.userName : param.customerName}'/>"
+                       required>
+
+            </div>
+
+
+            <!-- ================= EMAIL ================= -->
+
+            <div class="booking-field">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input id="email"
+                       name="email"
+                       type="email"
+                       autocomplete="email"
+                       maxlength="254"
+                       value="<c:out value='${empty param.email ? sessionScope.userEmail : param.email}'/>"
+                       required>
+
+            </div>
+
+
+            <!-- ================= PHONE ================= -->
+
+            <div class="booking-field">
+
+                <label for="phone">
+                    Phone number
+                </label>
+
+                <input id="phone"
+                       name="phone"
+                       type="tel"
+                       autocomplete="tel"
+                       minlength="7"
+                       maxlength="30"
+                       value="<c:out value='${empty param.phone ? sessionScope.userPhone : param.phone}'/>"
+                       required>
+
+            </div>
+
+
+            <!-- ================= TRAVELLERS ================= -->
+
+            <div class="booking-field">
+
+                <label for="travelers">
+                    Number of travellers
+                </label>
+
+                <input id="travelers"
+                       name="travelers"
+                       type="number"
+                       min="1"
+                       max="30"
+                       value="<c:out value='${empty param.travelers ? 1 : param.travelers}'/>"
+                       required>
+
+            </div>
+
+
+            <!-- ================= DEPARTURE DATE ================= -->
+
+            <div class="booking-field">
+
+                <label for="travelDate">
+                    Departure date
+                </label>
+
+                <input id="travelDate"
+                       name="travelDate"
+                       type="date"
+                       min="${today}"
+                       value="<c:out value='${param.travelDate}'/>"
+                       required>
+
+            </div>
+
+
+            <!-- ================= CONTACT PREFERENCE ================= -->
+
+            <div class="booking-field">
+
+                <label for="contactPreference">
+                    Preferred contact method
+                </label>
+
+                <select id="contactPreference"
+                        name="contactPreference"
+                        required>
+
+                    <option value="email"
+                        ${param.contactPreference == 'email' ? 'selected' : ''}>
+                        Email
+                    </option>
+
+                    <option value="phone"
+                        ${param.contactPreference == 'phone' ? 'selected' : ''}>
+                        Phone call
+                    </option>
+
+                    <option value="whatsapp"
+                        ${param.contactPreference == 'whatsapp' ? 'selected' : ''}>
+                        WhatsApp
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ================= PICKUP LOCATION ================= -->
+
+            <div class="booking-field">
+
+                <label for="pickupLocation">
+
+                    Pickup location
+                    <span>(optional)</span>
+
+                </label>
+
+                <input id="pickupLocation"
+                       name="pickupLocation"
+                       maxlength="180"
+                       value="<c:out value='${param.pickupLocation}'/>"
+                       placeholder="Hotel, airport, railway station or area">
+
+            </div>
+
         </div>
-        <c:if test="${selection.type == 'holiday'}"><p class="booking-help">Choose your preferred travel date and tell us how you would like to celebrate. Availability will be confirmed with you.</p></c:if>
-        <div class="booking-field"><label for="preferences">Make it yours <span>(optional)</span></label><textarea id="preferences" name="preferences" rows="4" maxlength="2000" placeholder="Tell us about dietary needs, room preferences, accessibility requirements or itinerary changes."><c:out value="${param.preferences}"/></textarea></div>
-        <p class="booking-total">Estimated package total: <strong id="bookingTotal" data-price="${selection.price}">₹<fmt:formatNumber value="${selection.price}"/> for one traveller</strong></p>
-        <p class="booking-help">Submit a booking request for this package. Availability and any requested changes will be confirmed separately. No payment is collected here.</p>
-        <label class="booking-consent"><input type="checkbox" name="termsAccepted" value="accepted" required><span>I agree that this is a booking request, not a confirmed reservation or payment. I have reviewed the <a href="${pageContext.request.contextPath}/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="${pageContext.request.contextPath}/privacy-policy" target="_blank">Privacy Policy</a>.</span></label>
-        <button class="booking-submit" type="submit">Submit booking request</button>
+
+
+        <!-- ================= HOLIDAY HELP ================= -->
+
+        <c:if test="${selection.type == 'holiday'}">
+
+            <p class="booking-help">
+
+                Choose your preferred travel date and tell us how you
+                would like to celebrate. Availability will be confirmed
+                with you.
+
+            </p>
+
+        </c:if>
+
+
+        <!-- ================= SPECIAL PREFERENCES ================= -->
+
+        <div class="booking-field">
+
+            <label for="preferences">
+
+                Make it yours
+                <span>(optional)</span>
+
+            </label>
+
+            <textarea id="preferences"
+                      name="preferences"
+                      rows="4"
+                      maxlength="2000"
+                      placeholder="Tell us about dietary needs, room preferences, accessibility requirements or itinerary changes."><c:out value="${param.preferences}"/></textarea>
+
+        </div>
+
+
+        <!-- ================= TOTAL ================= -->
+
+        <p class="booking-total">
+
+            Estimated package total:
+
+            <strong id="bookingTotal"
+                    data-price="${selection.price}">
+
+                ₹<fmt:formatNumber value="${selection.price}"/>
+                for one traveller
+
+            </strong>
+
+        </p>
+
+
+        <!-- ================= BOOKING INFORMATION ================= -->
+
+        <p class="booking-help">
+
+            Submit a booking request for this package.
+            Availability and any requested changes will be confirmed
+            separately. No payment is collected here.
+
+        </p>
+
+
+        <!-- ================= TERMS ================= -->
+
+        <label class="booking-consent">
+
+            <input type="checkbox"
+                   name="termsAccepted"
+                   value="accepted"
+                   required>
+
+            <span>
+
+                I agree that this is a booking request, not a confirmed
+                reservation or payment. I have reviewed the
+
+                <a href="${pageContext.request.contextPath}/terms-and-conditions"
+                   target="_blank">
+
+                    Terms &amp; Conditions
+
+                </a>
+
+                and
+
+                <a href="${pageContext.request.contextPath}/privacy-policy"
+                   target="_blank">
+
+                    Privacy Policy
+
+                </a>.
+
+            </span>
+
+        </label>
+
+
+        <!-- ================= SUBMIT ================= -->
+
+        <button class="booking-submit"
+                type="submit">
+
+            Submit booking request
+
+        </button>
+
     </form>
+
 </main>
+
+
 <%@ include file="common/footer.jsp" %>
+
+
+<!-- ================= TOTAL CALCULATION ================= -->
+
 <script>
+
 (function () {
-    const travelers = document.getElementById('travelers');
-    const total = document.getElementById('bookingTotal');
-    function update() {
-        const count = Number(travelers.value);
-        total.textContent = Number.isInteger(count) && count >= 1 && count <= 30
-            ? new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'INR', maximumFractionDigits: 0}).format(count * Number(total.dataset.price))
-            : 'Choose 1–30 travellers';
+
+    const travelers =
+        document.getElementById('travelers');
+
+    const total =
+        document.getElementById('bookingTotal');
+
+    if (!travelers || !total) {
+        return;
     }
-    travelers.addEventListener('input', update);
+
+    function update() {
+
+        const count =
+            Number(travelers.value);
+
+        const price =
+            Number(total.dataset.price);
+
+        if (Number.isInteger(count)
+                && count >= 1
+                && count <= 30) {
+
+            total.textContent =
+                new Intl.NumberFormat(
+                    'en-IN',
+                    {
+                        style: 'currency',
+                        currency: 'INR',
+                        maximumFractionDigits: 0
+                    }
+                ).format(count * price);
+
+        } else {
+
+            total.textContent =
+                'Choose 1–30 travellers';
+
+        }
+    }
+
+    travelers.addEventListener(
+        'input',
+        update
+    );
+
     update();
+
 })();
+
 </script>
+
+
 </body>
 </html>

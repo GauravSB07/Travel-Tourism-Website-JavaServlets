@@ -8,13 +8,11 @@
 
         <a href="${pageContext.request.contextPath}/index.jsp"
            class="site-logo">
-
             Travel<span>Tourism</span>
-
         </a>
 
 
-        <!-- NAVIGATION -->
+        <!-- MAIN NAVIGATION -->
 
         <nav class="main-navigation">
 
@@ -24,11 +22,11 @@
 
             <a href="${pageContext.request.contextPath}/destinations">
                 Destinations
-            </a><a href="${pageContext.request.contextPath}/customize">
-                Customized Holidays
             </a>
 
-            
+            <a href="${pageContext.request.contextPath}/customize">
+                Customized Holidays
+            </a>
 
             <a href="${pageContext.request.contextPath}/experiences">
                 Experiences
@@ -45,47 +43,203 @@
         </nav>
 
 
-        <!-- HEADER ACTIONS -->
+        <!-- ================= HEADER ACTIONS ================= -->
 
         <div class="header-actions">
 
-            <!-- HEADER SEARCH -->
 
-            <form class="header-search"
-                  action="${pageContext.request.contextPath}/search"
-                  method="get">
+            <!-- SEARCH -->
 
-                <input type="text"
-                       name="query"
-                       placeholder="Search destinations..."
-                       aria-label="Search destinations">
+            <div class="header-search-wrapper">
 
-            <button type="submit" aria-label="Search">
-                &#128269;
-            </button>
+                <button type="button"
+                        class="header-search-icon"
+                        id="headerSearchIcon"
+                        aria-label="Search">
 
-            </form>
+                    <svg width="22"
+                         height="22"
+                         viewBox="0 0 24 24"
+                         aria-hidden="true">
+
+                    <circle cx="11"
+                            cy="11"
+                            r="7">
+                    </circle>
+
+                    <line x1="16.5"
+                          y1="16.5"
+                          x2="21"
+                          y2="21">
+                    </line>
+
+                    </svg>
+
+                </button>
 
 
-            <!-- BOOK NOW -->
+                <!-- SEARCH FORM -->
 
-            <button type="button" class="book-button" data-booking-access-open>Book Now</button>
+                <form class="header-search-form"
+                      id="headerSearchForm"
+                      action="${pageContext.request.contextPath}/search"
+                      method="get">
+
+                    <input type="text"
+                           name="query"
+                           placeholder="Search destinations..."
+                           aria-label="Search destinations"
+                           autocomplete="off">
+
+                    <button type="submit"
+                            aria-label="Submit search">
+
+                        <svg width="18"
+                             height="18"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                        <circle cx="11"
+                                cy="11"
+                                r="7">
+                        </circle>
+
+                        <line x1="16.5"
+                              y1="16.5"
+                              x2="21"
+                              y2="21">
+                        </line>
+
+                        </svg>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- ================= BOOK NOW ================= -->
+
+            <%
+                Boolean userLoggedIn
+                        = (Boolean) session.getAttribute("userLoggedIn");
+
+                if (Boolean.TRUE.equals(userLoggedIn)) {
+            %>
+
+            <!-- USER IS ALREADY LOGGED IN -->
+
+            <a href="${pageContext.request.contextPath}/destinations"
+               class="book-button"
+               id="bookNowButton">
+
+                Book Now
+
+            </a>
+
+            <%
+            } else {
+            %>
+
+            <!-- USER IS NOT LOGGED IN -->
+
+            <a href="${pageContext.request.contextPath}/login.jsp?redirect=/destinations"
+               class="book-button"
+               id="bookNowButton">
+
+                Book Now
+
+            </a>
+
+            <%
+                }
+            %>
+
+
+            <!-- ================= USER / LOGIN ================= -->
+
+            <%
+                String loggedInUserName
+                        = (String) session.getAttribute("userName");
+
+                if (Boolean.TRUE.equals(userLoggedIn)
+                        && loggedInUserName != null
+                        && !loggedInUserName.isBlank()) {
+            %>
+
+            <!-- LOGGED-IN USER -->
+
+            <div class="user-menu">
+
+                <button type="button"
+                        class="user-menu-link"
+                        id="userMenuLink"
+                        aria-expanded="false">
+
+                    <span class="user-name">
+                        <%= loggedInUserName%>
+                    </span>
+
+                    <span class="user-arrow"
+                          aria-hidden="true">
+                        &#9662;
+                    </span>
+
+                </button>
+
+                <div class="user-dropdown"
+                     id="userDropdown">
+
+                    <a href="${pageContext.request.contextPath}/user-dashboard">
+                        My Dashboard
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/user-bookings">
+                        My Bookings
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/logout"
+                       class="logout-link">
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+            <%
+            } else {
+            %>
+
+            <!-- NOT LOGGED IN -->
+
+            <a href="${pageContext.request.contextPath}/login.jsp"
+               class="header-login-button">
+
+                Login
+
+            </a>
+
+            <%
+                }
+            %>
 
         </div>
 
     </div>
 
 </header>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/booking-access.css?v=3">
-<dialog class="booking-access-dialog" id="booking-access-dialog" aria-labelledby="booking-access-title">
-<div class="booking-access-head"><p>BEFORE YOU CONTINUE</p><button type="button" data-dialog-close aria-label="Close booking options">×</button></div>
-<h2 id="booking-access-title">How would you like to book?</h2>
-<p class="booking-access-intro">An account will make it easier to revisit requests later. Account access is being prepared; guest booking remains fully available now.</p>
-<div class="booking-access-options">
-<button type="button" data-account-coming-soon><span>01</span><strong>Log in</strong><small>Returning traveller · Coming soon</small></button>
-<button type="button" data-account-coming-soon><span>02</span><strong>Create an account</strong><small>New traveller · Coming soon</small></button>
-<a data-guest-booking href="${pageContext.request.contextPath}/destinations"><span>03</span><strong>Continue as guest</strong><small>Choose a package without an account</small></a>
-</div>
-<p class="booking-access-note" tabindex="-1" hidden>Login and registration will be added in a future update. Please continue as a guest for now.</p>
-</dialog>
-<script src="${pageContext.request.contextPath}/js/booking-access.js" defer></script>
+
+<!-- ================= OLD BOOKING DIALOG REMOVED ================= -->
+
+<!--
+     The old "How would you like to book?" dialog is intentionally
+     removed because Book Now should no longer open that popup.
+-->
+
+
+<!-- ================= HEADER JAVASCRIPT ================= -->
+
+<script src="${pageContext.request.contextPath}/js/header.js"
+        defer>
+</script>
