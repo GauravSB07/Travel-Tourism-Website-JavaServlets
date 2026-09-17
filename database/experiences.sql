@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS experiences (
     trip_type VARCHAR(80) NOT NULL,
     rating INT NOT NULL DEFAULT 5,
     image_url VARCHAR(300) NOT NULL DEFAULT '',
+    image_data MEDIUMBLOB NULL,
+    mime_type VARCHAR(50) DEFAULT 'image/jpeg',
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
