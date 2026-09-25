@@ -1,959 +1,306 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!doctype html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>About Us - TravelTourism</title>
-
-<style>
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f8f9fa;
-    color: #173b4d;
-    line-height: 1.6;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-
-/* NAVBAR */
-
-.navbar {
-    height: 70px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 4%;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.logo {
-    font-size: 27px;
-    font-weight: bold;
-    color: #123b51;
-}
-
-.logo span {
-    color: #ed8b32;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-}
-
-.nav-links a {
-    font-size: 15px;
-    font-weight: 500;
-    color: #263b46;
-}
-
-.nav-links a:hover {
-    color: #ed8b32;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    height: 42px;
-    width: 210px;
-    padding: 0 12px;
-}
-
-.search-box input {
-    border: none;
-    outline: none;
-    width: 170px;
-}
-
-.book-btn {
-    background: #ed8b32;
-    color: white;
-    padding: 12px 22px;
-    border-radius: 7px;
-    font-weight: bold;
-}
-
-
-/* HERO */
-
-.hero {
-    height: 430px;
-    background: linear-gradient(
-        110deg,
-        #123e54,
-        #285e70,
-        #64959a
-    );
-
-    display: flex;
-    align-items: center;
-    padding: 60px 7%;
-    color: white;
-}
-
-.hero-content {
-    max-width: 700px;
-}
-
-.small-title {
-    color: #f0a05a;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 4px;
-    margin-bottom: 18px;
-}
-
-.hero h1 {
-    font-size: 58px;
-    line-height: 1.1;
-    margin-bottom: 25px;
-}
-
-.orange-line {
-    width: 65px;
-    height: 4px;
-    background: #ed8b32;
-    margin: 20px 0;
-}
-
-.hero p {
-    font-size: 18px;
-    color: #e8eeee;
-}
-
-
-/* ABOUT */
-
-.about-section {
-    padding: 80px 7%;
-    background: white;
-}
-
-.about-container {
-    max-width: 1200px;
-    margin: auto;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 70px;
-    align-items: center;
-}
-
-.about-image {
-    height: 430px;
-    border-radius: 14px;
-    overflow: hidden;
-}
-
-.about-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.about-text h2 {
-    font-family: Georgia, serif;
-    font-size: 43px;
-    line-height: 1.2;
-    color: #123e52;
-    margin-bottom: 25px;
-}
-
-.about-text p {
-    color: #66757b;
-    font-size: 16px;
-    margin-bottom: 18px;
-}
-
-.read-more {
-    display: inline-block;
-    margin-top: 15px;
-    background: #173f4c;
-    color: white;
-    padding: 13px 25px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-
-/* STATS */
-
-.stats {
-    background: #f3f5f3;
-    padding: 55px 7%;
-}
-
-.stats-container {
-    max-width: 1100px;
-    margin: auto;
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    text-align: center;
-}
-
-.stat-box {
-    padding: 25px;
-}
-
-.stat-box h3 {
-    font-size: 38px;
-    color: #ed8b32;
-}
-
-.stat-box p {
-    color: #66757b;
-}
-
-
-/* STORY */
-
-.story {
-    padding: 80px 7%;
-    background: white;
-}
-
-.section-heading {
-    text-align: center;
-    max-width: 700px;
-    margin: auto auto 50px;
-}
-
-.section-heading h2 {
-    font-family: Georgia, serif;
-    font-size: 43px;
-    color: #143e50;
-}
-
-.section-heading p {
-    color: #707d81;
-}
-
-
-/* CARDS */
-
-.cards {
-    max-width: 1150px;
-    margin: auto;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.card {
-    background: white;
-    border: 1px solid #e5e8e8;
-    padding: 35px 30px;
-    border-radius: 10px;
-}
-
-.card-icon {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    background: #f8e7d5;
-    color: #e9822b;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 25px;
-    margin-bottom: 20px;
-}
-
-.card h3 {
-    color: #173e51;
-    font-size: 22px;
-    margin-bottom: 12px;
-}
-
-.card p {
-    color: #707d81;
-}
-
-
-/* WHY US */
-
-.why-section {
-    padding: 80px 7%;
-    background: #f4f6f5;
-}
-
-.why-container {
-    max-width: 1150px;
-    margin: auto;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-}
-
-.why-text h2 {
-    font-family: Georgia, serif;
-    font-size: 42px;
-    color: #143e50;
-}
-
-.why-text p {
-    color: #68777c;
-    margin-top: 20px;
-}
-
-.feature {
-    display: flex;
-    gap: 18px;
-    margin-bottom: 25px;
-}
-
-.feature-number {
-    min-width: 42px;
-    height: 42px;
-
-    background: #173f4c;
-    color: white;
-
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-weight: bold;
-}
-
-.feature h3 {
-    color: #173e51;
-}
-
-.feature p {
-    color: #707d81;
-}
-
-
-/* MISSION */
-
-.mission {
-    padding: 80px 7%;
-    background: #173f4c;
-    color: white;
-    text-align: center;
-}
-
-.mission-container {
-    max-width: 800px;
-    margin: auto;
-}
-
-.mission h2 {
-    font-family: Georgia, serif;
-    font-size: 45px;
-    margin-bottom: 20px;
-}
-
-.mission p {
-    color: #d7e1e3;
-    font-size: 17px;
-}
-
-
-/* CTA */
-
-.cta {
-    padding: 70px 7%;
-    background: white;
-    text-align: center;
-}
-
-.cta h2 {
-    font-family: Georgia, serif;
-    color: #143e50;
-    font-size: 40px;
-}
-
-.cta p {
-    color: #707d81;
-    margin: 15px 0 25px;
-}
-
-.cta-btn {
-    display: inline-block;
-    background: #ed8b32;
-    color: white;
-    padding: 14px 30px;
-    border-radius: 6px;
-    font-weight: bold;
-}
-
-
-/* FOOTER */
-
-footer {
-    background: #102f3e;
-    color: white;
-    padding: 50px 7% 25px;
-}
-
-.footer-container {
-    max-width: 1150px;
-    margin: auto;
-
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 50px;
-}
-
-.footer-logo {
-    font-size: 27px;
-    font-weight: bold;
-}
-
-.footer-logo span {
-    color: #ed8b32;
-}
-
-.footer p {
-    color: #bdcbd0;
-    font-size: 14px;
-}
-
-.footer h3 {
-    margin-bottom: 15px;
-}
-
-.footer a {
-    display: block;
-    color: #bdcbd0;
-    margin-bottom: 8px;
-}
-
-
-/* MOBILE */
-
-@media(max-width:900px) {
-
-    .nav-links {
-        display: none;
-    }
-
-    .hero h1 {
-        font-size: 42px;
-    }
-
-    .about-container,
-    .why-container {
-        grid-template-columns: 1fr;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-
-    .stats-container {
-        grid-template-columns: repeat(2,1fr);
-    }
-
-    .footer-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About Us | TravelTourism</title>
+    <meta name="description" content="Learn about TravelTourism. We curate thoughtfully paced, authentic journeys across India connecting travellers with historic places, diverse cultures, and memorable stays.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/about-premium.css?v=3">
 </head>
-
-
 <body>
 
-
-<!-- NAVIGATION -->
-
-<header class="navbar">
-
-    <div class="logo">
-        Travel<span>Tourism</span>
-    </div>
-
-    <nav class="nav-links">
-
-        <a href="newjava.html">Home</a>
-        <a href="newjava.html">Destinations</a>
-        <a href="newjava.html">Experiences</a>
-        <a href="newjava.html">Customized Holidays</a>
-        <a href="newjava.html">About Us</a>
-        <a href="newjava.html">Contact Us</a>
-
-    </nav>
-
-    <div class="search-box">
-
-        <input type="text"
-               placeholder="Search destinations...">
-
-        <span>🔍</span>
-
-    </div>
-
-    <a href="newjava.html" class="book-btn">
-        Book Now
-    </a>
-
-</header>
-
-
-
-<!-- HERO -->
-
-<section class="hero">
-
-    <div class="hero-content">
-
-        <div class="small-title">
-            WHO WE ARE
-        </div>
-
-        <h1>
-            Travel with purpose.<br>
-            Discover with us.
-        </h1>
-
-        <div class="orange-line"></div>
-
-        <p>
-            We create meaningful journeys across India,
-            connecting travellers with beautiful places,
-            unforgettable experiences and local culture.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- ABOUT SECTION -->
-
-<section class="about-section">
-
-    <div class="about-container">
-
-
-        <!-- YOUR PHOTO -->
-
-        <div class="about-image">
-
-            <img src="goa.jpg"
-                 alt="Goa Beach">
-
-        </div>
-
-
-        <div class="about-text">
-
-            <div class="small-title">
-                ABOUT TRAVELTOURISM
-            </div>
-
-            <h2>
-                Journeys made for
-                curious travellers.
-            </h2>
-
-            <p>
-                TravelTourism is a travel and tourism company
-                created for people who want to explore India
-                in a comfortable, memorable and meaningful way.
-            </p>
-
-            <p>
-                From peaceful beaches and beautiful hill stations
-                to historic cities and cultural destinations,
-                we help travellers discover experiences that
-                stay with them long after the journey ends.
-            </p>
-
-            <p>
-                Our goal is simple — make travel easier,
-                enjoyable and accessible while helping you
-                discover the beauty of India.
-            </p>
-
-            <a href="newjava.html" class="read-more">
-                Explore Destinations →
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- STATISTICS -->
-
-<section class="stats">
-
-    <div class="stats-container">
-
-        <div class="stat-box">
-            <h3>40+</h3>
-            <p>Curated Journeys</p>
-        </div>
-
-        <div class="stat-box">
-            <h3>25+</h3>
-            <p>Destinations</p>
-        </div>
-
-        <div class="stat-box">
-            <h3>10+</h3>
-            <p>Travel Experiences</p>
-        </div>
-
-        <div class="stat-box">
-            <h3>100%</h3>
-            <p>Passion for Travel</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- OUR STORY -->
-
-<section class="story">
-
-    <div class="section-heading">
-
-        <div class="small-title">
-            OUR STORY
-        </div>
-
-        <h2>
-            More than just a holiday.
-        </h2>
-
-        <p>
-            We believe that travelling is about more than
-            visiting a destination. It is about discovering
-            new perspectives, meeting people and creating
-            memories.
-        </p>
-
-    </div>
-
-
-    <div class="cards">
-
-
-        <div class="card">
-
-            <div class="card-icon">
-                ✈
-            </div>
-
-            <h3>
-                Meaningful Journeys
-            </h3>
-
-            <p>
-                Every journey is carefully designed to give
-                travellers a comfortable and memorable
-                experience.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="card-icon">
-                ★
-            </div>
-
-            <h3>
-                Authentic Experiences
-            </h3>
-
-            <p>
-                Discover local culture, food, traditions,
-                landscapes and experiences that make every
-                destination unique.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="card-icon">
-                ♥
-            </div>
-
-            <h3>
-                Traveller First
-            </h3>
-
-            <p>
-                Your comfort and preferences are at the heart
-                of every journey we create.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- WHY CHOOSE US -->
-
-<section class="why-section">
-
-    <div class="why-container">
-
-
-        <div class="why-text">
-
-            <div class="small-title">
-                WHY TRAVEL WITH US
-            </div>
-
-            <h2>
-                Designed around
-                your journey.
-            </h2>
-
-            <p>
-                From choosing a destination to planning
-                your itinerary, we make the travel process
-                simple and enjoyable.
-            </p>
-
-        </div>
-
-
-        <div>
-
-
-            <div class="feature">
-
-                <div class="feature-number">
-                    01
+    <!-- COMMON SITE HEADER -->
+    <%@ include file="common/header.jsp" %>
+
+    <main class="about-premium">
+
+        <!-- =========================
+             01: EDITORIAL HERO (NO IMAGES)
+             ========================= -->
+        <section class="about-hero">
+            <div class="about-hero-copy">
+                <p class="about-kicker">ABOUT TRAVELTOUSIM · EST. 2026 · MUMBAI, INDIA</p>
+                <h1>
+                    Thoughtfully paced.<br>
+                    <em>Deeply rooted in India.</em>
+                </h1>
+                <p class="about-hero-lead">
+                    TravelTourism was founded on a simple belief: the best travel experiences aren't about rushing between
+                    crowded monuments on a rigid schedule. They are about having the time to breathe, connect with living traditions,
+                    savor local cuisine, and return home with stories you'll remember for decades.
+                </p>
+                <div class="about-hero-actions">
+                    <a href="${pageContext.request.contextPath}/destinations" class="about-hero-btn">
+                        <span>Explore Our Journeys</span>
+                        <span aria-hidden="true">→</span>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/contact" class="about-hero-link">
+                        <span>Speak with a Travel Specialist</span>
+                        <span aria-hidden="true">→</span>
+                    </a>
                 </div>
+            </div>
 
+            <div class="about-hero-aside">
+                <div class="about-monogram" aria-hidden="true">TT</div>
+                <blockquote>
+                    "Travel is at its most rewarding when you slow down enough to listen, savor, and truly understand a place."
+                </blockquote>
+                <div class="quote-author">
+                    <strong>The TravelTourism Team</strong>
+                    <span>Curating Journeys Across India</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             02: CREDIBILITY STRIP
+             ========================= -->
+        <div class="about-trust-strip" aria-label="Key highlights">
+            <div class="trust-item">
+                <div class="trust-item-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                        <line x1="8" y1="2" x2="8" y2="18"></line>
+                        <line x1="16" y1="6" x2="16" y2="22"></line>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <strong>6 Curated Regions</strong>
+                    <span>Handpicked regional routes</span>
+                </div>
+            </div>
+
+            <div class="trust-item">
+                <div class="trust-item-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <strong>Paced Itineraries</strong>
+                    <span>Never hurried or exhausted</span>
+                </div>
+            </div>
+
+            <div class="trust-item">
+                <div class="trust-item-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <strong>Custom Flexibility</strong>
+                    <span>Tailored to your preferences</span>
+                </div>
+            </div>
+
+            <div class="trust-item">
+                <div class="trust-item-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                </div>
+                <div class="trust-item-text">
+                    <strong>Personal Support</strong>
+                    <span>Direct human guidance 24/7</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================
+             03: OUR STORY & PHILOSOPHY (NO IMAGES)
+             ========================= -->
+        <section class="about-story-section">
+            <div class="story-manifesto-card">
+                <div class="manifesto-badge">OUR MANIFESTO</div>
+                <h2>Why we choose depth over rush.</h2>
+                <p>
+                    Too often, touring India becomes an endurance test: waking up at dawn, spending six hours in transit,
+                    snapping photographs at a monument, and driving to the next hotel. By the end of the trip, you need
+                    another vacation just to recover.
+                </p>
+                <p>
+                    We build every itinerary differently. When you visit Rajasthan, we leave open afternoons to wander the
+                    cobbled streets of Udaipur. When you travel to Kerala, we ensure you spend quiet hours on a traditional
+                    backwater boat instead of rushing through tourist terminals.
+                </p>
+                <div class="manifesto-quote">
+                    "We measure the success of a trip not by how many destinations you checked off, but by the memories that remain vivid years later."
+                </div>
+            </div>
+
+            <div class="story-narrative">
+                <p class="about-kicker">OUR CORE PRINCIPLES</p>
+                <h2>The three pillars behind every trip we design.</h2>
+
+                <div class="story-pillars">
+                    <div class="pillar-row">
+                        <div class="pillar-number">01</div>
+                        <div class="pillar-copy">
+                            <strong>Restful &amp; Realistic Pacing</strong>
+                            <p>We deliberately plan multi-night stays in each region so you unpack once, settle in, and experience the place at your own rhythm.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-row">
+                        <div class="pillar-number">02</div>
+                        <div class="pillar-copy">
+                            <strong>Character Over Chain Hotels</strong>
+                            <p>We partner with heritage havelis, plantation bungalows, and independent boutique retreats chosen for their warmth, history, and distinct sense of place.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-row">
+                        <div class="pillar-number">03</div>
+                        <div class="pillar-copy">
+                            <strong>Local Navigators with Deep Knowledge</strong>
+                            <p>Our guides are resident naturalists, historians, and storytellers who bring folklore, architectural nuances, and local culinary traditions alive.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             04: OUR TRAVEL COLLECTION
+             ========================= -->
+        <section class="about-collection-section">
+            <div class="section-head-center">
+                <p class="about-kicker">EXPLORE OUR OFFERINGS</p>
+                <h2>Three ways to travel with us.</h2>
+                <p>Whether you're embarking on an iconic regional expedition or celebrating a milestone anniversary, explore our curated travel options.</p>
+            </div>
+
+            <div class="about-cards-grid">
+                <!-- Card 1 -->
+                <a href="${pageContext.request.contextPath}/destinations" class="about-card">
+                    <span class="about-card-badge">POPULAR TOURS</span>
+                    <h3>The Destination Collection</h3>
+                    <p>Carefully planned itineraries across Goa, Rajasthan, Kerala, Kashmir, Himachal Pradesh, and Maharashtra with complete details, hotels, and day plans.</p>
+                    <span class="about-card-link">
+                        <span>Browse Destination Tours</span>
+                        <span aria-hidden="true">→</span>
+                    </span>
+                </a>
+
+                <!-- Card 2 -->
+                <a href="${pageContext.request.contextPath}/customize" class="about-card">
+                    <span class="about-card-badge">OCCASIONS</span>
+                    <h3>Customized Holidays</h3>
+                    <p>Dedicated occasion packages designed for honeymoons, milestone birthdays, family reunions, and peaceful getaways with customized touches.</p>
+                    <span class="about-card-link">
+                        <span>View Occasion Packages</span>
+                        <span aria-hidden="true">→</span>
+                    </span>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="${pageContext.request.contextPath}/experiences" class="about-card">
+                    <span class="about-card-badge">SIGNATURE</span>
+                    <h3>Curated Experiences</h3>
+                    <p>Wildlife tracking in protected reserves, private houseboat sailing on Vembanad Lake, heritage walking tours, and authentic regional culinary trails.</p>
+                    <span class="about-card-link">
+                        <span>Explore Experiences</span>
+                        <span aria-hidden="true">→</span>
+                    </span>
+                </a>
+            </div>
+        </section>
+
+        <!-- =========================
+             05: CORE COMMITMENTS
+             ========================= -->
+        <section class="about-standards-section">
+            <div class="standards-header">
                 <div>
-                    <h3>Carefully Curated Trips</h3>
-
-                    <p>
-                        Explore thoughtfully planned travel
-                        packages for different travel styles.
-                    </p>
+                    <p class="about-kicker">OUR COMMITMENT</p>
+                    <h2>The TravelTourism Standard</h2>
                 </div>
-
+                <p>Every booking is supported by honest policies and dedicated human support from your first enquiry until you return home.</p>
             </div>
 
-
-            <div class="feature">
-
-                <div class="feature-number">
-                    02
+            <div class="standards-grid">
+                <div class="standard-card">
+                    <div class="standard-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h4>Upfront, Transparent Pricing</h4>
+                    <p>Clear package costs with no hidden transfer fees, surprise surcharges, or forced commercial shopping stops.</p>
                 </div>
 
-                <div>
-                    <h3>Flexible Travel Options</h3>
-
-                    <p>
-                        Choose destinations, durations and
-                        experiences according to your needs.
-                    </p>
+                <div class="standard-card">
+                    <div class="standard-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h4>Personally Verified Stays</h4>
+                    <p>Every accommodation is vetted for cleanliness, security, hospitality, and comfortable beds.</p>
                 </div>
 
+                <div class="standard-card">
+                    <div class="standard-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h4>Dedicated Human Care</h4>
+                    <p>Direct contact with our team throughout your trip planning and while traveling, so you never feel stranded.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                        </svg>
+                    </div>
+                    <h4>Support for Local Communities</h4>
+                    <p>We work directly with regional drivers, traditional boatmen, and local guides to keep your travel spending in the local economy.</p>
+                </div>
             </div>
+        </section>
 
-
-            <div class="feature">
-
-                <div class="feature-number">
-                    03
+        <!-- =========================
+             06: INVITATION / CTA
+             ========================= -->
+        <section class="about-cta-section">
+            <div class="about-cta-content">
+                <p class="about-kicker">BEGIN PLANNING</p>
+                <h2>Ready to explore India your way?</h2>
+                <p>
+                    Browse our destination itineraries or talk directly with our travel specialists to create a trip tailored to your exact dates, preferences, and group size.
+                </p>
+                <div class="about-cta-buttons">
+                    <a href="${pageContext.request.contextPath}/destinations" class="cta-primary-btn">
+                        <span>Browse Destinations</span>
+                        <span aria-hidden="true">→</span>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/contact" class="cta-secondary-btn">
+                        <span>Talk to a Travel Specialist</span>
+                    </a>
                 </div>
-
-                <div>
-                    <h3>Simple Booking</h3>
-
-                    <p>
-                        Browse your favourite journey and
-                        enquire or book it easily.
-                    </p>
-                </div>
-
             </div>
+        </section>
 
+    </main>
 
-            <div class="feature">
-
-                <div class="feature-number">
-                    04
-                </div>
-
-                <div>
-                    <h3>Memorable Experiences</h3>
-
-                    <p>
-                        We focus on creating experiences that
-                        travellers remember.
-                    </p>
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- MISSION -->
-
-<section class="mission">
-
-    <div class="mission-container">
-
-        <div class="small-title">
-            OUR MISSION
-        </div>
-
-        <h2>
-            Make every journey
-            worth remembering.
-        </h2>
-
-        <p>
-            Our mission is to make travel across India
-            easier, more personal and more enjoyable.
-            We want every traveller to return home with
-            stories worth sharing.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- CTA -->
-
-<section class="cta">
-
-    <h2>
-        Ready to discover India?
-    </h2>
-
-    <p>
-        Find your next journey and start exploring.
-    </p>
-
-    <a href="newjava.html" class="cta-btn">
-        Explore Journeys →
-    </a>
-
-</section>
-
-
-
-<!-- FOOTER -->
-
-<footer>
-
-    <div class="footer-container">
-
-
-        <div>
-
-            <div class="footer-logo">
-                Travel<span>Tourism</span>
-            </div>
-
-            <p>
-                Discover beautiful destinations,
-                meaningful experiences and unforgettable
-                journeys across India.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Quick Links
-            </h3>
-
-            <a href="newjava.html">Home</a>
-            <a href="newjava.html">Destinations</a>
-            <a href="newjava.html">Experiences</a>
-            <a href="newjava.html">About Us</a>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Contact
-            </h3>
-
-            <p>
-                Mumbai, Maharashtra, India
-            </p>
-
-            <p>
-                Email: info@traveltourism.com
-            </p>
-
-            <p>
-                Phone: +91 98765 43210
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="copyright">
-
-        © 2026 TravelTourism. All Rights Reserved.
-
-    </div>
-
-</footer>
-
+    <!-- COMMON SITE FOOTER -->
+    <%@ include file="common/footer.jsp" %>
 
 </body>
 </html>
