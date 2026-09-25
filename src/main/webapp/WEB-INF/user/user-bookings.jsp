@@ -283,31 +283,35 @@
         .booking-details {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            padding: 18px 0;
+            gap: 14px 20px;
+            padding: 16px 0;
             border-top: 1px solid #edf0f3;
             border-bottom: 1px solid #edf0f3;
         }
 
         .detail-item {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            align-items: baseline;
+            gap: 6px;
             min-width: 0;
+            flex-wrap: wrap;
         }
 
         .detail-label {
-            color: #8a949f;
-            font-size: 9px;
-            font-weight: 650;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
+            color: #7a8795;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .detail-label::after {
+            content: ":";
         }
 
         .detail-value {
             overflow-wrap: anywhere;
-            color: #374151;
-            font-size: 12px;
+            color: #173f5f;
+            font-size: 13px;
             font-weight: 650;
         }
 
@@ -325,13 +329,19 @@
 
         .total-price {
             display: flex;
-            flex-direction: column;
-            gap: 3px;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .total-label {
-            color: #8a949f;
-            font-size: 10px;
+            color: #7a8795;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .total-label::after {
+            content: ":";
         }
 
         .total-value {
@@ -613,115 +623,44 @@
                         <!-- DETAILS -->
 
                         <div class="booking-details">
-
                             <div class="detail-item">
-
-                                <span class="detail-label">
-                                    Travel Date
-                                </span>
-
+                                <span class="detail-label">Travel Date</span>
                                 <span class="detail-value">
-
                                     <c:choose>
-
-                                        <c:when test="${not empty booking.travelDate}">
-                                            <c:out value="${booking.travelDate}"/>
-                                        </c:when>
-
-                                        <c:otherwise>
-                                            Not specified
-                                        </c:otherwise>
-
+                                        <c:when test="${not empty booking.travelDate}"><c:out value="${booking.travelDate}"/></c:when>
+                                        <c:otherwise>Not specified</c:otherwise>
                                     </c:choose>
-
                                 </span>
-
                             </div>
 
-
                             <div class="detail-item">
-
-                                <span class="detail-label">
-                                    Travelers
-                                </span>
-
-                                <span class="detail-value">
-                                    <c:out value="${booking.travelers}"/>
-                                </span>
-
+                                <span class="detail-label">Travelers</span>
+                                <span class="detail-value"><c:out value="${booking.travelers}"/></span>
                             </div>
 
-
                             <div class="detail-item">
-
-                                <span class="detail-label">
-                                    Departure
-                                </span>
-
+                                <span class="detail-label">Departure</span>
                                 <span class="detail-value">
-
                                     <c:choose>
-
-                                        <c:when test="${not empty booking.departureCity}">
-                                            <c:out value="${booking.departureCity}"/>
-                                        </c:when>
-
-                                        <c:otherwise>
-                                            —
-                                        </c:otherwise>
-
+                                        <c:when test="${not empty booking.departureCity}"><c:out value="${booking.departureCity}"/></c:when>
+                                        <c:otherwise>—</c:otherwise>
                                     </c:choose>
-
                                 </span>
-
                             </div>
-
 
                             <div class="detail-item">
-
-                                <span class="detail-label">
-                                    Duration
-                                </span>
-
+                                <span class="detail-label">Duration</span>
                                 <span class="detail-value">
-
-                                    <c:out value="${booking.duration}"/>
-
-                                    <c:choose>
-
-                                        <c:when test="${booking.duration == 1}">
-                                            day
-                                        </c:when>
-
-                                        <c:otherwise>
-                                            days
-                                        </c:otherwise>
-
-                                    </c:choose>
-
+                                    <c:out value="${booking.duration}"/> <c:choose><c:when test="${booking.duration == 1}">day</c:when><c:otherwise>days</c:otherwise></c:choose>
                                 </span>
-
                             </div>
-
                         </div>
 
-
                         <!-- BOTTOM -->
-
                         <div class="booking-bottom">
-
                             <div class="total-price">
-
-                                <span class="total-label">
-                                    Total Booking Amount
-                                </span>
-
-                                <span class="total-value">
-
-                                    ₹<c:out value="${booking.totalPrice}"/>
-
-                                </span>
-
+                                <span class="total-label">Total Booking Amount</span>
+                                <span class="total-value">₹<c:out value="${booking.totalPrice}"/></span>
                             </div>
 
 
