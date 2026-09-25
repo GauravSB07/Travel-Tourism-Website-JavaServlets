@@ -190,28 +190,32 @@
         .details-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 16px 20px;
         }
 
         .detail-item {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            align-items: baseline;
+            gap: 6px;
             min-width: 0;
+            flex-wrap: wrap;
         }
 
         .detail-label {
-            color: #8a949f;
-            font-size: 9px;
-            font-weight: 650;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
+            color: #7a8795;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .detail-label::after {
+            content: ":";
         }
 
         .detail-value {
             overflow-wrap: anywhere;
-            color: #374151;
-            font-size: 12px;
+            color: #173f5f;
+            font-size: 13px;
             font-weight: 650;
             line-height: 1.45;
         }

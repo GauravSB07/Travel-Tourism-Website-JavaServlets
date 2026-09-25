@@ -25,5 +25,6 @@ Thumbs.db
 nb-configuration.xml
 src/main/webapp/META-INF/context.xml
 
+
 # Java compiled files
 *.class
